@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RUN ACEH</title>
+    <meta
+      name="description"
+      content="Temukan pilihan lari kalian di Aceh bersama katalog destinasi, peta wilayah, kuliner UMKM, akomodasi, dan perencana itinerary."
+    />
+    <meta property="og:title" content="RUN ACEH" />
+    <meta
+      property="og:description"
+      content="Temukan pilihan lari kalian di Banda Aceh, Sabang, Aceh Besar, Aceh Tengah, dan Bener Meriah."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="aceh-motif-ribbon" aria-hidden="true"></div>
+
+    <!-- Top Bar Contract: 3 zones (Wordmark | 5 Single-Line Nav Links | 1 Primary Action) -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="#top" class="brand-wordmark">RUN <span>ACEH</span></a>
+
+        <nav class="primary-nav" aria-label="Navigasi Utama">
+          <a href="#destinasi-section" class="nav-link" data-i18n="navDestinations">3k</a>
+          <a href="#destinasi-section" class="nav-link" data-i18n="navMap">5k</a>
+          <a href="#destinasi-section" class="nav-link" data-i18n="navCulinaryStay">10k</a>
+          <a href="#itinerary-section" class="nav-link" data-i18n="navItinerary">21k</a>
+          <a href="#crud-section" class="nav-link" data-i18n="navCrud">42k</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Mobile Quick Nav (Non-sticky to preserve mobile viewport) -->
+    <nav class="mobile-nav-strip container" aria-label="Navigasi Cepat Seluler">
+      <a href="#destinasi-section" class="nav-link" data-i18n="navDestinations">3k</a>
+      <a href="#destinasi-section" class="nav-link" data-i18n="navMap">5k</a>
+      <a href="#destinasi-section" class="nav-link" data-i18n="navCulinaryStay">10k</a>
+      <a href="#itinerary-section" class="nav-link" data-i18n="navItinerary">21k</a>
+      <a href="#paket-section" class="nav-link" data-i18n="navPackages">Paket Wisata</a>
+      <a href="#crud-section" class="nav-link" data-i18n="navCrud">42k</a>
+    </nav>
+
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+    <main id="top" class="main-content">
+      <!-- 1. Hero Section -->
+      <section class="hero-section">
+        <div class="container">
+          <div class="hero-top-bar">
+            <div class="segmented-control segmented-control--dark" role="group" aria-label="Pemilih Bahasa">
+              <button id="langIdBtn" type="button" class="segmented-btn is-active" aria-pressed="true">ID</button>
+              <button id="langEnBtn" type="button" class="segmented-btn" aria-pressed="false">EN</button>
+            </div>
+          </div>
+
+          <div class="hero-content">
+            <h1 class="hero-title" data-i18n="heroTitle">RUN <span>ACEH</span></h1>
+            <p class="hero-lead" data-i18n="heroSubtitle">Temukan pilihan lari kalian</p>
+          </div>
+        </div>
+
+        <div class="hero-wave-layer" aria-hidden="true">
+          <svg viewBox="0 0 1440 160" class="hero-wave-svg" preserveAspectRatio="none">
+            <path d="M0,74 C240,34 480,114 720,76 C960,38 1200,108 1440,68 L1440,160 L0,160 Z" fill="rgba(20, 184, 166, 0.25)" />
+            <path d="M0,112 C320,82 580,142 880,108 C1140,80 1300,126 1440,106 L1440,160 L0,160 Z" fill="rgba(4, 47, 46, 0.65)" />
+          </svg>
+        </div>
+      </section>
+
+      <!-- 2. Destination Catalog -->
+      <section id="destinasi-section" class="section-block">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title" data-i18n="catalogTitle">PILIHAN LARI</h2>
+          </div>
+
+          <div id="destinationsGrid" class="cards-grid"></div>
+        </div>
+      </section>
+
+      <!-- 3. Travel Itinerary Planner (1-5 Days) & Budget Calculator -->
+      <section id="itinerary-section" class="section-block section-block--tight">
+        <div class="container">
+          <div class="surface-panel">
+            <div class="section-header section-header--split">
+              <div>
+                <p class="section-kicker" data-i18n="itinEyebrow">Perencana Perjalanan &amp; Anggaran</p>
+                <h2 class="section-title" data-i18n="itinTitle">Travel Itinerary Planner (1–5 Hari) &amp; Kalkulator Anggaran</h2>
+                <p class="section-subtitle" data-i18n="itinDesc">
+                  Atur durasi perjalanan (1–5 hari), jumlah wisatawan, dan tambahkan aktivitas. Total anggaran dihitung otomatis sebagai estimasi simulasi.
+                </p>
+              </div>
+
+              <div class="budget-summary-box">
+                <div class="budget-summary-label" data-i18n="totalBudgetLabel">Total Estimasi Anggaran (Simulasi)</div>
+                <div id="itineraryTotalBudget" class="budget-summary-amount tabular-nums">Rp 0</div>
+                <div id="itineraryBudgetBreakdown" class="budget-summary-meta tabular-nums">0 aktivitas · 1 wisatawan</div>
+              </div>
+            </div>
+
+            <div class="itin-config-grid">
+              <div>
+                <label for="itinNameInput" class="field-label" data-i18n="itinNameLabel">Nama Perjalanan</label>
+                <input id="itinNameInput" type="text" class="field-input" />
+              </div>
+              <div>
+                <label for="itinStartDateInput" class="field-label" data-i18n="itinDateLabel">Tanggal Mulai</label>
+                <input id="itinStartDateInput" type="date" class="field-input" />
+              </div>
+              <div>
+                <label for="itinDaysSelect" class="field-label" data-i18n="itinDaysLabel">Durasi (1–5 Hari)</label>
+                <select id="itinDaysSelect" class="field-select">
+                  <option value="1">1 Hari</option>
+                  <option value="2">2 Hari</option>
+                  <option value="3" selected>3 Hari</option>
+                  <option value="4">4 Hari</option>
+                  <option value="5">5 Hari</option>
+                </select>
+              </div>
+              <div>
+                <label for="itinTravelersInput" class="field-label" data-i18n="itinTravelersLabel">Jumlah Wisatawan</label>
+                <input id="itinTravelersInput" type="number" min="1" max="30" value="2" class="field-input tabular-nums" />
+              </div>
+            </div>
+
+            <div class="itin-add-bar">
+              <div>
+                <label for="addActDaySelect" class="field-label" data-i18n="selectDayLabel">Pilih Hari</label>
+                <select id="addActDaySelect" class="field-select"></select>
+              </div>
+
+              <div>
+                <label for="addActItemSelect" class="field-label" data-i18n="selectItemLabel">Pilih Destinasi / Kuliner / Akomodasi</label>
+                <div class="itin-select-preview-row">
+                  <img id="addActItemPreviewImg" src="" alt="Pratinjau item terpilih" class="itin-preview-img" />
+                  <select id="addActItemSelect" class="field-select"></select>
+                </div>
+              </div>
+
+              <div class="itin-bar-buttons">
+                <button id="addActivityBtn" type="button" class="btn btn-primary" data-i18n="addToItinBtn">
+                  + Tambah ke Itinerary
+                </button>
+                <button id="exportItineraryBtn" type="button" class="btn btn-secondary" data-i18n="exportItinBtn">
+                  Unduh Ringkasan (.txt)
+                </button>
+                <button id="clearItineraryBtn" type="button" class="btn btn-danger" data-i18n="clearItinBtn">
+                  Kosongkan
+                </button>
+              </div>
+            </div>
+
+            <div id="itineraryDaysGrid" class="itin-days-grid"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Rule-Based Tour Packages -->
+      <section id="paket-section" class="section-block section-block--tight">
+        <div class="container">
+          <div class="surface-panel">
+            <div class="section-header section-header--split">
+              <div>
+                <p class="section-kicker" data-i18n="pkgEyebrow">Rekomendasi Berbasis Aturan</p>
+                <h2 class="section-title" data-i18n="pkgTitle">Rekomendasi Paket Wisata</h2>
+                <p class="section-subtitle" data-i18n="pkgDesc">
+                  Filter paket wisata berdasarkan minat utama dan batas anggaran estimasi (simulasi).
+                </p>
+              </div>
+
+              <div class="package-filters">
+                <div class="package-filter-field">
+                  <label for="pkgInterestSelect" class="field-label" data-i18n="pkgInterestLabel">Minat Utama</label>
+                  <select id="pkgInterestSelect" class="field-select">
+                    <option value="ALL">Semua Minat</option>
+                    <option value="Religi">Religi</option>
+                    <option value="Alam">Alam</option>
+                    <option value="Bahari">Bahari</option>
+                    <option value="Sejarah">Sejarah</option>
+                    <option value="Budaya">Budaya</option>
+                    <option value="Kuliner">Kuliner</option>
+                  </select>
+                </div>
+                <div class="package-filter-field">
+                  <label for="pkgMaxBudgetInput" class="field-label" data-i18n="pkgBudgetLabel">Batas Anggaran (IDR)</label>
+                  <input id="pkgMaxBudgetInput" type="number" min="100000" step="50000" value="3000000" class="field-input tabular-nums" />
+                </div>
+              </div>
+            </div>
+
+            <div id="packagesGrid" class="cards-grid"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. Local Catalog Management (CRUD) -->
+      <section id="crud-section" class="crud-section">
+        <div class="container">
+          <div class="section-header section-header--split">
+            <div>
+              <p class="section-kicker" data-i18n="crudEyebrow">Manajemen Katalog Lokal · localStorage</p>
+              <h2 class="section-title" data-i18n="crudTitle">Kelola Data Katalog</h2>
+              <p class="section-subtitle" data-i18n="crudDesc">
+                Tambah, edit, atau hapus data Destinasi, Kuliner, Akomodasi, dan Paket Wisata. Semua perubahan tersimpan di localStorage peramban Anda.
+              </p>
+            </div>
+            <button id="resetDemoDataBtn" type="button" class="btn btn-danger" data-i18n="resetDemoBtn">
+              Reset Data Awal
+            </button>
+          </div>
+
+          <div id="crudTabs" class="crud-tabs" role="tablist" aria-label="Kategori Entitas Katalog">
+            <button type="button" data-crud-tab="destinasi" role="tab" aria-selected="true" class="crud-tab-btn is-active" data-i18n="tabDestinasi">Destinasi</button>
+            <button type="button" data-crud-tab="kuliner" role="tab" aria-selected="false" class="crud-tab-btn" data-i18n="tabKuliner">Kuliner</button>
+            <button type="button" data-crud-tab="akomodasi" role="tab" aria-selected="false" class="crud-tab-btn" data-i18n="tabAkomodasi">Akomodasi</button>
+            <button type="button" data-crud-tab="paket" role="tab" aria-selected="false" class="crud-tab-btn" data-i18n="tabPaket">Paket Wisata</button>
+          </div>
+
+          <div class="crud-layout">
+            <div class="crud-panel">
+              <h3 id="crudFormTitle" class="crud-panel-title">Tambah Item DESTINASI</h3>
+              <form id="crudForm" class="crud-form">
+                <input type="hidden" id="crudEditId" />
+
+                <div>
+                  <label for="crudNama" class="field-label">Nama</label>
+                  <input id="crudNama" type="text" required placeholder="Contoh: Pantai Lampuuk (Simulasi)" class="field-input" />
+                </div>
+
+                <div id="crudRegionWrap" class="crud-two-col">
+                  <div>
+                    <label for="crudWilayah" class="field-label">Wilayah</label>
+                    <select id="crudWilayah" class="field-select">
+                      <option value="Banda Aceh">Banda Aceh</option>
+                      <option value="Sabang">Sabang</option>
+                      <option value="Aceh Besar">Aceh Besar</option>
+                      <option value="Aceh Tengah">Aceh Tengah</option>
+                      <option value="Bener Meriah">Bener Meriah</option>
+                    </select>
+                  </div>
+                  <div id="crudCategoryWrap">
+                    <label for="crudKategori" class="field-label">Kategori</label>
+                    <select id="crudKategori" class="field-select">
+                      <option value="Religi">Religi</option>
+                      <option value="Alam">Alam</option>
+                      <option value="Bahari">Bahari</option>
+                      <option value="Sejarah">Sejarah</option>
+                      <option value="Budaya">Budaya</option>
+                      <option value="Kuliner">Kuliner</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div id="crudDurationWrap" class="is-hidden">
+                  <label for="crudDurasi" class="field-label">Durasi (Hari, 1–5)</label>
+                  <input id="crudDurasi" type="number" min="1" max="5" value="3" class="field-input tabular-nums" />
+                </div>
+
+                <div>
+                  <label for="crudHarga" id="crudPriceLabel" class="field-label">Estimasi Biaya (IDR - Simulasi)</label>
+                  <input id="crudHarga" type="number" min="0" step="1000" value="25000" required class="field-input tabular-nums" />
+                </div>
+
+                <div id="crudHalalWrap" class="is-hidden" style="display: flex; flex-direction: column; gap: 0.625rem;">
+                  <div>
+                    <label for="crudHalalStatus" class="field-label">Status Sertifikasi Halal</label>
+                    <input id="crudHalalStatus" type="text" value="Belum Terverifikasi Resmi (Simulasi)" class="field-input" />
+                  </div>
+                  <div>
+                    <label for="crudHalalSource" class="field-label">Sumber Verifikasi</label>
+                    <input id="crudHalalSource" type="text" value="Catatan Simulasi — Belum Diverifikasi Resmi" class="field-input" />
+                  </div>
+                </div>
+
+                <div id="crudMuslimFacilityWrap" class="is-hidden">
+                  <label for="crudMuslimFacility" class="field-label">Fasilitas Ramah Muslim (pisahkan koma)</label>
+                  <input id="crudMuslimFacility" type="text" value="Penunjuk Kiblat, Ruang Salat" class="field-input" />
+                </div>
+
+                <div>
+                  <label for="crudDeskripsi" class="field-label">Deskripsi Singkat</label>
+                  <textarea id="crudDeskripsi" rows="2" placeholder="Deskripsi singkat (data simulasi / belum diverifikasi resmi)..." class="field-textarea"></textarea>
+                </div>
+
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; padding-top: 0.25rem;">
+                  <button type="submit" class="btn btn-accent" data-i18n="saveItemBtn">Simpan Item</button>
+                  <button id="cancelEditCrudBtn" type="button" class="btn btn-secondary" data-i18n="clearFormBtn">Batal / Bersihkan</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="crud-panel">
+              <div class="crud-table-header">
+                <h3 id="crudTableTitle" class="crud-panel-title" style="margin-bottom: 0; color: #5eead4;">Daftar Destinasi</h3>
+                <span id="crudItemTotalBadge" class="tabular-nums" style="font-size: 0.75rem; color: var(--color-text-inverse-muted);">0 item</span>
+              </div>
+
+              <div class="crud-table-wrap">
+                <table class="crud-table">
+                  <thead>
+                    <tr>
+                      <th>Nama</th>
+                      <th>Info</th>
+                      <th>Biaya/Harga</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="crudTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <span class="footer-brand">JAK MAEN ACEH</span> —
+          <span data-i18n="footerDesc">
+            Aplikasi Web Wisata Halal &amp; Budaya Aceh. Seluruh estimasi harga, kontak, dan status verifikasi simulasi ditampilkan secara transparan.
+          </span>
+        </div>
+        <div>Banda Aceh · Sabang · Aceh Besar · Aceh Tengah · Bener Meriah</div>
+      </div>
+    </footer>
+
+    <!-- Modal: Detail Destinasi -->
+    <div id="detailModal" class="modal-backdrop is-hidden" role="dialog" aria-modal="true" aria-labelledby="modalDestTitle">
+      <div class="modal-dialog">
+        <div class="modal-hero">
+          <img id="modalDestImg" src="" alt="" />
+          <button type="button" data-close-modal aria-label="Tutup detail destinasi" class="modal-close-float">✕</button>
+        </div>
+
+        <div class="modal-scroll-body">
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem;">
+            <div>
+              <div id="modalDestMeta" class="meta-line"></div>
+              <h3 id="modalDestTitle" style="font-size: 1.375rem; margin-top: 0.25rem; color: var(--color-emerald-950);"></h3>
+              <p id="modalDestAddress" style="font-size: 0.8125rem; color: var(--color-text-muted); margin-top: 0.25rem;"></p>
+            </div>
+            <div style="text-align: right;">
+              <div class="price-label">Estimasi Biaya (Simulasi)</div>
+              <div id="modalDestPrice" class="price-value tabular-nums" style="font-size: 1.125rem;"></div>
+            </div>
+          </div>
+
+          <p id="modalDestDesc" style="font-size: 0.9375rem; color: var(--color-text-secondary);"></p>
+          <div id="modalVerificationBox" class="verification-box"></div>
+
+          <div class="modal-columns">
+            <div class="modal-spec-box">
+              <h4 class="modal-spec-title">Fasilitas Umum</h4>
+              <ul id="modalDestFacilities" class="modal-spec-list"></ul>
+            </div>
+            <div class="modal-spec-box" style="background: #ecfdf5;">
+              <h4 class="modal-spec-title" style="color: var(--color-emerald-900);">Fasilitas Ibadah</h4>
+              <ul id="modalDestWorship" class="modal-spec-list"></ul>
+            </div>
+          </div>
+
+          <div class="modal-footer-actions">
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+              <button id="modalFavBtn" type="button" class="btn btn-secondary btn-sm">♥ Simpan Favorit</button>
+              <button id="modalAddToItinBtn" type="button" class="btn btn-primary btn-sm">+ Masukkan Hari 1</button>
+            </div>
+            <a id="modalMapsLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-accent btn-sm">
+              Buka di Google Maps ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Daftar Favorit -->
+    <div id="favoritesModal" class="modal-backdrop is-hidden" role="dialog" aria-modal="true" aria-labelledby="favoritesModalTitle">
+      <div class="modal-dialog modal-dialog--sm">
+        <div class="modal-header-row">
+          <h3 id="favoritesModalTitle" style="font-size: 1.125rem; color: var(--color-emerald-950);">Destinasi Favorit Tersimpan</h3>
+          <button type="button" data-close-modal aria-label="Tutup favorit" class="btn btn-secondary btn-sm">✕</button>
+        </div>
+        <div id="favoritesListContainer" class="modal-scroll-body"></div>
+      </div>
+    </div>
+
+    <!-- Modal: Simulasi Kontak WhatsApp -->
+    <div id="waDemoModal" class="modal-backdrop is-hidden" role="dialog" aria-modal="true" aria-labelledby="waModalTitle">
+      <div class="modal-dialog modal-dialog--sm">
+        <div class="modal-header-row">
+          <h3 id="waModalTitle" style="font-size: 1.0625rem; color: var(--color-emerald-950);">Kontak UMKM (Simulasi)</h3>
+          <button type="button" data-close-modal aria-label="Tutup kontak simulasi" class="btn btn-secondary btn-sm">✕</button>
+        </div>
+        <div class="modal-scroll-body">
+          <p id="waModalContact" style="font-family: var(--font-mono); font-size: 0.875rem; background: var(--color-surface-subtle); padding: 0.625rem 0.875rem; border-radius: var(--radius-sm);"></p>
+          <div>
+            <label for="waDraftMessage" class="field-label">Draf Pesan Simulasi</label>
+            <textarea id="waDraftMessage" rows="3" class="field-textarea"></textarea>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.75rem;">
+            <span style="font-size: 0.75rem; color: var(--color-text-muted);">*Tidak ada pesan sungguhan yang dikirim.</span>
+            <button id="copyWaDraftBtn" type="button" class="btn btn-primary btn-sm">Salin Draf Pesan</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Konfirmasi Aksi (Pengganti window.confirm) -->
+    <div id="confirmModal" class="modal-backdrop is-hidden" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+      <div class="modal-dialog modal-dialog--sm">
+        <div class="modal-header-row">
+          <h3 id="confirmModalTitle" style="font-size: 1.0625rem; color: var(--color-emerald-950);">Konfirmasi</h3>
+          <button type="button" data-close-modal aria-label="Batal" class="btn btn-secondary btn-sm">✕</button>
+        </div>
+        <div class="modal-scroll-body">
+          <p id="confirmModalMessage" style="font-size: 0.9375rem; color: var(--color-text-secondary);"></p>
+          <div style="display: flex; justify-content: flex-end; gap: 0.5rem; padding-top: 0.5rem;">
+            <button type="button" data-close-modal class="btn btn-secondary btn-sm">Batal</button>
+            <button id="confirmModalOkBtn" type="button" class="btn btn-danger btn-sm">Konfirmasi</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

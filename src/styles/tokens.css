@@ -1,0 +1,64 @@
+/* Design Tokens — JAK MAEN ACEH */
+:root {
+  /* Fonts: 2+1 Rule (Display + Body + Mono for tabular figures) */
+  --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /* 60% Neutral Canvas */
+  --color-canvas: #f8f9f8;
+  --color-surface: #ffffff;
+  --color-surface-subtle: #f1f4f2;
+  --color-surface-muted: #e7ece9;
+
+  /* Dark Structural Surface (Catalog Management) */
+  --color-ink-surface: #0b1917;
+  --color-ink-elevated: #122623;
+  --color-ink-border: #203b36;
+
+  /* Text Hierarchy (WCAG AA compliant) */
+  --color-text-primary: #0f241f;
+  --color-text-secondary: #3f554f;
+  --color-text-muted: #5c706a;
+  --color-text-inverse: #f4f7f6;
+  --color-text-inverse-muted: #b6c8c3;
+
+  /* 10% Domain Accents: Aceh Emerald, Sea Teal, Heritage Amber */
+  --color-emerald-950: #042f2e;
+  --color-emerald-900: #064e3b;
+  --color-emerald-800: #065f46;
+  --color-teal-700: #0f766e;
+  --color-teal-600: #0d9488;
+  --color-teal-100: #ccfbf1;
+  --color-amber-600: #b45309;
+  --color-amber-400: #fbbf24;
+  --color-amber-300: #fcd34d;
+  --color-amber-50: #fffbeb;
+  --color-amber-200: #fde68a;
+
+  /* Semantic States (paired with text labels) */
+  --color-danger: #be123c;
+  --color-danger-bg: #fff1f2;
+  --color-danger-border: #fecdd3;
+
+  /* Borders & Elevation (Single-level depth) */
+  --border-hairline: 1px solid rgba(6, 78, 59, 0.12);
+  --border-strong: 1px solid rgba(6, 78, 59, 0.24);
+  --shadow-card: 0 1px 3px rgba(4, 47, 46, 0.06);
+  --shadow-modal: 0 24px 48px -12px rgba(4, 47, 46, 0.28);
+
+  /* Radii Scale (r_inner = r_outer - padding) */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* Spacing & Layout */
+  --container-max: 1240px;
+  --header-height: 64px;
+
+  /* Motion */
+  --ease-settle: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+}

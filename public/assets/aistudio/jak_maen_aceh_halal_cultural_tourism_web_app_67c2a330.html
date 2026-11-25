@@ -1,0 +1,2802 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JAK MAEN ACEH — Wisata Halal & Budaya Aceh</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    .font-display {
+      font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+    }
+
+    /* Pola halus terinspirasi motif Aceh & gradasi laut emerald green + turquoise + gold */
+    .aceh-pattern-bg {
+      background-color: #042f2e;
+      background-image:
+        radial-gradient(circle at 15% 18%, rgba(45, 212, 191, 0.28) 0%, transparent 45%),
+        radial-gradient(circle at 82% 24%, rgba(251, 191, 36, 0.22) 0%, transparent 42%),
+        radial-gradient(circle at 55% 85%, rgba(16, 185, 129, 0.24) 0%, transparent 50%),
+        linear-gradient(150deg, #042f2e 0%, #064e3b 45%, #0f766e 82%, #115e59 100%);
+    }
+
+    .aceh-sea-shimmer {
+      background: linear-gradient(
+        115deg,
+        transparent 15%,
+        rgba(94, 234, 212, 0.14) 38%,
+        rgba(253, 230, 138, 0.12) 52%,
+        transparent 75%
+      );
+    }
+
+    .aceh-motif-border {
+      background-image: linear-gradient(90deg, #065f46 0%, #0d9488 35%, #d97706 50%, #0d9488 65%, #065f46 100%);
+      height: 4px;
+    }
+
+    .map-pin {
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    .map-pin:hover {
+      transform: scale(1.16);
+    }
+  </style>
+</head>
+<body class="bg-stone-50 text-slate-800 antialiased selection:bg-teal-700 selection:text-white">
+  <!-- Garis aksen motif Aceh di bagian paling atas -->
+  <div class="aceh-motif-border w-full"></div>
+
+  <!-- HEADER & NAVIGASI UTAMA -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-emerald-900/10 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 gap-3">
+        <!-- Logo & Brand -->
+        <a href="#top" class="flex items-center gap-3 shrink-0 group">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-800 via-teal-700 to-amber-500 p-[2px] shadow-xs">
+            <div class="w-full h-full bg-emerald-950 rounded-[10px] flex items-center justify-center text-amber-300">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M12 2L19 9L12 22L5 9L12 2Z" />
+                <circle cx="12" cy="10" r="2.5" fill="currentColor" />
+              </svg>
+            </div>
+          </div>
+          <div>
+            <div class="font-display font-extrabold text-base sm:text-lg tracking-tight text-emerald-950 leading-none">
+              JAK MAEN <span class="text-amber-600">ACEH</span>
+            </div>
+            <div data-i18n="brandTagline" class="text-[11px] font-medium text-teal-800 mt-0.5">
+              Wisata Halal & Budaya Aceh
+            </div>
+          </div>
+        </a>
+
+        <!-- Navigasi Desktop -->
+        <nav class="hidden lg:flex items-center gap-1 text-sm font-medium text-slate-700">
+          <a href="#destinasi-section" data-i18n="navDestinations" class="px-3 py-2 rounded-lg hover:bg-emerald-50 hover:text-emerald-900 transition">Destinasi</a>
+          <a href="#peta-section" data-i18n="navMap" class="px-3 py-2 rounded-lg hover:bg-emerald-50 hover:text-emerald-900 transition">Peta Wilayah</a>
+          <a href="#kuliner-akomodasi-section" data-i18n="navCulinaryStay" class="px-3 py-2 rounded-lg hover:bg-emerald-50 hover:text-emerald-900 transition">Kuliner & Menginap</a>
+          <a href="#itinerary-section" data-i18n="navItinerary" class="px-3 py-2 rounded-lg hover:bg-emerald-50 hover:text-emerald-900 transition">Itinerary & Anggaran</a>
+          <a href="#paket-section" data-i18n="navPackages" class="px-3 py-2 rounded-lg hover:bg-emerald-50 hover:text-emerald-900 transition">Paket Wisata</a>
+          <a href="#crud-section" data-i18n="navCrud" class="px-3 py-2 rounded-lg hover:bg-emerald-50 hover:text-emerald-900 transition">Kelola Data</a>
+        </nav>
+
+        <!-- Kontrol Bahasa (ID / EN) & Favorit Counter -->
+        <div class="flex items-center gap-2 shrink-0">
+          <button
+            id="openFavoritesBtn"
+            type="button"
+            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300/80 text-xs sm:text-sm font-semibold transition"
+          >
+            <span>♥</span>
+            <span data-i18n="favorites">Favorit</span>
+            <span id="favCountBadge" class="px-1.5 py-0.5 rounded-full bg-amber-600 text-white text-xs font-bold">0</span>
+          </button>
+
+          <div class="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200" role="group" aria-label="Language Switcher">
+            <button id="langIdBtn" type="button" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-800 text-white transition">ID</button>
+            <button id="langEnBtn" type="button" class="px-2.5 py-1 rounded-lg text-xs font-bold text-slate-700 hover:text-emerald-900 transition">EN</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigasi Mobile Ringkas -->
+      <div class="flex lg:hidden items-center gap-1.5 overflow-x-auto pb-2.5 pt-0.5 text-xs font-medium text-slate-700">
+        <a href="#destinasi-section" data-i18n="navDestinations" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-emerald-50 whitespace-nowrap">Destinasi</a>
+        <a href="#peta-section" data-i18n="navMap" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-emerald-50 whitespace-nowrap">Peta</a>
+        <a href="#kuliner-akomodasi-section" data-i18n="navCulinaryStay" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-emerald-50 whitespace-nowrap">Kuliner & Stay</a>
+        <a href="#itinerary-section" data-i18n="navItinerary" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-emerald-50 whitespace-nowrap">Itinerary</a>
+        <a href="#paket-section" data-i18n="navPackages" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-emerald-50 whitespace-nowrap">Paket</a>
+        <a href="#crud-section" data-i18n="navCrud" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-emerald-50 whitespace-nowrap">Kelola Data</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- BANNER TRANSPARANSI DATA SIMULASI & VERIFIKASI -->
+  <div class="bg-amber-50 border-b border-amber-200 text-amber-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+      <p id="globalDisclaimerText" class="leading-relaxed">
+        <strong class="font-bold text-amber-900">Catatan Transparansi:</strong>
+        Seluruh estimasi harga, kontak WhatsApp, dan catatan verifikasi pada aplikasi ini bersifat <strong>simulasi</strong>. Fasilitas ramah Muslim berbeda dengan status sertifikasi halal resmi, dan informasi nyata yang belum diverifikasi ditandai secara khusus.
+      </p>
+      <span id="storageStatusBadge" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-amber-300 text-[11px] font-semibold text-emerald-900 shrink-0 self-start sm:self-center">
+        <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+        <span>localStorage Active</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- TOAST / MESSAGE BOX NON-ALERT -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm pointer-events-none"></div>
+
+  <main id="top" class="flex-1">
+    <!-- 1. HERO / LANDING SECTION DENGAN VISUAL LAUT / BAHARI ACEH -->
+    <section class="aceh-pattern-bg text-white relative overflow-hidden">
+      <div class="aceh-sea-shimmer absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+
+      <!-- Dekorasi Geometri Motif Aceh -->
+      <svg class="hidden md:block absolute -right-12 -top-10 w-72 h-72 text-amber-300/15 pointer-events-none" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.8">
+        <circle cx="100" cy="100" r="84" />
+        <circle cx="100" cy="100" r="62" stroke-dasharray="6 6" />
+        <rect x="46" y="46" width="108" height="108" transform="rotate(45 100 100)" />
+        <rect x="46" y="46" width="108" height="108" />
+        <circle cx="100" cy="100" r="24" />
+      </svg>
+
+      <!-- Layer Ombak Laut Berlapis -->
+      <div class="absolute inset-x-0 bottom-0 pointer-events-none select-none" aria-hidden="true">
+        <svg viewBox="0 0 1440 210" class="w-full h-24 sm:h-32 lg:h-40 block" preserveAspectRatio="none">
+          <ellipse cx="720" cy="75" rx="520" ry="38" fill="rgba(94, 234, 212, 0.14)" />
+          <path
+            d="M0,108 C220,62 420,148 720,104 C1020,60 1230,136 1440,94 L1440,210 L0,210 Z"
+            fill="rgba(20, 184, 166, 0.24)"
+          />
+          <path
+            d="M0,126 C240,86 460,164 720,122 C980,80 1200,150 1440,114"
+            fill="none"
+            stroke="rgba(253, 224, 71, 0.42)"
+            stroke-width="2"
+          />
+          <path
+            d="M0,138 C280,105 500,178 780,138 C1050,100 1260,168 1440,132 L1440,210 L0,210 Z"
+            fill="rgba(6, 95, 70, 0.52)"
+          />
+          <path
+            d="M0,164 C320,134 580,192 880,158 C1140,130 1300,176 1440,156 L1440,210 L0,210 Z"
+            fill="rgba(4, 47, 46, 0.78)"
+          />
+        </svg>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 pb-20 lg:pb-24 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-7 space-y-5">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/65 backdrop-blur-xs border border-amber-300/45 text-amber-200 text-xs font-semibold tracking-wide">
+              <span class="w-2 h-2 rounded-full bg-amber-300"></span>
+              <span data-i18n="heroBadge">Serambi Mekkah • Pesona Laut, Alam & Budaya</span>
+            </div>
+
+            <h1 id="heroTitle" class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight drop-shadow-xs">
+              Jelajahi Pesona Halal & Budaya <span class="text-amber-300">Aceh</span>
+            </h1>
+
+            <p id="heroSubtitle" class="text-emerald-50/95 text-base sm:text-lg leading-relaxed max-w-2xl drop-shadow-2xs">
+              Temukan destinasi religi, alam, bahari, sejarah, budaya, dan kuliner di Banda Aceh, Sabang, Aceh Besar, Aceh Tengah, dan Bener Meriah. Rencanakan itinerary 1–5 hari, hitung estimasi anggaran, dan kelola data secara langsung.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-3 pt-1">
+              <a href="#destinasi-section" class="px-5 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-emerald-950 font-bold text-sm shadow-lg shadow-emerald-950/35 transition">
+                <span data-i18n="ctaExplore">Mulai Jelajahi Destinasi</span>
+              </a>
+              <a href="#itinerary-section" class="px-5 py-3 rounded-xl bg-emerald-950/55 hover:bg-emerald-950/75 backdrop-blur-xs border border-teal-200/35 text-white font-semibold text-sm transition">
+                <span data-i18n="ctaPlanner">Susun Itinerary (1–5 Hari)</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Kartu Statistik Cepat -->
+          <div class="lg:col-span-5 grid grid-cols-2 gap-3.5">
+            <div class="bg-emerald-950/55 backdrop-blur-xs border border-teal-200/20 rounded-2xl p-4 shadow-sm">
+              <div class="text-xs text-emerald-100/85 font-medium" data-i18n="statDestinations">Destinasi Contoh</div>
+              <div id="statDestCount" class="font-display text-2xl sm:text-3xl font-extrabold text-amber-300 mt-1">12+</div>
+              <div class="text-[11px] text-emerald-100/75 mt-1" data-i18n="statRegionsSub">5 Wilayah Aceh</div>
+            </div>
+            <div class="bg-emerald-950/55 backdrop-blur-xs border border-teal-200/20 rounded-2xl p-4 shadow-sm">
+              <div class="text-xs text-emerald-100/85 font-medium" data-i18n="statCategories">Kategori Wisata</div>
+              <div class="font-display text-2xl sm:text-3xl font-extrabold text-teal-200 mt-1">6</div>
+              <div class="text-[11px] text-emerald-100/75 mt-1" data-i18n="statCatSub">Religi, Alam, Bahari, Sejarah, Budaya, Kuliner</div>
+            </div>
+            <div class="bg-emerald-950/55 backdrop-blur-xs border border-teal-200/20 rounded-2xl p-4 shadow-sm">
+              <div class="text-xs text-emerald-100/85 font-medium" data-i18n="statCulinaryStay">Kuliner & Akomodasi</div>
+              <div id="statKulAkomCount" class="font-display text-2xl sm:text-3xl font-extrabold text-white mt-1">0</div>
+              <div class="text-[11px] text-emerald-100/75 mt-1" data-i18n="statHalalNote">Status Halal & Ramah Muslim</div>
+            </div>
+            <div class="bg-emerald-950/55 backdrop-blur-xs border border-teal-200/20 rounded-2xl p-4 shadow-sm">
+              <div class="text-xs text-emerald-100/85 font-medium" data-i18n="statSavedFav">Favorit Tersimpan</div>
+              <div id="statFavCount" class="font-display text-2xl sm:text-3xl font-extrabold text-amber-300 mt-1">0</div>
+              <div class="text-[11px] text-emerald-100/75 mt-1" data-i18n="statLocalStorage">Tersimpan di localStorage</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. PENCARIAN, FILTER & SORTING BAR -->
+    <section id="destinasi-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200/90 p-4 sm:p-6 space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-teal-700" data-i18n="catalogEyebrow">Eksplorasi Katalog</span>
+            <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-emerald-950" data-i18n="catalogTitle">
+              Destinasi Wisata Aceh
+            </h2>
+          </div>
+          <div class="flex items-center gap-2 text-xs text-slate-600">
+            <span id="resultCountLabel" class="font-semibold text-emerald-900 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-200">
+              Menampilkan 0 destinasi
+            </span>
+            <button id="resetFiltersBtn" type="button" class="px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition">
+              <span data-i18n="resetFilter">Reset Filter</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Baris Pencarian & Sorting -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+          <div class="md:col-span-6 relative">
+            <label for="searchInput" class="sr-only">Cari destinasi</label>
+            <input
+              id="searchInput"
+              type="text"
+              placeholder="Cari nama destinasi, wilayah, fasilitas, atau budaya..."
+              class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:border-teal-600 focus:ring-2 focus:ring-teal-600/20 outline-none text-sm"
+            />
+            <span class="absolute left-3.5 top-2.5 text-slate-400">🔍</span>
+          </div>
+
+          <div class="md:col-span-3">
+            <label for="regionSelect" class="sr-only">Filter Wilayah</label>
+            <select id="regionSelect" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-teal-600 focus:ring-2 focus:ring-teal-600/20 outline-none text-sm bg-white font-medium">
+              <option value="ALL">Semua Wilayah (5 Wilayah)</option>
+              <option value="Banda Aceh">Banda Aceh</option>
+              <option value="Sabang">Sabang</option>
+              <option value="Aceh Besar">Aceh Besar</option>
+              <option value="Aceh Tengah">Aceh Tengah</option>
+              <option value="Bener Meriah">Bener Meriah</option>
+            </select>
+          </div>
+
+          <div class="md:col-span-3">
+            <label for="sortSelect" class="sr-only">Urutkan</label>
+            <select id="sortSelect" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-teal-600 focus:ring-2 focus:ring-teal-600/20 outline-none text-sm bg-white font-medium">
+              <option value="featured">Urutan: Unggulan Dulu</option>
+              <option value="priceAsc">Biaya: Terendah ke Tertinggi</option>
+              <option value="priceDesc">Biaya: Tertinggi ke Terendah</option>
+              <option value="nameAsc">Nama: A – Z</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Filter Chip Kategori -->
+        <div id="categoryChips" class="flex flex-wrap items-center gap-2 pt-1">
+          <!-- Diisi otomatis via JS -->
+        </div>
+      </div>
+
+      <!-- Grid Kartu Destinasi -->
+      <div id="destinationsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        <!-- Diisi otomatis via JS -->
+      </div>
+    </section>
+
+    <!-- 3. PETA ILUSTRATIF SVG WILAYAH ACEH & TAUTAN GOOGLE MAPS -->
+    <section id="peta-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200/90 p-5 sm:p-7">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-3 mb-6">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-700" data-i18n="mapEyebrow">Peta Ilustratif & Navigasi</span>
+            <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-emerald-950" data-i18n="mapTitle">
+              Peta Wilayah Wisata Aceh (SVG)
+            </h2>
+            <p class="text-sm text-slate-600 mt-1" data-i18n="mapDesc">
+              Klik pin wilayah pada peta ilustratif di bawah ini untuk memfilter destinasi dan membuka tautan Google Maps (tanpa API key).
+            </p>
+          </div>
+          <span class="text-xs px-3 py-1.5 rounded-full bg-teal-50 text-teal-900 border border-teal-200 font-semibold self-start">
+            No API Key • Google Maps Link
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <!-- Kanvas Peta SVG -->
+          <div class="lg:col-span-7 bg-gradient-to-br from-teal-50 via-emerald-50/60 to-amber-50/50 rounded-2xl border border-teal-200/80 p-3 sm:p-4">
+            <svg viewBox="0 0 640 380" class="w-full h-auto rounded-xl" role="img" aria-label="Peta Ilustratif 5 Wilayah Wisata Aceh">
+              <rect x="0" y="0" width="640" height="380" rx="16" fill="#ecfeff" />
+              <g stroke="#bae6fd" stroke-width="1" stroke-dasharray="4 4">
+                <line x1="0" y1="95" x2="640" y2="95" />
+                <line x1="0" y1="190" x2="640" y2="190" />
+                <line x1="0" y1="285" x2="640" y2="285" />
+                <line x1="160" y1="0" x2="160" y2="380" />
+                <line x1="320" y1="0" x2="320" y2="380" />
+                <line x1="480" y1="0" x2="480" y2="380" />
+              </g>
+              <text x="455" y="55" fill="#0e7490" font-size="13" font-weight="700" opacity="0.65">SELAT MALAKA</text>
+              <text x="48" y="255" fill="#0e7490" font-size="13" font-weight="700" opacity="0.65">SAMUDRA HINDIA</text>
+
+              <ellipse cx="145" cy="72" rx="44" ry="26" fill="#99f6e4" stroke="#0f766e" stroke-width="2" />
+              <text x="145" y="40" text-anchor="middle" fill="#134e4a" font-size="12" font-weight="700">P. Weh (Sabang)</text>
+
+              <path
+                d="M 95 145
+                   C 125 112, 185 110, 235 128
+                   C 295 148, 365 135, 445 168
+                   C 505 192, 555 235, 595 295
+                   L 540 345
+                   C 475 315, 420 295, 355 282
+                   C 280 268, 215 245, 155 212
+                   C 115 190, 85 170, 95 145 Z"
+                fill="#a7f3d0"
+                stroke="#065f46"
+                stroke-width="2.5"
+              />
+
+              <path d="M 270 142 L 340 210 L 420 275" fill="none" stroke="#d97706" stroke-width="2" stroke-dasharray="5 4" />
+
+              <g class="map-pin" data-region="Sabang" onclick="selectRegionFromMap('Sabang')">
+                <circle cx="145" cy="72" r="11" fill="#0f766e" stroke="#ffffff" stroke-width="2.5" />
+                <circle cx="145" cy="72" r="4" fill="#fde68a" />
+                <text x="145" y="98" text-anchor="middle" fill="#042f2e" font-size="12" font-weight="800">Sabang</text>
+              </g>
+
+              <g class="map-pin" data-region="Banda Aceh" onclick="selectRegionFromMap('Banda Aceh')">
+                <circle cx="155" cy="148" r="12" fill="#065f46" stroke="#ffffff" stroke-width="2.5" />
+                <circle cx="155" cy="148" r="4.5" fill="#fbbf24" />
+                <text x="155" y="174" text-anchor="middle" fill="#042f2e" font-size="12" font-weight="800">Banda Aceh</text>
+              </g>
+
+              <g class="map-pin" data-region="Aceh Besar" onclick="selectRegionFromMap('Aceh Besar')">
+                <circle cx="225" cy="175" r="11" fill="#0d9488" stroke="#ffffff" stroke-width="2.5" />
+                <circle cx="225" cy="175" r="4" fill="#fde68a" />
+                <text x="232" y="201" text-anchor="middle" fill="#042f2e" font-size="12" font-weight="800">Aceh Besar</text>
+              </g>
+
+              <g class="map-pin" data-region="Bener Meriah" onclick="selectRegionFromMap('Bener Meriah')">
+                <circle cx="350" cy="212" r="11" fill="#b45309" stroke="#ffffff" stroke-width="2.5" />
+                <circle cx="350" cy="212" r="4" fill="#fef3c7" />
+                <text x="350" y="238" text-anchor="middle" fill="#451a03" font-size="12" font-weight="800">Bener Meriah</text>
+              </g>
+
+              <g class="map-pin" data-region="Aceh Tengah" onclick="selectRegionFromMap('Aceh Tengah')">
+                <circle cx="332" cy="256" r="12" fill="#047857" stroke="#ffffff" stroke-width="2.5" />
+                <circle cx="332" cy="256" r="4.5" fill="#fbbf24" />
+                <text x="332" y="282" text-anchor="middle" fill="#042f2e" font-size="12" font-weight="800">Aceh Tengah</text>
+              </g>
+            </svg>
+          </div>
+
+          <!-- Daftar 5 Wilayah & Tautan Google Maps -->
+          <div id="regionCardsList" class="lg:col-span-5 space-y-3">
+            <!-- Diisi via JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. KATALOG KULINER HALAL/UMKM & AKOMODASI RAMAH MUSLIM -->
+    <section id="kuliner-akomodasi-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-12">
+      <!-- Sub-bagian A: Kuliner & UMKM -->
+      <div class="space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-700" data-i18n="culinaryEyebrow">Citarasa & Produk Lokal</span>
+            <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-emerald-950" data-i18n="culinaryTitle">
+              Kuliner & Produk UMKM
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1" data-i18n="culinarySub">
+              Fasilitas ramah Muslim ditampilkan terpisah dari status verifikasi sertifikasi halal resmi. Harga & kontak bersifat simulasi.
+            </p>
+          </div>
+        </div>
+        <div id="culinaryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Diisi via JS -->
+        </div>
+      </div>
+
+      <!-- Sub-bagian B: Akomodasi Ramah Muslim -->
+      <div class="space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-teal-700" data-i18n="stayEyebrow">Penginapan Nyaman</span>
+            <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-emerald-950" data-i18n="stayTitle">
+              Akomodasi Ramah Muslim
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1" data-i18n="staySub">
+              Informasi fasilitas ramah Muslim (seperti arah kiblat, perlengkapan salat, atau layanan syariah simulasi) dan tarif per malam estimasi.
+            </p>
+          </div>
+        </div>
+        <div id="accommodationGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Diisi via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. TRAVEL ITINERARY PLANNER (1-5 HARI) & KALKULATOR ANGGARAN -->
+    <section id="itinerary-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200/90 p-5 sm:p-7 space-y-6">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-700" data-i18n="itinEyebrow">Perencana Perjalanan & Anggaran</span>
+            <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-emerald-950" data-i18n="itinTitle">
+              Travel Itinerary Planner (1–5 Hari) & Kalkulator Anggaran
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1" data-i18n="itinDesc">
+              Atur durasi perjalanan (1–5 hari), jumlah wisatawan, dan tambahkan aktivitas. Total anggaran dihitung otomatis sebagai estimasi simulasi.
+            </p>
+          </div>
+
+          <!-- Ringkasan Kalkulator Anggaran -->
+          <div class="bg-gradient-to-br from-emerald-900 to-teal-800 text-white rounded-2xl p-4 sm:px-6 shrink-0 shadow-xs">
+            <div class="text-[11px] uppercase tracking-wider text-amber-300 font-bold" data-i18n="totalBudgetLabel">
+              Total Estimasi Anggaran (Simulasi)
+            </div>
+            <div id="itineraryTotalBudget" class="font-display text-2xl sm:text-3xl font-extrabold mt-0.5">
+              Rp 0
+            </div>
+            <div id="itineraryBudgetBreakdown" class="text-[11px] text-emerald-100 mt-1">
+              0 aktivitas • 1 wisatawan
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Konfigurasi Perjalanan -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div>
+            <label for="itinNameInput" class="block text-xs font-bold text-slate-700 mb-1" data-i18n="itinNameLabel">Nama Perjalanan</label>
+            <input id="itinNameInput" type="text" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
+          </div>
+          <div>
+            <label for="itinStartDateInput" class="block text-xs font-bold text-slate-700 mb-1" data-i18n="itinDateLabel">Tanggal Mulai</label>
+            <input id="itinStartDateInput" type="date" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
+          </div>
+          <div>
+            <label for="itinDaysSelect" class="block text-xs font-bold text-slate-700 mb-1" data-i18n="itinDaysLabel">Durasi (1–5 Hari)</label>
+            <select id="itinDaysSelect" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm bg-white font-semibold focus:border-teal-600 outline-none">
+              <option value="1">1 Hari</option>
+              <option value="2">2 Hari</option>
+              <option value="3" selected>3 Hari</option>
+              <option value="4">4 Hari</option>
+              <option value="5">5 Hari</option>
+            </select>
+          </div>
+          <div>
+            <label for="itinTravelersInput" class="block text-xs font-bold text-slate-700 mb-1" data-i18n="itinTravelersLabel">Jumlah Wisatawan</label>
+            <input id="itinTravelersInput" type="number" min="1" max="30" value="2" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm font-semibold focus:border-teal-600 outline-none" />
+          </div>
+        </div>
+
+        <!-- Form Tambah Aktivitas Cepat -->
+        <div class="bg-emerald-50/70 border border-emerald-200/80 rounded-2xl p-4 grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
+          <div class="md:col-span-2">
+            <label for="addActDaySelect" class="block text-xs font-bold text-emerald-950 mb-1">Pilih Hari</label>
+            <select id="addActDaySelect" class="w-full px-3 py-2 rounded-xl border border-emerald-300 bg-white text-sm font-semibold"></select>
+          </div>
+          <div class="md:col-span-6">
+            <label for="addActItemSelect" class="block text-xs font-bold text-emerald-950 mb-1">Pilih Destinasi / Kuliner / Akomodasi</label>
+            <div class="flex items-center gap-2.5">
+              <img
+                id="addActItemPreviewImg"
+                src=""
+                alt="Pratinjau pilihan"
+                class="w-11 h-11 rounded-xl object-cover border border-emerald-300 bg-white shrink-0"
+              />
+              <select id="addActItemSelect" class="w-full px-3 py-2 rounded-xl border border-emerald-300 bg-white text-sm"></select>
+            </div>
+          </div>
+          <div class="md:col-span-4 flex gap-2">
+            <button id="addActivityBtn" type="button" class="w-full px-4 py-2 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-sm shadow-xs transition">
+              + Tambah ke Itinerary
+            </button>
+            <button id="clearItineraryBtn" type="button" class="px-3 py-2 rounded-xl bg-white hover:bg-rose-50 text-rose-700 border border-rose-200 font-semibold text-xs transition shrink-0">
+              Kosongkan
+            </button>
+          </div>
+        </div>
+
+        <!-- Kolom Jadwal Harian (1-5 Hari) -->
+        <div id="itineraryDaysGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Diisi via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. REKOMENDASI PAKET WISATA (RULE-BASED FILTERING) -->
+    <section id="paket-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200/90 p-5 sm:p-7 space-y-6">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-teal-700" data-i18n="pkgEyebrow">Rule-Based Recommendation</span>
+            <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-emerald-950" data-i18n="pkgTitle">
+              Rekomendasi Paket Wisata
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1" data-i18n="pkgDesc">
+              Filter paket wisata berdasarkan minat utama dan batas anggaran estimasi (simulasi).
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-end gap-3">
+            <div>
+              <label for="pkgInterestSelect" class="block text-xs font-bold text-slate-700 mb-1" data-i18n="pkgInterestLabel">Minat Utama</label>
+              <select id="pkgInterestSelect" class="px-3.5 py-2 rounded-xl border border-slate-300 text-sm bg-white font-medium">
+                <option value="ALL">Semua Minat</option>
+                <option value="Religi">Religi</option>
+                <option value="Alam">Alam</option>
+                <option value="Bahari">Bahari</option>
+                <option value="Sejarah">Sejarah</option>
+                <option value="Budaya">Budaya</option>
+                <option value="Kuliner">Kuliner</option>
+              </select>
+            </div>
+            <div>
+              <label for="pkgMaxBudgetInput" class="block text-xs font-bold text-slate-700 mb-1" data-i18n="pkgBudgetLabel">Batas Anggaran (IDR)</label>
+              <input id="pkgMaxBudgetInput" type="number" min="100000" step="50000" value="3000000" class="w-40 px-3.5 py-2 rounded-xl border border-slate-300 text-sm font-semibold" />
+            </div>
+          </div>
+        </div>
+
+        <div id="packagesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Diisi via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. KELOLA DATA (CRUD LOKAL / LOCALSTORAGE) -->
+    <section id="crud-section" class="bg-slate-900 text-white py-12 mt-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-widest text-amber-300" data-i18n="crudEyebrow">Manajemen Katalog Lokal • localStorage</span>
+            <h2 class="font-display text-2xl sm:text-3xl font-extrabold mt-1" data-i18n="crudTitle">
+              Kelola Data Katalog
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-300 mt-1" data-i18n="crudDesc">
+              Tambah, edit, atau hapus data Destinasi, Kuliner, Akomodasi, dan Paket Wisata. Semua perubahan tersimpan di localStorage peramban Anda.
+            </p>
+          </div>
+
+          <button
+            id="resetDemoDataBtn"
+            type="button"
+            class="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs sm:text-sm shadow transition shrink-0 self-start md:self-auto"
+            data-i18n="resetDemoBtn"
+          >
+            ↺ Reset Data Awal
+          </button>
+        </div>
+
+        <!-- Tab Entitas CRUD -->
+        <div class="flex flex-wrap gap-2">
+          <button data-crud-tab="destinasi" class="crud-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 text-white">Destinasi</button>
+          <button data-crud-tab="kuliner" class="crud-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">Kuliner</button>
+          <button data-crud-tab="akomodasi" class="crud-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">Akomodasi</button>
+          <button data-crud-tab="paket" class="crud-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">Paket Wisata</button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Form Tambah / Edit -->
+          <div class="lg:col-span-5 bg-slate-800/90 border border-slate-700 rounded-2xl p-5">
+            <h3 id="crudFormTitle" class="font-display font-bold text-lg text-amber-300 mb-4">Tambah Item Baru</h3>
+            <form id="crudForm" class="space-y-3 text-sm">
+              <input type="hidden" id="crudEditId" />
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Nama</label>
+                <input id="crudNama" type="text" required placeholder="Contoh: Pantai Lampuuk (Simulasi)" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-600 text-white text-sm" />
+              </div>
+
+              <div id="crudRegionWrap" class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-300 mb-1">Wilayah</label>
+                  <select id="crudWilayah" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-600 text-white text-sm">
+                    <option value="Banda Aceh">Banda Aceh</option>
+                    <option value="Sabang">Sabang</option>
+                    <option value="Aceh Besar">Aceh Besar</option>
+                    <option value="Aceh Tengah">Aceh Tengah</option>
+                    <option value="Bener Meriah">Bener Meriah</option>
+                  </select>
+                </div>
+                <div id="crudCategoryWrap">
+                  <label class="block text-xs font-semibold text-slate-300 mb-1">Kategori</label>
+                  <select id="crudKategori" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-600 text-white text-sm">
+                    <option value="Religi">Religi</option>
+                    <option value="Alam">Alam</option>
+                    <option value="Bahari">Bahari</option>
+                    <option value="Sejarah">Sejarah</option>
+                    <option value="Budaya">Budaya</option>
+                    <option value="Kuliner">Kuliner</option>
+                  </select>
+                </div>
+              </div>
+
+              <div id="crudDurationWrap" class="hidden">
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Durasi (Hari, 1–5)</label>
+                <input id="crudDurasi" type="number" min="1" max="5" value="3" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-600 text-white text-sm" />
+              </div>
+
+              <div>
+                <label id="crudPriceLabel" class="block text-xs font-semibold text-slate-300 mb-1">Estimasi Biaya / Harga (IDR - Simulasi)</label>
+                <input id="crudHarga" type="number" min="0" step="1000" value="25000" required class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-600 text-white text-sm" />
+              </div>
+
+              <div id="crudHalalWrap" class="hidden space-y-2">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-300 mb-1">Status Sertifikasi Halal</label>
+                  <input id="crudHalalStatus" type="text" value="Belum Terverifikasi Resmi (Simulasi)" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-600 text-white text-sm" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-300 mb-1">Sumber Verifikasi</label>
+                  <input id="crudHalalSource" type="text" value="Catatan Simulasi — Belum Diverifikasi Resmi" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-600 text-white text-sm" />
+                </div>
+              </div>
+
+              <div id="crudMuslimFacilityWrap" class="hidden">
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Fasilitas Ramah Muslim (pisahkan koma)</label>
+                <input id="crudMuslimFacility" type="text" value="Penunjuk Kiblat, Ruang Salat" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-600 text-white text-sm" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Deskripsi Singkat</label>
+                <textarea id="crudDeskripsi" rows="2" placeholder="Deskripsi singkat (data simulasi / belum diverifikasi resmi)..." class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-600 text-white text-sm"></textarea>
+              </div>
+
+              <div class="flex items-center gap-2 pt-1">
+                <button type="submit" class="px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-emerald-950 font-bold text-sm transition">
+                  Simpan Item
+                </button>
+                <button id="cancelEditCrudBtn" type="button" class="px-3 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold transition">
+                  Batal / Bersihkan
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Tabel Data Aktif -->
+          <div class="lg:col-span-7 bg-slate-800/90 border border-slate-700 rounded-2xl p-5 overflow-hidden">
+            <div class="flex items-center justify-between mb-3">
+              <h3 id="crudTableTitle" class="font-display font-bold text-lg text-teal-300">Daftar Destinasi</h3>
+              <span id="crudItemTotalBadge" class="text-xs px-2.5 py-1 rounded-full bg-slate-900 text-slate-300 border border-slate-700">0 item</span>
+            </div>
+            <div class="overflow-x-auto max-h-[420px] overflow-y-auto">
+              <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                <thead>
+                  <tr class="border-b border-slate-700 text-slate-400">
+                    <th class="py-2.5 pr-3">Nama</th>
+                    <th class="py-2.5 px-3">Info</th>
+                    <th class="py-2.5 px-3">Biaya/Harga</th>
+                    <th class="py-2.5 pl-3 text-right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="crudTableBody" class="divide-y divide-slate-700/70">
+                  <!-- Diisi via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-emerald-950 text-emerald-100 py-8 border-t border-emerald-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+      <div>
+        <strong class="font-display text-white text-sm">JAK MAEN ACEH</strong> — Aplikasi Web Wisata Halal & Budaya Aceh.
+        <span class="block sm:inline text-emerald-300/80 mt-0.5 sm:mt-0">
+          Seluruh estimasi harga, kontak, dan status verifikasi simulasi ditampilkan secara transparan.
+        </span>
+      </div>
+      <div class="text-emerald-300/80">
+        Banda Aceh • Sabang • Aceh Besar • Aceh Tengah • Bener Meriah
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL DETAIL DESTINASI -->
+  <div id="detailModal" class="fixed inset-0 z-50 hidden bg-slate-950/65 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden my-8">
+      <div class="relative h-56 sm:h-64 bg-slate-900">
+        <img id="modalDestImg" src="" alt="" class="w-full h-full object-cover" />
+        <button id="closeDetailModalBtn" type="button" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-slate-900 font-bold shadow flex items-center justify-center">
+          ✕
+        </button>
+        <div id="modalDestBadges" class="absolute bottom-3 left-3 flex flex-wrap gap-1.5"></div>
+      </div>
+
+      <div class="p-5 sm:p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+          <div>
+            <h3 id="modalDestTitle" class="font-display text-xl sm:text-2xl font-extrabold text-emerald-950"></h3>
+            <p id="modalDestAddress" class="text-xs text-slate-500 mt-1"></p>
+          </div>
+          <div class="text-left sm:text-right shrink-0">
+            <div class="text-[11px] uppercase font-bold text-amber-700">Estimasi Biaya (Simulasi)</div>
+            <div id="modalDestPrice" class="font-display text-lg font-extrabold text-emerald-900"></div>
+          </div>
+        </div>
+
+        <p id="modalDestDesc" class="text-sm text-slate-700 leading-relaxed"></p>
+
+        <div id="modalVerificationBox" class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-950"></div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+          <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200/80">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Fasilitas Umum</h4>
+            <ul id="modalDestFacilities" class="space-y-1 text-xs text-slate-700 list-disc list-inside"></ul>
+          </div>
+          <div class="bg-emerald-50/80 rounded-xl p-3.5 border border-emerald-200/80">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-900 mb-2">Fasilitas Ibadah</h4>
+            <ul id="modalDestWorship" class="space-y-1 text-xs text-emerald-950 list-disc list-inside"></ul>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
+          <div class="flex flex-wrap gap-2">
+            <button id="modalFavBtn" type="button" class="px-4 py-2 rounded-xl border border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-950 font-bold text-xs sm:text-sm transition">
+              ♥ Simpan Favorit
+            </button>
+            <button id="modalAddToItinBtn" type="button" class="px-4 py-2 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs sm:text-sm transition">
+              + Masukkan Hari 1
+            </button>
+          </div>
+          <a id="modalMapsLink" href="#" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs sm:text-sm transition">
+            Buka di Google Maps ↗
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DAFTAR FAVORIT -->
+  <div id="favoritesModal" class="fixed inset-0 z-50 hidden bg-slate-950/65 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 p-5 sm:p-6 space-y-4 max-h-[85vh] flex flex-col">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="font-display text-lg font-extrabold text-emerald-950">Destinasi Favorit Tersimpan</h3>
+        <button id="closeFavModalBtn" type="button" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold">✕</button>
+      </div>
+      <div id="favoritesListContainer" class="overflow-y-auto space-y-2.5 flex-1"></div>
+    </div>
+  </div>
+
+  <!-- MODAL KONTAK WHATSAPP (SIMULASI KONTAK) -->
+  <div id="waDemoModal" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold">Simulasi Kontak</span>
+        <button id="closeWaModalBtn" type="button" class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-bold">✕</button>
+      </div>
+      <h3 id="waModalTitle" class="font-display font-bold text-lg text-emerald-950">Kontak UMKM (Simulasi)</h3>
+      <p id="waModalContact" class="text-sm font-mono bg-slate-100 px-3 py-2 rounded-xl text-slate-800"></p>
+      <div>
+        <label for="waDraftMessage" class="block text-xs font-bold text-slate-600 mb-1">Draf Pesan Simulasi</label>
+        <textarea id="waDraftMessage" rows="3" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm"></textarea>
+      </div>
+      <div class="flex justify-end gap-2">
+        <button id="copyWaDraftBtn" type="button" class="px-4 py-2 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold">
+          Salin Draf Pesan
+        </button>
+      </div>
+      <p class="text-[11px] text-slate-500">
+        *Tidak ada pesan WhatsApp sungguhan yang dikirim dari aplikasi ini.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEYS = {
+      DESTINASI: 'jakmaen_aceh_destinasi_v3',
+      KULINER: 'jakmaen_aceh_kuliner_v3',
+      AKOMODASI: 'jakmaen_aceh_akomodasi_v3',
+      PAKET: 'jakmaen_aceh_paket_v3',
+      FAVORIT: 'jakmaen_aceh_favorit_v3',
+      ITINERARY: 'jakmaen_aceh_itinerary_v3',
+      LANG: 'jakmaen_aceh_lang_v3',
+    };
+
+    const REGIONS = ['Banda Aceh', 'Sabang', 'Aceh Besar', 'Aceh Tengah', 'Bener Meriah'];
+    const CATEGORIES = ['Religi', 'Alam', 'Bahari', 'Sejarah', 'Budaya', 'Kuliner'];
+
+    function createIllustrationDataUrl(title, subtitle = 'Aceh', theme = 'sea') {
+      const palettes = {
+        sea: { bg1: '#042f2e', bg2: '#0f766e', wave: '#5eead4', accent: '#fde68a' },
+        mountain: { bg1: '#064e3b', bg2: '#047857', wave: '#6ee7b7', accent: '#fef08a' },
+        culinary: { bg1: '#115e59', bg2: '#065f46', wave: '#fbbf24', accent: '#fef3c7' },
+        stay: { bg1: '#0f766e', bg2: '#134e4a', wave: '#99f6e4', accent: '#fde68a' },
+      };
+      const p = palettes[theme] || palettes.sea;
+      const safeTitle = escapeXml(String(title || 'Aceh').slice(0, 26));
+      const safeSub = escapeXml(String(subtitle || 'Simulasi').slice(0, 26));
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="${p.bg1}"/>
+            <stop offset="100%" stop-color="${p.bg2}"/>
+          </linearGradient>
+        </defs>
+        <rect width="640" height="380" fill="url(#g)"/>
+        <circle cx="520" cy="88" r="46" fill="${p.accent}" opacity="0.22"/>
+        <path d="M0 245 Q160 205 320 248 T640 242 L640 380 L0 380 Z" fill="${p.wave}" opacity="0.25"/>
+        <path d="M0 282 Q180 250 360 288 T640 278 L640 380 L0 380 Z" fill="#042f2e" opacity="0.48"/>
+        <rect x="34" y="34" width="572" height="312" rx="22" fill="none" stroke="${p.accent}" stroke-opacity="0.35" stroke-width="2"/>
+        <text x="64" y="168" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800">${safeTitle}</text>
+        <text x="64" y="206" fill="${p.accent}" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="600">${safeSub}</text>
+      </svg>`;
+      return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    }
+
+    // Menghasilkan ilustrasi visual spesifik per destinasi / kuliner / akomodasi
+    // (dengan otomatis fallback jika URL eksternal gagal dimuat)
+    function createSceneIllustrationDataUrl(label, sceneType = 'mosque', regionTag = 'Aceh') {
+      const safeLabel = escapeXml(String(label || 'Aceh').slice(0, 30));
+      const safeRegion = escapeXml(String(regionTag || 'Aceh').slice(0, 24));
+
+      const scenes = {
+        mosque: `
+          <rect width="640" height="380" fill="#064e3b"/>
+          <rect y="255" width="640" height="125" fill="#042f2e"/>
+          <rect x="180" y="155" width="280" height="110" rx="6" fill="#f8fafc"/>
+          <path d="M235 155 Q320 68 405 155 Z" fill="#1e293b"/>
+          <circle cx="320" cy="84" r="7" fill="#fbbf24"/>
+          <rect x="132" y="110" width="24" height="155" rx="4" fill="#f1f5f9"/>
+          <path d="M132 110 Q144 68 156 110 Z" fill="#1e293b"/>
+          <rect x="484" y="110" width="24" height="155" rx="4" fill="#f1f5f9"/>
+          <path d="M484 110 Q496 68 508 110 Z" fill="#1e293b"/>
+          <rect x="200" y="215" width="240" height="22" rx="4" fill="#99f6e4" opacity="0.55"/>
+        `,
+        museum: `
+          <rect width="640" height="380" fill="#0f766e"/>
+          <rect y="265" width="640" height="115" fill="#042f2e"/>
+          <path d="M120 265 L155 105 L485 105 L520 265 Z" fill="#e2e8f0" opacity="0.92"/>
+          <path d="M175 265 L205 130 L435 130 L465 265 Z" fill="#134e4a"/>
+          <path d="M140 165 Q320 195 500 165" fill="none" stroke="#fbbf24" stroke-width="5"/>
+        `,
+        beach: `
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0e7490"/>
+              <stop offset="100%" stop-color="#5eead4"/>
+            </linearGradient>
+          </defs>
+          <rect width="640" height="380" fill="url(#sky)"/>
+          <circle cx="515" cy="82" r="36" fill="#fde68a"/>
+          <path d="M0 190 Q180 140 360 185 T640 175 L640 245 L0 245 Z" fill="#0f766e"/>
+          <path d="M0 225 Q220 205 440 232 T640 220 L640 380 L0 380 Z" fill="#fde68a"/>
+          <path d="M95 235 Q110 145 145 112" fill="none" stroke="#064e3b" stroke-width="8" stroke-linecap="round"/>
+          <ellipse cx="145" cy="112" rx="34" ry="12" fill="#065f46"/>
+        `,
+        monument: `
+          <rect width="640" height="380" fill="#065f46"/>
+          <path d="M0 195 Q220 135 640 175 L640 380 L0 380 Z" fill="#047857"/>
+          <rect x="292" y="95" width="56" height="175" rx="8" fill="#f8fafc"/>
+          <path d="M275 95 L320 55 L365 95 Z" fill="#fbbf24"/>
+          <rect x="255" y="250" width="130" height="24" rx="6" fill="#d97706"/>
+        `,
+        lake: `
+          <defs>
+            <linearGradient id="mtn" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#134e4a"/>
+              <stop offset="100%" stop-color="#0f766e"/>
+            </linearGradient>
+          </defs>
+          <rect width="640" height="380" fill="url(#mtn)"/>
+          <path d="M0 185 L155 105 L310 180 L470 110 L640 175 L640 225 L0 225 Z" fill="#064e3b"/>
+          <rect y="215" width="640" height="165" fill="#14b8a6"/>
+          <path d="M80 265 Q240 248 400 268 T620 260" fill="none" stroke="#ccfbf1" stroke-width="3" opacity="0.6"/>
+        `,
+        hill: `
+          <rect width="640" height="380" fill="#064e3b"/>
+          <path d="M0 215 Q190 120 420 205 T640 180 L640 380 L0 380 Z" fill="#047857"/>
+          <path d="M0 265 Q260 195 520 258 T640 245 L640 380 L0 380 Z" fill="#065f46"/>
+          <circle cx="115" cy="86" r="30" fill="#fef08a" opacity="0.85"/>
+        `,
+        culture: `
+          <rect width="640" height="380" fill="#115e59"/>
+          <rect y="265" width="640" height="115" fill="#042f2e"/>
+          <rect x="165" y="165" width="310" height="100" rx="4" fill="#92400e"/>
+          <path d="M125 168 L320 76 L515 168 Z" fill="#1e293b"/>
+          <path d="M125 168 L108 192 M515 168 L532 192" stroke="#fbbf24" stroke-width="6" stroke-linecap="round"/>
+        `,
+        noodle: `
+          <rect width="640" height="380" fill="#064e3b"/>
+          <circle cx="320" cy="195" r="118" fill="#fef3c7"/>
+          <circle cx="320" cy="195" r="98" fill="#b45309"/>
+          <path d="M242 182 Q320 138 398 182 Q370 232 320 232 Q270 232 242 182 Z" fill="#fbbf24"/>
+          <circle cx="320" cy="186" r="22" fill="#dc2626" opacity="0.85"/>
+        `,
+        coffee: `
+          <rect width="640" height="380" fill="#115e59"/>
+          <ellipse cx="320" cy="245" rx="145" ry="26" fill="#fef3c7"/>
+          <path d="M235 145 L405 145 L388 238 Q320 256 252 238 Z" fill="#f8fafc"/>
+          <ellipse cx="320" cy="145" rx="85" ry="18" fill="#451a03"/>
+          <path d="M405 162 Q445 162 445 194 Q445 218 400 218" fill="none" stroke="#f8fafc" stroke-width="10"/>
+        `,
+        snack: `
+          <rect width="640" height="380" fill="#065f46"/>
+          <ellipse cx="245" cy="205" rx="82" ry="44" fill="#fbbf24"/>
+          <ellipse cx="395" cy="215" rx="88" ry="46" fill="#d97706"/>
+          <circle cx="395" cy="212" r="26" fill="#fef3c7" opacity="0.75"/>
+        `,
+      };
+
+      const bodyArt = scenes[sceneType] || scenes.beach;
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380">
+        ${bodyArt}
+        <rect x="0" y="292" width="640" height="88" fill="#042f2e" opacity="0.82"/>
+        <text x="28" y="328" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="800">${safeLabel}</text>
+        <text x="28" y="356" fill="#fde68a" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="600">${safeRegion} • Ilustrasi Visual</text>
+      </svg>`;
+      return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    }
+
+    function makePlaceholderImg(label, bgHex = '065f46', fgHex = 'fef3c7') {
+      const lower = String(label || '').toLowerCase();
+      if (lower.includes('baiturrahman') || lower.includes('masjid')) {
+        return createSceneIllustrationDataUrl(label, 'mosque', 'Banda Aceh');
+      }
+      if (lower.includes('tsunami') || lower.includes('museum')) {
+        return createSceneIllustrationDataUrl(label, 'museum', 'Banda Aceh');
+      }
+      if (lower.includes('iboih') || lower.includes('lampuuk') || lower.includes('pantai') || lower.includes('sabang')) {
+        return createSceneIllustrationDataUrl(label, 'beach', 'Aceh');
+      }
+      if (lower.includes('nol kilometer') || lower.includes('tugu')) {
+        return createSceneIllustrationDataUrl(label, 'monument', 'Sabang');
+      }
+      if (lower.includes('danau') || lower.includes('lut tawar')) {
+        return createSceneIllustrationDataUrl(label, 'lake', 'Aceh Tengah');
+      }
+      if (lower.includes('bur telege') || lower.includes('bukit') || lower.includes('gayo')) {
+        return createSceneIllustrationDataUrl(label, 'hill', 'Dataran Tinggi Aceh');
+      }
+      if (lower.includes('rumoh') || lower.includes('gunongan') || lower.includes('indrapuri') || lower.includes('budaya')) {
+        return createSceneIllustrationDataUrl(label, 'culture', 'Aceh');
+      }
+      if (lower.includes('mie aceh')) {
+        return createSceneIllustrationDataUrl(label, 'noodle', 'Kuliner Aceh');
+      }
+      if (lower.includes('kopi')) {
+        return createSceneIllustrationDataUrl(label, 'coffee', 'Kopi Aceh');
+      }
+      if (lower.includes('meuseukat') || lower.includes('timphan') || lower.includes('kuliner') || lower.includes('umkm')) {
+        return createSceneIllustrationDataUrl(label, 'snack', 'UMKM Aceh');
+      }
+      if (lower.includes('akomodasi') || lower.includes('stay') || lower.includes('wisma') || lower.includes('pondok') || lower.includes('griya')) {
+        return createIllustrationDataUrl(label, 'Akomodasi • Simulasi', 'stay');
+      }
+      return createIllustrationDataUrl(label, `Aceh • ${bgHex ? 'Simulasi' : ''}`, 'sea');
+    }
+
+    function getRegionThumbnail(region) {
+      const regionThemes = {
+        'Banda Aceh': ['Banda Aceh', 'Pusat Budaya & Religi', 'sea'],
+        'Sabang': ['Sabang • Pulau Weh', 'Bahari & Nol Kilometer', 'sea'],
+        'Aceh Besar': ['Aceh Besar', 'Pesisir & Situs Budaya', 'sea'],
+        'Aceh Tengah': ['Aceh Tengah • Gayo', 'Danau & Dataran Tinggi', 'mountain'],
+        'Bener Meriah': ['Bener Meriah', 'Perbukitan & Kopi UMKM', 'mountain'],
+      };
+      const [t, s, th] = regionThemes[region] || [region, 'Wilayah Aceh', 'sea'];
+      return createIllustrationDataUrl(t, s, th);
+    }
+
+    function mapsSearchUrl(queryText) {
+      return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(queryText)}`;
+    }
+
+      function createSeedData() {
+      const destinasi = [
+        {
+          id: 'dest-01',
+          nama: 'Masjid Raya Baiturrahman',
+          namaEn: 'Baiturrahman Grand Mosque',
+          kategori: 'Religi',
+          wilayah: 'Banda Aceh',
+          deskripsi: 'Masjid ikonik di pusat Banda Aceh dengan arsitektur bersejarah, kolam, dan pelataran berpayung.',
+          deskripsiEn: 'Iconic mosque in central Banda Aceh featuring historic architecture, reflective pools, and shaded courtyard.',
+          imageUrl: createSceneIllustrationDataUrl('Masjid Raya Baiturrahman', 'mosque', 'Banda Aceh'),
+          alamat: 'Jl. Moh. Jam No.1, Kampung Baru, Kec. Baiturrahman, Banda Aceh',
+          mapsUrl: mapsSearchUrl('Masjid Raya Baiturrahman Banda Aceh'),
+          estimasiBiaya: 15000,
+          fasilitas: ['Area Parkir', 'Pelataran Luas', 'Toilet Umum', 'Jalur Pejalan Kaki'],
+          fasilitasIbadah: ['Ruang Salat Utama', 'Tempat Wudu Terpisah', 'Perlengkapan Salat'],
+          unggulan: true,
+          terverifikasiResmi: false,
+          catatanVerifikasi: 'Informasi fasilitas & estimasi biaya parkir/donasi bersifat simulasi dan belum diverifikasi resmi.',
+        },
+        {
+          id: 'dest-02',
+          nama: 'Museum Tsunami Aceh',
+          namaEn: 'Tsunami Museum Aceh',
+          kategori: 'Sejarah',
+          wilayah: 'Banda Aceh',
+          deskripsi: 'Bangunan edukasi dan memorial sejarah tsunami 2004 dengan ruang pamer refleksi dan arsitektur khas.',
+          deskripsiEn: 'Educational memorial museum commemorating the 2004 tsunami with reflective exhibits and distinctive architecture.',
+          imageUrl: createSceneIllustrationDataUrl('Museum Tsunami Aceh', 'museum', 'Banda Aceh'),
+          alamat: 'Jl. Sultan Iskandar Muda No.3, Sukaramai, Kec. Baiturrahman, Banda Aceh',
+          mapsUrl: mapsSearchUrl('Museum Tsunami Aceh Banda Aceh'),
+          estimasiBiaya: 25000,
+          fasilitas: ['Ruang Pamer Edukasi', 'Toilet', 'Area Parkir', 'Pusat Informasi'],
+          fasilitasIbadah: ['Musala di Kawasan Sekitar (Simulasi)', 'Tempat Wudu'],
+          unggulan: true,
+          terverifikasiResmi: false,
+          catatanVerifikasi: 'Tarif tiket & jam operasional perlu dicek langsung; data pada katalog ini bersifat simulasi.',
+        },
+        {
+          id: 'dest-03',
+          nama: 'Pantai Iboih & Pulau Rubiah',
+          namaEn: 'Iboih Beach & Rubiah Island',
+          kategori: 'Bahari',
+          wilayah: 'Sabang',
+          deskripsi: 'Kawasan pesisir dan wisata bahari di Pulau Weh dengan air laut jernih dan terumbu karang.',
+          deskripsiEn: 'Coastal and marine destination on Weh Island known for clear waters and coral reefs.',
+          imageUrl: createSceneIllustrationDataUrl('Pantai Iboih & Pulau Rubiah', 'beach', 'Sabang'),
+          alamat: 'Gampong Iboih, Kec. Sukakarya, Kota Sabang',
+          mapsUrl: mapsSearchUrl('Pantai Iboih Sabang'),
+          estimasiBiaya: 120000,
+          fasilitas: ['Dermaga Penyeberangan (Simulasi)', 'Area Teduh', 'Warung Makan Sekitar'],
+          fasilitasIbadah: ['Musala Gampong Sekitar', 'Akses Wudu'],
+          unggulan: true,
+          terverifikasiResmi: false,
+          catatanVerifikasi: 'Estimasi biaya penyeberangan/aktivitas bahari merupakan simulasi; belum diverifikasi resmi.',
+        },
+        {
+          id: 'dest-04',
+          nama: 'Tugu Nol Kilometer Indonesia',
+          namaEn: 'Zero Kilometer Monument',
+          kategori: 'Sejarah',
+          wilayah: 'Sabang',
+          deskripsi: 'Monumen penanda titik ujung barat Indonesia di kawasan hutan lindung pesisir Sabang.',
+          deskripsiEn: 'Landmark monument marking the westernmost point of Indonesia set amidst Sabang coastal forest.',
+          imageUrl: createSceneIllustrationDataUrl('Tugu Nol Kilometer', 'monument', 'Sabang'),
+          alamat: 'Ie Meulee, Kec. Sukajaya, Kota Sabang',
+          mapsUrl: mapsSearchUrl('Tugu Nol Kilometer Sabang'),
+          estimasiBiaya: 20000,
+          fasilitas: ['Jalur Pejalan Kaki', 'Gazebo Pandang', 'Area Parkir'],
+          fasilitasIbadah: ['Area Salat Terbuka / Fasilitas Sekitar (Simulasi)'],
+          unggulan: false,
+          terverifikasiResmi: false,
+          catatanVerifikasi: 'Informasi fasilitas & biaya simulasi; belum diverifikasi resmi.',
+        },
+        {
+          id: 'dest-05',
+          nama: 'Pantai Lampuuk',
+          namaEn: 'Lampuuk Beach',
+          kategori: 'Bahari',
+          wilayah: 'Aceh Besar',
+          deskripsi: 'Garis pantai berpasir putih dengan deretan pohon cemara laut di wilayah Lhoknga, Aceh Besar.',
+          deskripsiEn: 'White sandy shoreline lined with coastal casuarina trees in Lhoknga, Aceh Besar.',
+          imageUrl: createSceneIllustrationDataUrl('Pantai Lampuuk', 'beach', 'Aceh Besar'),
+          alamat: 'Kec. Lhoknga, Kabupaten Aceh Besar',
+          mapsUrl: mapsSearchUrl('Pantai Lampuuk Aceh Besar'),
+          estimasiBiaya: 20000,
+          fasilitas: ['Garis Pantai Luas', 'Area Parkir', 'Pondok Teduh'],
+          fasilitasIbadah: ['Musala Sekitar Pantai (Simulasi)', 'Tempat Bilas / Wudu'],
+          unggulan: true,
+          terverifikasiResmi: false,
+          catatanVerifikasi: 'Data tarif masuk & fasilitas bersifat simulasi dan belum diverifikasi resmi.',
+        },
+        {
+          id: 'dest-06',
+          nama: 'Masjid Agung Labuy / Indrapuri',
+          namaEn: 'Indrapuri Historic Mosque Site',
+          kategori: 'Budaya',
+          wilayah: 'Aceh Besar',
+          deskripsi: 'Situs bersejarah bernuansa budaya lama Aceh di tepi Sungai Krueng Aceh, Kecamatan Indrapuri.',
+          deskripsiEn: 'Historic cultural site along the Krueng Aceh River in Indrapuri district, Aceh Besar.',
+          imageUrl: createSceneIllustrationDataUrl('Situs Indrapuri Aceh Besar', 'culture', 'Aceh Besar'),
+          alamat: 'Kec. Indrapuri, Kabupaten Aceh Besar',
+          mapsUrl: mapsSearchUrl('Masjid Tua Indrapuri Aceh Besar'),
+          estimasiBiaya: 15000,
+          fasilitas: ['Area Halaman', 'Jalur Akses', 'Parkir Kendaraan'],
+          fasilitasIbadah: ['Ruang Salat', 'Tempat Wudu'],
+          unggulan: false,
+          terverifikasiResmi: false,
+          catatanVerifikasi: 'Informasi sejarah & fasilitas bersifat simulasi; belum diverifikasi resmi.',
+        },
+        {
+          id: 'dest-07',
+          nama: 'Danau Lut Tawar',
+          namaEn: 'Lake Lut Tawar',
+          kategori: 'Alam',
+          wilayah: 'Aceh Tengah',
+          deskripsi: 'Danau tektonik di dataran tinggi Gayo dengan udara sejuk dan panorama perbukitan sekitar Takengon.',
+          deskripsiEn: 'Tectonic highland lake in Gayo with cool mountain air and surrounding hills near Takengon.',
+          imageUrl: createSceneIllustrationDataUrl('Danau Lut Tawar', 'lake', 'Aceh Tengah'),
+          alamat: 'Kawasan Danau Lut Tawar, Kab. Aceh Tengah',
+          mapsUrl: mapsSearchUrl('Danau Lut Tawar Aceh Tengah'),
+          estimasiBiaya: 25000,
+          fasilitas: ['Tepi Danau', 'Spot Foto Panorama', 'Area Parkir'],
+          fasilitasIbadah: ['Musala / Masjid di Kampung Sekitar'],
+          unggulan: true,
+          terverifikasiResmi: false,
+          catatanVerifikasi: 'Estimasi biaya & fasilitas simulasi; belum diverifikasi resmi.',
+        },
+        {
+          id: 'dest-08',
+          nama: 'Pante Menye & Bukit Gayo',
+          namaEn: 'Pante Menye & Gayo Hills',
+          kategori: 'Alam',
+          wilayah: 'Aceh Tengah',
+          deskripsi: 'Sudut lanskap alam dataran tinggi Aceh Tengah yang tenang dengan suasana perbukitan hijau.',
+          deskripsiEn: 'Tranquil highland landscape spot in Aceh Tengah surrounded by green hills.',
+          imageUrl: createSceneIllustrationDataUrl('Pante Menye & Bukit Gayo', 'hill', 'Aceh Tengah'),
+          alamat: 'Kec. Bintang / Lut Tawar, Kab. Aceh Tengah',
+          mapsUrl: mapsSearchUrl('Pante Menye Aceh Tengah'),
+          estimasiBiaya: 20000,
+          fasilitas: ['Udara Sejuk', 'Jalur Wisata Alam', 'Area Parkir'],
+          fasilitasIbadah: ['Akses Musala Sekitar (Simulasi)'],
+          unggulan: false,
+          terverifikasiResmi: false,
+          catatanVerifikasi: 'Data belum diverifikasi resmi; estimasi biaya simulasi.',
+        },
+        {
+          id: 'dest-09',
+          nama: 'Bur Telege',
+          namaEn: 'Bur Telege Viewpoint',
+          kategori: 'Alam',
+          wilayah: 'Bener Meriah',
+          deskripsi: 'Gardu pandang perbukitan di Bener Meriah dengan pemandangan lembah dan hutan pinus dataran tinggi.',
+          deskripsiEn: 'Hilltop viewpoint in Bener Meriah overlooking highland valleys and pine forests.',
+          imageUrl: createSceneIllustrationDataUrl('Bur Telege Bener Meriah', 'hill', 'Bener Meriah'),
+          alamat: 'Kec. Wih Pesam / Bukit, Kab. Bener Meriah',
+          mapsUrl: mapsSearchUrl('Bur Telege Bener Meriah'),
+          estimasiBiaya: 20000,
+          fasilitas: ['Gardu Pandang', 'Jalur Pejalan Kaki', 'Area Parkir'],
+          fasilitasIbadah: ['Musala Sekitar Kawasan (Simulasi)'],
+          unggulan: true,
+          terverifikasiResmi: false,
+          catatanVerifikasi: 'Informasi kondisi jalur & biaya bersifat simulasi; belum diverifikasi resmi.',
+        },
+        {
+          id: 'dest-10',
+          nama: 'Kebun Kopi & Sentra UMKM Bener Meriah',
+          namaEn: 'Bener Meriah Coffee & UMKM Hub',
+          kategori: 'Kuliner',
+          wilayah: 'Bener Meriah',
+          deskripsi: 'Sentra edukasi pengolahan kopi dataran tinggi dan produk olahan UMKM lokal Bener Meriah.',
+          deskripsiEn: 'Highland coffee processing learning spot and local UMKM products hub in Bener Meriah.',
+          imageUrl: createSceneIllustrationDataUrl('Kebun Kopi & UMKM Gayo', 'coffee', 'Bener Meriah'),
+          alamat: 'Kabupaten Bener Meriah, Aceh',
+          mapsUrl: mapsSearchUrl('Bener Meriah Aceh'),
+          estimasiBiaya: 35000,
+          fasilitas: ['Area Mencicipi Kopi (Simulasi)', 'Etalase Produk Lokal'],
+          fasilitasIbadah: ['Ruang Salat / Musala Terdekat'],
+          unggulan: false,
+          terverifikasiResmi: false,
+          catatanVerifikasi: 'Status halal produk UMKM belum diverifikasi resmi pada data simulasi ini.',
+        },
+        {
+          id: 'dest-11',
+          nama: 'Rumoh Aceh & Pusat Budaya',
+          namaEn: 'Rumoh Aceh Cultural Center',
+          kategori: 'Budaya',
+          wilayah: 'Banda Aceh',
+          deskripsi: 'Mengenal arsitektur rumah tradisional Aceh, ukiran, dan ragam busana serta tradisi adat.',
+          deskripsiEn: 'Explore traditional Acehnese house architecture, wood carvings, attire, and cultural heritage.',
+          imageUrl: createSceneIllustrationDataUrl('Rumoh Aceh & Pusat Budaya', 'culture', 'Banda Aceh'),
+          alamat: 'Kota Banda Aceh, Aceh',
+          mapsUrl: mapsSearchUrl('Museum Aceh Rumoh Aceh Banda Aceh'),
+          estimasiBiaya: 20000,
+          fasilitas: ['Pameran Budaya', 'Area Edukasi', 'Jalur Pejalan Kaki'],
+          fasilitasIbadah: ['Musala / Tempat Wudu Sekitar'],
+          unggulan: false,
+          terverifikasiResmi: false,
+          catatanVerifikasi: 'Informasi bersifat simulasi dan belum diverifikasi resmi.',
+        },
+        {
+          id: 'dest-12',
+          nama: 'Situs Sejarah Gunongan & Taman',
+          namaEn: 'Gunongan Heritage Park',
+          kategori: 'Sejarah',
+          wilayah: 'Banda Aceh',
+          deskripsi: 'Bangunan bersejarah peninggalan masa kesultanan yang menjadi ruang terbuka hijau di Banda Aceh.',
+          deskripsiEn: 'Sultanate-era heritage structure set within a green public park in Banda Aceh.',
+          imageUrl: createSceneIllustrationDataUrl('Situs Sejarah Gunongan', 'monument', 'Banda Aceh'),
+          alamat: 'Sukaramai, Kec. Baiturrahman, Banda Aceh',
+          mapsUrl: mapsSearchUrl('Gunongan Banda Aceh'),
+          estimasiBiaya: 15000,
+          fasilitas: ['Taman Terbuka', 'Jalur Jalan Santai', 'Area Parkir'],
+          fasilitasIbadah: ['Dekat Masjid & Musala Sekitar'],
+          unggulan: false,
+          terverifikasiResmi: false,
+          catatanVerifikasi: 'Data simulasi; belum diverifikasi resmi.',
+        },
+      ];
+
+      const kuliner = [
+        {
+          id: 'kul-01',
+          nama: 'Warung Mie Aceh Serambi',
+          namaEn: 'Serambi Mie Aceh Stall',
+          kategori: 'Kuliner',
+          wilayah: 'Banda Aceh',
+          harga: 30000,
+          imageUrl: createSceneIllustrationDataUrl('Warung Mie Aceh Serambi', 'noodle', 'Banda Aceh'),
+          statusSertifikasiHalal: 'Belum Terverifikasi Resmi (Simulasi)',
+          sumberVerifikasi: 'Catatan Simulasi — Belum ada verifikasi dokumen sertifikat halal resmi pada data ini',
+          fasilitasRamahMuslim: ['Area Makan Rapi', 'Dekat Musala', 'Bahan Baku Non-Alkohol (Simulasi)'],
+          kontak: '+62-811-0000-0101 (Simulasi)',
+        },
+        {
+          id: 'kul-02',
+          nama: 'Kopi Arabika Gayo Takengon',
+          namaEn: 'Takengon Gayo Arabica Coffee',
+          kategori: 'Kuliner',
+          wilayah: 'Aceh Tengah',
+          harga: 45000,
+          imageUrl: createSceneIllustrationDataUrl('Kopi Arabika Gayo', 'coffee', 'Aceh Tengah'),
+          statusSertifikasiHalal: 'Perlu Verifikasi Resmi (Simulasi)',
+          sumberVerifikasi: 'Catatan Simulasi — Status sertifikasi halal belum diverifikasi pada data contoh',
+          fasilitasRamahMuslim: ['Lingkungan Bebas Alkohol', 'Tersedia Ruang Salat Dekat Lokasi'],
+          kontak: '+62-812-0000-0102 (Simulasi)',
+        },
+        {
+          id: 'kul-03',
+          nama: 'Penganan Meuseukat & Timphan UMKM',
+          namaEn: 'Meuseukat & Timphan UMKM Snack',
+          kategori: 'Kuliner',
+          wilayah: 'Aceh Besar',
+          harga: 35000,
+          imageUrl: createSceneIllustrationDataUrl('Meuseukat & Timphan UMKM', 'snack', 'Aceh Besar'),
+          statusSertifikasiHalal: 'Belum Terverifikasi Resmi (Simulasi)',
+          sumberVerifikasi: 'Catatan Simulasi — Belum diverifikasi sertifikat halal resmi',
+          fasilitasRamahMuslim: ['Kemasan UMKM Bersih (Simulasi)', 'Mudah Diakses Wisatawan Muslim'],
+          kontak: '+62-813-0000-0103 (Simulasi)',
+        },
+      ];
+
+      const akomodasi = [
+        {
+          id: 'akom-01',
+          nama: 'Wisma Baiturrahman Syariah Stay',
+          namaEn: 'Baiturrahman Syariah Stay',
+          wilayah: 'Banda Aceh',
+          hargaPerMalam: 320000,
+          imageUrl: makePlaceholderImg('Akomodasi Banda Aceh', '065f46', 'ecfdf5'),
+          fasilitas: ['AC', 'Wi-Fi', 'Air Panas', 'Resepsionis'],
+          fasilitasRamahMuslim: ['Arah Kiblat di Setiap Kamar', 'Sajadah & Mukena (Simulasi)', 'Dekat Masjid'],
+          kontak: '+62-811-0000-0201 (Simulasi)',
+        },
+        {
+          id: 'akom-02',
+          nama: 'Pondok Danau Gayo Muslim Friendly',
+          namaEn: 'Gayo Lake Muslim Friendly Lodge',
+          wilayah: 'Aceh Tengah',
+          hargaPerMalam: 380000,
+          imageUrl: makePlaceholderImg('Akomodasi Aceh Tengah', '0f766e', 'fef3c7'),
+          fasilitas: ['Pemandangan Danau (Simulasi)', 'Selimut Hangat', 'Area Parkir'],
+          fasilitasRamahMuslim: ['Penunjuk Kiblat', 'Musala Penginapan', 'Opsi Sarapan Halal (Simulasi)'],
+          kontak: '+62-812-0000-0202 (Simulasi)',
+        },
+        {
+          id: 'akom-03',
+          nama: 'Griya Pesisir Sabang Ramah Muslim',
+          namaEn: 'Sabang Coastal Muslim Friendly Stay',
+          wilayah: 'Sabang',
+          hargaPerMalam: 350000,
+          imageUrl: makePlaceholderImg('Akomodasi Sabang', '115e59', 'fde68a'),
+          fasilitas: ['Kipas/AC (Simulasi)', 'Area Santai', 'Antar-Jemput Lokal (Simulasi)'],
+          fasilitasRamahMuslim: ['Penunjuk Kiblat', 'Fasilitas Wudu Nyaman', 'Bebas Alkohol'],
+          kontak: '+62-813-0000-0203 (Simulasi)',
+        },
+      ];
+
+      const paket = [
+        {
+          id: 'pkt-01',
+          nama: 'Paket Pusaka & Religi Banda Aceh – Aceh Besar',
+          namaEn: 'Heritage & Religious Trail Banda Aceh – Aceh Besar',
+          durasi: 2,
+          minatUtama: ['Religi', 'Sejarah', 'Budaya'],
+          daftarDestinasi: ['dest-01', 'dest-02', 'dest-06'],
+          estimasiBiaya: 850000,
+          deskripsi: 'Rute 2 hari mengeksplorasi situs religi, sejarah, dan budaya di Banda Aceh & Aceh Besar (estimasi simulasi).',
+          deskripsiEn: '2-day route exploring religious, historical, and cultural sites in Banda Aceh & Aceh Besar (simulated estimate).',
+        },
+        {
+          id: 'pkt-02',
+          nama: 'Paket Bahari Sabang & Pesisir Barat',
+          namaEn: 'Sabang Marine & West Coast Escape',
+          durasi: 3,
+          minatUtama: ['Bahari', 'Sejarah'],
+          daftarDestinasi: ['dest-03', 'dest-04', 'dest-05'],
+          estimasiBiaya: 1650000,
+          deskripsi: 'Rute 3 hari menikmati pesona bahari Sabang dan pantai Aceh Besar (estimasi simulasi).',
+          deskripsiEn: '3-day route enjoying Sabang marine beauty and Aceh Besar beaches (simulated estimate).',
+        },
+        {
+          id: 'pkt-03',
+          nama: 'Paket Dataran Tinggi Gayo & Kopi UMKM',
+          namaEn: 'Gayo Highlands & Coffee UMKM Route',
+          durasi: 3,
+          minatUtama: ['Alam', 'Kuliner'],
+          daftarDestinasi: ['dest-07', 'dest-09', 'dest-10'],
+          estimasiBiaya: 1350000,
+          deskripsi: 'Rute 3 hari di Aceh Tengah & Bener Meriah dengan panorama danau, perbukitan, serta kopi lokal (simulasi).',
+          deskripsiEn: '3-day route in Aceh Tengah & Bener Meriah with lake views, hills, and local coffee (simulated).',
+        },
+      ];
+
+      const itinerary = {
+        id: 'itin-default',
+        namaPerjalanan: 'Rencana Perjalanan Aceh 3 Hari',
+        tanggalMulai: '2026-12-01',
+        jumlahHari: 3,
+        jumlahWisatawan: 2,
+        daftarAktivitas: [
+          {
+            uid: 'act-seed-1',
+            hari: 1,
+            tipeItem: 'destinasi',
+            itemId: 'dest-01',
+            nama: 'Masjid Raya Baiturrahman',
+            biayaSatuan: 15000,
+          },
+          {
+            uid: 'act-seed-2',
+            hari: 1,
+            tipeItem: 'destinasi',
+            itemId: 'dest-02',
+            nama: 'Museum Tsunami Aceh',
+            biayaSatuan: 25000,
+          },
+          {
+            uid: 'act-seed-3',
+            hari: 2,
+            tipeItem: 'destinasi',
+            itemId: 'dest-05',
+            nama: 'Pantai Lampuuk',
+            biayaSatuan: 20000,
+          },
+        ],
+        totalAnggaran: 120000,
+      };
+
+      return { destinasi, kuliner, akomodasi, paket, itinerary, favorit: [] };
+    }
+
+    function safeLoadJSON(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        if (!raw) return fallback;
+        return JSON.parse(raw);
+      } catch (err) {
+        console.warn('Gagal membaca localStorage:', key, err);
+        return fallback;
+      }
+    }
+
+    function safeSaveJSON(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch (err) {
+        console.warn('Gagal menyimpan ke localStorage:', key, err);
+        showToast('Peringatan: gagal menyimpan sebagian data ke localStorage.', 'warn');
+      }
+    }
+
+    const seed = createSeedData();
+    const state = {
+      lang: safeLoadJSON(STORAGE_KEYS.LANG, 'id') === 'en' ? 'en' : 'id',
+      destinasi: safeLoadJSON(STORAGE_KEYS.DESTINASI, seed.destinasi),
+      kuliner: safeLoadJSON(STORAGE_KEYS.KULINER, seed.kuliner),
+      akomodasi: safeLoadJSON(STORAGE_KEYS.AKOMODASI, seed.akomodasi),
+      paket: safeLoadJSON(STORAGE_KEYS.PAKET, seed.paket),
+      favorit: safeLoadJSON(STORAGE_KEYS.FAVORIT, seed.favorit),
+      itinerary: safeLoadJSON(STORAGE_KEYS.ITINERARY, seed.itinerary),
+      searchQuery: '',
+      selectedRegion: 'ALL',
+      selectedCategory: 'ALL',
+      sortBy: 'featured',
+      crudTab: 'destinasi',
+      activeModalDestId: null,
+    };
+
+    const I18N = {
+      id: {
+        brandTagline: 'Wisata Halal & Budaya Aceh',
+        navDestinations: 'Destinasi',
+        navMap: 'Peta Wilayah',
+        navCulinaryStay: 'Kuliner & Menginap',
+        navItinerary: 'Itinerary & Anggaran',
+        navPackages: 'Paket Wisata',
+        navCrud: 'Kelola Data',
+        favorites: 'Favorit',
+        heroBadge: 'Serambi Mekkah • Pesona Laut, Alam & Budaya',
+        heroTitle: 'Jelajahi Pesona Halal & Budaya <span class="text-amber-300">Aceh</span>',
+        heroSubtitle: 'Temukan destinasi religi, alam, bahari, sejarah, budaya, dan kuliner di Banda Aceh, Sabang, Aceh Besar, Aceh Tengah, dan Bener Meriah. Rencanakan itinerary 1–5 hari, hitung estimasi anggaran, dan kelola data secara langsung.',
+        ctaExplore: 'Mulai Jelajahi Destinasi',
+        ctaPlanner: 'Susun Itinerary (1–5 Hari)',
+        statDestinations: 'Destinasi Contoh',
+        statRegionsSub: '5 Wilayah Aceh',
+        statCategories: 'Kategori Wisata',
+        statCatSub: 'Religi, Alam, Bahari, Sejarah, Budaya, Kuliner',
+        statCulinaryStay: 'Kuliner & Akomodasi',
+        statHalalNote: 'Status Halal & Ramah Muslim',
+        statSavedFav: 'Favorit Tersimpan',
+        statLocalStorage: 'Tersimpan di localStorage',
+        catalogEyebrow: 'Eksplorasi Katalog',
+        catalogTitle: 'Destinasi Wisata Aceh',
+        resetFilter: 'Reset Filter',
+        mapEyebrow: 'Peta Ilustratif & Navigasi',
+        mapTitle: 'Peta Wilayah Wisata Aceh (SVG)',
+        mapDesc: 'Klik pin wilayah pada peta ilustratif di bawah ini untuk memfilter destinasi dan membuka tautan Google Maps (tanpa API key).',
+        culinaryEyebrow: 'Citarasa & Produk Lokal',
+        culinaryTitle: 'Kuliner & Produk UMKM',
+        culinarySub: 'Fasilitas ramah Muslim ditampilkan terpisah dari status verifikasi sertifikasi halal resmi. Harga & kontak bersifat simulasi.',
+        stayEyebrow: 'Penginapan Nyaman',
+        stayTitle: 'Akomodasi Ramah Muslim',
+        staySub: 'Informasi fasilitas ramah Muslim (seperti arah kiblat, perlengkapan salat, atau layanan syariah simulasi) dan tarif per malam estimasi.',
+        itinEyebrow: 'Perencana Perjalanan & Anggaran',
+        itinTitle: 'Travel Itinerary Planner (1–5 Hari) & Kalkulator Anggaran',
+        itinDesc: 'Atur durasi perjalanan (1–5 hari), jumlah wisatawan, dan tambahkan aktivitas. Total anggaran dihitung otomatis sebagai estimasi simulasi.',
+        totalBudgetLabel: 'Total Estimasi Anggaran (Simulasi)',
+        itinNameLabel: 'Nama Perjalanan',
+        itinDateLabel: 'Tanggal Mulai',
+        itinDaysLabel: 'Durasi (1–5 Hari)',
+        itinTravelersLabel: 'Jumlah Wisatawan',
+        pkgEyebrow: 'Rule-Based Recommendation',
+        pkgTitle: 'Rekomendasi Paket Wisata',
+        pkgDesc: 'Filter paket wisata berdasarkan minat utama dan batas anggaran estimasi (simulasi).',
+        pkgInterestLabel: 'Minat Utama',
+        pkgBudgetLabel: 'Batas Anggaran (IDR)',
+        crudEyebrow: 'Manajemen Katalog Lokal • localStorage',
+        crudTitle: 'Kelola Data Katalog',
+        crudDesc: 'Tambah, edit, atau hapus data Destinasi, Kuliner, Akomodasi, dan Paket Wisata. Semua perubahan tersimpan di localStorage peramban Anda.',
+        resetDemoBtn: '↺ Reset Data Awal',
+      },
+      en: {
+        brandTagline: 'Aceh Halal & Cultural Tourism',
+        navDestinations: 'Destinations',
+        navMap: 'Map & Regions',
+        navCulinaryStay: 'Culinary & Stay',
+        navItinerary: 'Itinerary & Budget',
+        navPackages: 'Tour Packages',
+        navCrud: 'Manage Data',
+        favorites: 'Favorites',
+        heroBadge: 'Serambi Mekkah • Sea, Nature, Heritage & Culture',
+        heroTitle: 'Discover Halal & Cultural <span class="text-amber-300">Aceh</span>',
+        heroSubtitle: 'Explore religious, nature, marine, historical, cultural, and culinary spots across Banda Aceh, Sabang, Aceh Besar, Aceh Tengah, and Bener Meriah. Plan 1–5 day itineraries, estimate budgets, and manage catalog data locally.',
+        ctaExplore: 'Explore Destinations',
+        ctaPlanner: 'Plan Itinerary (1–5 Days)',
+        statDestinations: 'Sample Destinations',
+        statRegionsSub: '5 Aceh Regions',
+        statCategories: 'Tourism Categories',
+        statCatSub: 'Religious, Nature, Marine, History, Culture, Culinary',
+        statCulinaryStay: 'Culinary & Stay',
+        statHalalNote: 'Halal Status & Muslim-Friendly',
+        statSavedFav: 'Saved Favorites',
+        statLocalStorage: 'Stored in localStorage',
+        catalogEyebrow: 'Catalog Exploration',
+        catalogTitle: 'Aceh Tourism Destinations',
+        resetFilter: 'Reset Filters',
+        mapEyebrow: 'Illustrative Map & Navigation',
+        mapTitle: 'Aceh Tourism Regions Map (SVG)',
+        mapDesc: 'Click any region pin on the illustrative map below to filter destinations and open Google Maps links (no API key).',
+        culinaryEyebrow: 'Flavors & Local Craft',
+        culinaryTitle: 'Culinary & UMKM Products',
+        culinarySub: 'Muslim-friendly facilities are shown separately from official halal certification verification status. Prices & contacts are simulated.',
+        stayEyebrow: 'Comfortable Stays',
+        stayTitle: 'Muslim-Friendly Accommodations',
+        staySub: 'Muslim-friendly facilities (such as Qibla direction, prayer items, or simulated sharia services) and estimated nightly rates.',
+        itinEyebrow: 'Trip Planner & Budget',
+        itinTitle: 'Travel Itinerary Planner (1–5 Days) & Budget Calculator',
+        itinDesc: 'Set trip duration (1–5 days), traveler count, and add activities. Total budget is calculated automatically as a simulated estimate.',
+        totalBudgetLabel: 'Total Estimated Budget (Simulated)',
+        itinNameLabel: 'Trip Name',
+        itinDateLabel: 'Start Date',
+        itinDaysLabel: 'Duration (1–5 Days)',
+        itinTravelersLabel: 'Travelers',
+        pkgEyebrow: 'Rule-Based Recommendation',
+        pkgTitle: 'Recommended Tour Packages',
+        pkgDesc: 'Filter tour packages by main interest and maximum estimated budget (simulated).',
+        pkgInterestLabel: 'Main Interest',
+        pkgBudgetLabel: 'Max Budget (IDR)',
+        crudEyebrow: 'Local Catalog Management • localStorage',
+        crudTitle: 'Catalog Data Management',
+        crudDesc: 'Add, edit, or delete Destinations, Culinary, Accommodations, and Tour Packages. All changes are saved in your browser localStorage.',
+        resetDemoBtn: '↺ Reset Initial Data',
+      },
+    };
+
+    function formatIDR(amount) {
+      const num = Number(amount) || 0;
+      return 'Rp ' + num.toLocaleString('id-ID');
+    }
+
+    function escapeXml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const el = document.createElement('div');
+      const palette =
+        type === 'warn'
+          ? 'bg-amber-900 text-amber-50 border-amber-400'
+          : 'bg-emerald-950 text-white border-teal-400';
+      el.className = `px-4 py-3 rounded-xl border shadow-lg text-xs sm:text-sm font-medium pointer-events-auto transition ${palette}`;
+      el.textContent = message;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        setTimeout(() => el.remove(), 250);
+      }, 2800);
+    }
+
+    function applyLanguage() {
+      const dict = I18N[state.lang] || I18N.id;
+      document.documentElement.lang = state.lang;
+      document.querySelectorAll('[data-i18n]').forEach((node) => {
+        const key = node.getAttribute('data-i18n');
+        if (dict[key] !== undefined) {
+          node.innerHTML = dict[key];
+        }
+      });
+
+      const idBtn = document.getElementById('langIdBtn');
+      const enBtn = document.getElementById('langEnBtn');
+      if (state.lang === 'id') {
+        idBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-800 text-white transition';
+        enBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-bold text-slate-700 hover:text-emerald-900 transition';
+        document.getElementById('searchInput').placeholder = 'Cari nama destinasi, wilayah, fasilitas, atau budaya...';
+      } else {
+        enBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-800 text-white transition';
+        idBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-bold text-slate-700 hover:text-emerald-900 transition';
+        document.getElementById('searchInput').placeholder = 'Search destination name, region, facilities, or culture...';
+      }
+
+      safeSaveJSON(STORAGE_KEYS.LANG, state.lang);
+      refreshAllViews();
+    }
+
+    function getFilteredSortedDestinations() {
+      const q = state.searchQuery.trim().toLowerCase();
+      let list = state.destinasi.filter((d) => {
+        const matchesRegion = state.selectedRegion === 'ALL' || d.wilayah === state.selectedRegion;
+        const matchesCat = state.selectedCategory === 'ALL' || d.kategori === state.selectedCategory;
+        const haystack = [
+          d.nama,
+          d.namaEn,
+          d.wilayah,
+          d.kategori,
+          d.deskripsi,
+          d.deskripsiEn,
+          d.alamat,
+          ...(d.fasilitas || []),
+          ...(d.fasilitasIbadah || []),
+        ]
+          .join(' ')
+          .toLowerCase();
+        const matchesQuery = !q || haystack.includes(q);
+        return matchesRegion && matchesCat && matchesQuery;
+      });
+
+      if (state.sortBy === 'featured') {
+        list.sort((a, b) => Number(Boolean(b.unggulan)) - Number(Boolean(a.unggulan)));
+      } else if (state.sortBy === 'priceAsc') {
+        list.sort((a, b) => (Number(a.estimasiBiaya) || 0) - (Number(b.estimasiBiaya) || 0));
+      } else if (state.sortBy === 'priceDesc') {
+        list.sort((a, b) => (Number(b.estimasiBiaya) || 0) - (Number(a.estimasiBiaya) || 0));
+      } else if (state.sortBy === 'nameAsc') {
+        list.sort((a, b) => String(a.nama).localeCompare(String(b.nama), 'id'));
+      }
+
+      return list;
+    }
+
+    function renderCategoryChips() {
+      const wrap = document.getElementById('categoryChips');
+      const allLabel = state.lang === 'en' ? 'All Categories' : 'Semua Kategori';
+      const items = ['ALL', ...CATEGORIES];
+      wrap.innerHTML = items
+        .map((cat) => {
+          const active = state.selectedCategory === cat;
+          const label = cat === 'ALL' ? allLabel : cat;
+          return `
+            <button
+              type="button"
+              data-cat="${escapeXml(cat)}"
+              class="cat-chip-btn px-3.5 py-1.5 rounded-full text-xs font-bold border transition ${
+                active
+                  ? 'bg-emerald-800 text-white border-emerald-800 shadow-2xs'
+                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-teal-500 hover:text-teal-900'
+              }"
+            >
+              ${escapeXml(label)}
+            </button>
+          `;
+        })
+        .join('');
+
+      wrap.querySelectorAll('.cat-chip-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.selectedCategory = btn.getAttribute('data-cat');
+          renderDestinations();
+        });
+      });
+    }
+
+    function isFavorite(itemId, tipeItem = 'destinasi') {
+      return state.favorit.some((f) => f.itemId === itemId && f.tipeItem === tipeItem);
+    }
+
+    function toggleFavorite(itemId, tipeItem = 'destinasi') {
+      const idx = state.favorit.findIndex((f) => f.itemId === itemId && f.tipeItem === tipeItem);
+      if (idx >= 0) {
+        state.favorit.splice(idx, 1);
+        showToast(state.lang === 'en' ? 'Removed from favorites.' : 'Dihapus dari favorit.');
+      } else {
+        state.favorit.unshift({
+          id: 'fav-' + Date.now(),
+          itemId,
+          tipeItem,
+          tanggalDitambahkan: new Date().toISOString(),
+        });
+        showToast(state.lang === 'en' ? 'Saved to favorites (localStorage).' : 'Tersimpan ke favorit (localStorage).');
+      }
+      safeSaveJSON(STORAGE_KEYS.FAVORIT, state.favorit);
+      updateStatsAndBadges();
+      renderDestinations();
+      if (state.activeModalDestId === itemId) {
+        syncModalFavoriteButton(itemId);
+      }
+    }
+
+    function renderDestinations() {
+      renderCategoryChips();
+      const grid = document.getElementById('destinationsGrid');
+      const list = getFilteredSortedDestinations();
+
+      document.getElementById('resultCountLabel').textContent =
+        state.lang === 'en'
+          ? `Showing ${list.length} destination(s)`
+          : `Menampilkan ${list.length} destinasi`;
+
+      if (list.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full bg-white rounded-2xl border border-dashed border-slate-300 p-8 text-center space-y-2">
+            <p class="font-display font-bold text-slate-700">
+              ${state.lang === 'en' ? 'No destinations match your filter.' : 'Tidak ada destinasi yang sesuai dengan filter.'}
+            </p>
+            <button type="button" onclick="resetAllFilters()" class="px-4 py-2 rounded-xl bg-emerald-800 text-white text-xs font-bold">
+              ${state.lang === 'en' ? 'Reset Filters' : 'Reset Filter'}
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = list
+        .map((d) => {
+          const title = state.lang === 'en' && d.namaEn ? d.namaEn : d.nama;
+          const desc = state.lang === 'en' && d.deskripsiEn ? d.deskripsiEn : d.deskripsi;
+          const fav = isFavorite(d.id, 'destinasi');
+          const fallbackImg = makePlaceholderImg(d.nama, '065f46', 'fef3c7');
+          const ibadahSummary = (d.fasilitasIbadah || [])[0] || 'Fasilitas Ibadah';
+
+          return `
+            <article class="bg-white rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md transition overflow-hidden flex flex-col">
+              <div class="relative h-48 bg-slate-900 overflow-hidden">
+                <img
+                  src="${escapeXml(d.imageUrl || fallbackImg)}"
+                  alt="${escapeXml(title)}"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='${escapeXml(fallbackImg)}';"
+                  class="w-full h-full object-cover hover:scale-103 transition duration-300"
+                />
+                <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                  <span class="px-2.5 py-1 rounded-full bg-emerald-950/85 text-amber-200 text-[11px] font-bold">
+                    ${escapeXml(d.wilayah)}
+                  </span>
+                  <span class="px-2.5 py-1 rounded-full bg-white/95 text-emerald-950 text-[11px] font-bold">
+                    ${escapeXml(d.kategori)}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onclick="toggleFavorite('${escapeXml(d.id)}', 'destinasi')"
+                  aria-label="Favorit"
+                  class="absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center shadow transition ${
+                    fav ? 'bg-rose-600 text-white' : 'bg-white/90 text-slate-700 hover:bg-white'
+                  }"
+                >
+                  ♥
+                </button>
+              </div>
+
+              <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                <div class="space-y-2">
+                  <div class="flex items-start justify-between gap-2">
+                    <h3 class="font-display font-bold text-lg text-emerald-950 leading-snug">${escapeXml(title)}</h3>
+                  </div>
+                  <p class="text-xs sm:text-sm text-slate-600 line-clamp-2">${escapeXml(desc)}</p>
+
+                  <div class="flex flex-wrap gap-1.5 pt-1">
+                    <span class="px-2 py-0.5 rounded-md bg-teal-50 text-teal-900 border border-teal-200/80 text-[11px] font-semibold">
+                      🕌 ${escapeXml(ibadahSummary)}
+                    </span>
+                    <span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-900 border border-amber-200 text-[11px] font-medium">
+                      Belum Diverifikasi Resmi
+                    </span>
+                  </div>
+                </div>
+
+                <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                  <div>
+                    <div class="text-[10px] uppercase font-bold text-slate-400">Estimasi (Simulasi)</div>
+                    <div class="font-display font-extrabold text-sm text-emerald-900">${formatIDR(d.estimasiBiaya)}</div>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <a
+                      href="${escapeXml(d.mapsUrl || mapsSearchUrl(d.nama + ' ' + d.wilayah))}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="px-2.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition"
+                    >
+                      Maps ↗
+                    </a>
+                    <button
+                      type="button"
+                      onclick="openDestinationModal('${escapeXml(d.id)}')"
+                      class="px-3.5 py-2 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold transition"
+                    >
+                      Detail
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          `;
+        })
+        .join('');
+    }
+
+    function openDestinationModal(id) {
+      const dest = state.destinasi.find((d) => d.id === id);
+      if (!dest) return;
+      state.activeModalDestId = id;
+
+      const title = state.lang === 'en' && dest.namaEn ? dest.namaEn : dest.nama;
+      const desc = state.lang === 'en' && dest.deskripsiEn ? dest.deskripsiEn : dest.deskripsi;
+      const fallbackImg = makePlaceholderImg(dest.nama, '065f46', 'fef3c7');
+
+      const imgEl = document.getElementById('modalDestImg');
+      imgEl.src = dest.imageUrl || fallbackImg;
+      imgEl.alt = title;
+      imgEl.onerror = () => {
+        imgEl.src = fallbackImg;
+      };
+
+      document.getElementById('modalDestBadges').innerHTML = `
+        <span class="px-2.5 py-1 rounded-full bg-emerald-950/90 text-amber-200 text-xs font-bold">${escapeXml(dest.wilayah)}</span>
+        <span class="px-2.5 py-1 rounded-full bg-white text-emerald-950 text-xs font-bold">${escapeXml(dest.kategori)}</span>
+      `;
+      document.getElementById('modalDestTitle').textContent = title;
+      document.getElementById('modalDestAddress').textContent = dest.alamat || dest.wilayah;
+      document.getElementById('modalDestPrice').textContent = formatIDR(dest.estimasiBiaya);
+      document.getElementById('modalDestDesc').textContent = desc;
+      document.getElementById('modalVerificationBox').innerHTML = `
+        <strong>Status Verifikasi:</strong> ${escapeXml(dest.catatanVerifikasi || 'Informasi nyata yang belum diverifikasi resmi (data simulasi).')}
+      `;
+
+      document.getElementById('modalDestFacilities').innerHTML = (dest.fasilitas || ['Fasilitas standar (simulasi)'])
+        .map((f) => `<li>${escapeXml(f)}</li>`)
+        .join('');
+      document.getElementById('modalDestWorship').innerHTML = (dest.fasilitasIbadah || ['Akses tempat ibadah sekitar (simulasi)'])
+        .map((f) => `<li>${escapeXml(f)}</li>`)
+        .join('');
+
+      document.getElementById('modalMapsLink').href = dest.mapsUrl || mapsSearchUrl(`${dest.nama} ${dest.wilayah}`);
+      syncModalFavoriteButton(id);
+
+      document.getElementById('modalAddToItinBtn').onclick = () => {
+        addActivityToItinerary(1, 'destinasi', dest.id, dest.nama, Number(dest.estimasiBiaya) || 0);
+        closeDestinationModal();
+      };
+
+      document.getElementById('detailModal').classList.remove('hidden');
+    }
+
+    function syncModalFavoriteButton(id) {
+      const btn = document.getElementById('modalFavBtn');
+      const fav = isFavorite(id, 'destinasi');
+      btn.textContent = fav ? '♥ Tersimpan di Favorit' : '♥ Simpan Favorit';
+      btn.onclick = () => toggleFavorite(id, 'destinasi');
+    }
+
+    function closeDestinationModal() {
+      state.activeModalDestId = null;
+      document.getElementById('detailModal').classList.add('hidden');
+    }
+
+    function renderFavoritesModal() {
+      const container = document.getElementById('favoritesListContainer');
+      if (state.favorit.length === 0) {
+        container.innerHTML = `<p class="text-sm text-slate-500 py-6 text-center">Belum ada destinasi favorit yang disimpan.</p>`;
+        return;
+      }
+      container.innerHTML = state.favorit
+        .map((fav) => {
+          const dest = state.destinasi.find((d) => d.id === fav.itemId);
+          const name = dest ? (state.lang === 'en' && dest.namaEn ? dest.namaEn : dest.nama) : fav.itemId;
+          const region = dest ? dest.wilayah : 'Aceh';
+          return `
+            <div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+              <div>
+                <div class="font-bold text-sm text-emerald-950">${escapeXml(name)}</div>
+                <div class="text-xs text-slate-500">${escapeXml(region)}</div>
+              </div>
+              <div class="flex items-center gap-1.5">
+                ${
+                  dest
+                    ? `<button type="button" onclick="closeFavoritesModal();openDestinationModal('${escapeXml(dest.id)}')" class="px-2.5 py-1.5 rounded-lg bg-emerald-800 text-white text-xs font-bold">Lihat</button>`
+                    : ''
+                }
+                <button type="button" onclick="toggleFavorite('${escapeXml(fav.itemId)}', '${escapeXml(fav.tipeItem)}');renderFavoritesModal();" class="px-2.5 py-1.5 rounded-lg bg-rose-100 text-rose-700 text-xs font-bold">Hapus</button>
+              </div>
+            </div>
+          `;
+        })
+        .join('');
+    }
+
+    function openFavoritesModal() {
+      renderFavoritesModal();
+      document.getElementById('favoritesModal').classList.remove('hidden');
+    }
+
+    function closeFavoritesModal() {
+      document.getElementById('favoritesModal').classList.add('hidden');
+    }
+
+    function selectRegionFromMap(region) {
+      state.selectedRegion = region;
+      document.getElementById('regionSelect').value = region;
+      renderDestinations();
+      renderRegionCards();
+      showToast(`Filter wilayah aktif: ${region}`);
+      document.getElementById('destinasi-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function renderRegionCards() {
+      const container = document.getElementById('regionCardsList');
+      container.innerHTML = REGIONS.map((reg) => {
+        const count = state.destinasi.filter((d) => d.wilayah === reg).length;
+        const isSelected = state.selectedRegion === reg;
+        const thumb = getRegionThumbnail(reg);
+        return `
+          <div class="flex items-center justify-between gap-3 p-3 rounded-xl border transition ${
+            isSelected ? 'bg-emerald-50 border-emerald-600' : 'bg-slate-50/80 border-slate-200 hover:border-teal-400'
+          }">
+            <div class="flex items-center gap-3 min-w-0">
+              <img
+                src="${escapeXml(thumb)}"
+                alt="${escapeXml(reg)}"
+                onerror="this.onerror=null;this.src='${escapeXml(makePlaceholderImg(reg))}';"
+                class="w-14 h-12 rounded-xl object-cover border border-teal-900/15 shrink-0"
+              />
+              <div class="min-w-0">
+                <button type="button" onclick="selectRegionFromMap('${escapeXml(reg)}')" class="font-display font-bold text-sm text-emerald-950 hover:text-teal-700 text-left truncate block">
+                  ${escapeXml(reg)}
+                </button>
+                <div class="text-xs text-slate-500">${count} destinasi terdaftar</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <button type="button" onclick="selectRegionFromMap('${escapeXml(reg)}')" class="px-2.5 py-1.5 rounded-lg bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold">
+                Filter
+              </button>
+              <a
+                href="${escapeXml(mapsSearchUrl(reg + ' Aceh'))}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="px-2.5 py-1.5 rounded-lg bg-white hover:bg-teal-50 text-teal-800 border border-teal-300 text-xs font-bold"
+              >
+                Maps ↗
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderCulinaryAndAccommodation() {
+      const kulGrid = document.getElementById('culinaryGrid');
+      kulGrid.innerHTML = state.kuliner
+        .map((k) => {
+          const title = state.lang === 'en' && k.namaEn ? k.namaEn : k.nama;
+          const fallback = makePlaceholderImg(k.nama, '065f46', 'fef3c7');
+          const muslimBadges = (k.fasilitasRamahMuslim || [])
+            .map((f) => `<span class="px-2 py-0.5 rounded-md bg-teal-50 text-teal-900 border border-teal-200 text-[11px] font-medium">${escapeXml(f)}</span>`)
+            .join('');
+
+          return `
+            <article class="bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden flex flex-col justify-between">
+              <div>
+                <div class="h-44 bg-slate-900 relative overflow-hidden">
+                  <img
+                    src="${escapeXml(k.imageUrl || fallback)}"
+                    alt="${escapeXml(title)}"
+                    loading="lazy"
+                    onerror="this.onerror=null;this.src='${escapeXml(fallback)}';"
+                    class="w-full h-full object-cover"
+                  />
+                  <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-emerald-950/85 text-amber-200 text-[11px] font-bold">
+                    ${escapeXml(k.wilayah)}
+                  </span>
+                </div>
+
+                <div class="p-5 space-y-3">
+                  <div class="flex items-start justify-between gap-2">
+                    <h3 class="font-display font-bold text-lg text-emerald-950">${escapeXml(title)}</h3>
+                    <span class="font-display font-extrabold text-sm text-emerald-800 shrink-0">${formatIDR(k.harga)} <span class="text-[10px] font-normal text-slate-500">(Simulasi)</span></span>
+                  </div>
+
+                  <div class="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-xs space-y-1">
+                    <div class="font-bold text-amber-950">
+                      Status Sertifikasi Halal: <span class="underline">${escapeXml(k.statusSertifikasiHalal)}</span>
+                    </div>
+                    <div class="text-[11px] text-amber-900/90">
+                      Sumber Verifikasi: ${escapeXml(k.sumberVerifikasi)}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">
+                      Fasilitas Ramah Muslim (Terpisah dari Sertifikat Halal)
+                    </div>
+                    <div class="flex flex-wrap gap-1.5">${muslimBadges}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
+                <span class="text-[11px] text-slate-500 truncate">${escapeXml(k.kontak || 'Kontak Simulasi')}</span>
+                <button
+                  type="button"
+                  onclick="openWhatsAppDemo('${escapeXml(title)}', '${escapeXml(k.kontak || '+62-811-0000-0000 (Simulasi)')}')"
+                  class="px-3 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold shrink-0 transition"
+                >
+                  💬 WhatsApp
+                </button>
+              </div>
+            </article>
+          `;
+        })
+        .join('');
+
+      const akomGrid = document.getElementById('accommodationGrid');
+      akomGrid.innerHTML = state.akomodasi
+        .map((a) => {
+          const title = state.lang === 'en' && a.namaEn ? a.namaEn : a.nama;
+          const fallback = makePlaceholderImg(a.nama, '0f766e', 'fef3c7');
+          const muslimList = (a.fasilitasRamahMuslim || [])
+            .map((f) => `<span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-900 border border-emerald-200 text-[11px] font-semibold">☪ ${escapeXml(f)}</span>`)
+            .join('');
+          const generalList = (a.fasilitas || [])
+            .map((f) => `<span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[11px]">${escapeXml(f)}</span>`)
+            .join('');
+
+          return `
+            <article class="bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden flex flex-col justify-between">
+              <div>
+                <div class="h-44 bg-slate-900 relative overflow-hidden">
+                  <img
+                    src="${escapeXml(a.imageUrl || fallback)}"
+                    alt="${escapeXml(title)}"
+                    loading="lazy"
+                    onerror="this.onerror=null;this.src='${escapeXml(fallback)}';"
+                    class="w-full h-full object-cover"
+                  />
+                  <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-teal-950/85 text-teal-100 text-[11px] font-bold">
+                    ${escapeXml(a.wilayah)}
+                  </span>
+                </div>
+
+                <div class="p-5 space-y-3">
+                  <div class="flex items-start justify-between gap-2">
+                    <h3 class="font-display font-bold text-lg text-emerald-950">${escapeXml(title)}</h3>
+                    <div class="text-right shrink-0">
+                      <div class="font-display font-extrabold text-sm text-emerald-900">${formatIDR(a.hargaPerMalam)}</div>
+                      <div class="text-[10px] text-slate-500">/ malam (Simulasi)</div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-800 mb-1.5">Fasilitas Ramah Muslim</div>
+                    <div class="flex flex-wrap gap-1.5">${muslimList}</div>
+                  </div>
+
+                  <div>
+                    <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Fasilitas Umum</div>
+                    <div class="flex flex-wrap gap-1.5">${generalList}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
+                <span class="text-[11px] text-slate-500 truncate">${escapeXml(a.kontak || 'Kontak Simulasi')}</span>
+                <button
+                  type="button"
+                  onclick="openWhatsAppDemo('${escapeXml(title)}', '${escapeXml(a.kontak || '+62-811-0000-0000 (Simulasi)')}')"
+                  class="px-3 py-2 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-xs font-bold shrink-0 transition"
+                >
+                  💬 WhatsApp
+                </button>
+              </div>
+            </article>
+          `;
+        })
+        .join('');
+    }
+
+    function openWhatsAppDemo(entityName, contactText) {
+      document.getElementById('waModalTitle').textContent = `${entityName} (Simulasi Kontak)`;
+      document.getElementById('waModalContact').textContent = contactText;
+      document.getElementById('waDraftMessage').value =
+        state.lang === 'en'
+          ? `Hello ${entityName}, I would like to ask about availability and details (simulated inquiry).`
+          : `Halo ${entityName}, saya ingin menanyakan informasi ketersediaan & layanan (pesan simulasi).`;
+      document.getElementById('waDemoModal').classList.remove('hidden');
+    }
+
+    function recalculateItineraryBudget() {
+      const travelers = Math.max(1, Number(state.itinerary.jumlahWisatawan) || 1);
+      const sumUnit = (state.itinerary.daftarAktivitas || []).reduce(
+        (acc, act) => acc + (Number(act.biayaSatuan) || 0),
+        0
+      );
+      const total = sumUnit * travelers;
+      state.itinerary.totalAnggaran = total;
+      safeSaveJSON(STORAGE_KEYS.ITINERARY, state.itinerary);
+
+      document.getElementById('itineraryTotalBudget').textContent = formatIDR(total);
+      document.getElementById('itineraryBudgetBreakdown').textContent = `${(state.itinerary.daftarAktivitas || []).length} aktivitas • ${travelers} wisatawan (estimasi simulasi)`;
+    }
+
+    function syncItineraryControls() {
+      const days = Math.min(5, Math.max(1, Number(state.itinerary.jumlahHari) || 3));
+      state.itinerary.jumlahHari = days;
+
+      document.getElementById('itinNameInput').value = state.itinerary.namaPerjalanan || '';
+      document.getElementById('itinStartDateInput').value = state.itinerary.tanggalMulai || '2026-12-01';
+      document.getElementById('itinDaysSelect').value = String(days);
+      document.getElementById('itinTravelersInput').value = String(state.itinerary.jumlahWisatawan || 2);
+
+      const daySel = document.getElementById('addActDaySelect');
+      daySel.innerHTML = Array.from({ length: days }, (_, i) => i + 1)
+        .map((d) => `<option value="${d}">Hari ke-${d}</option>`)
+        .join('');
+
+      const itemSel = document.getElementById('addActItemSelect');
+      const options = [
+        ...state.destinasi.map((d) => ({
+          value: `destinasi::${d.id}`,
+          label: `[Destinasi • ${d.wilayah}] ${d.nama} — ${formatIDR(d.estimasiBiaya)}`,
+          img: d.imageUrl || makePlaceholderImg(d.nama),
+        })),
+        ...state.kuliner.map((k) => ({
+          value: `kuliner::${k.id}`,
+          label: `[Kuliner • ${k.wilayah}] ${k.nama} — ${formatIDR(k.harga)}`,
+          img: k.imageUrl || makePlaceholderImg(k.nama),
+        })),
+        ...state.akomodasi.map((a) => ({
+          value: `akomodasi::${a.id}`,
+          label: `[Akomodasi • ${a.wilayah}] ${a.nama} — ${formatIDR(a.hargaPerMalam)}`,
+          img: a.imageUrl || makePlaceholderImg(a.nama),
+        })),
+      ];
+      itemSel.innerHTML = options
+        .map((o) => `<option value="${escapeXml(o.value)}" data-img="${escapeXml(o.img)}">${escapeXml(o.label)}</option>`)
+        .join('');
+      syncSelectedActivityPreviewImg();
+    }
+
+    function syncSelectedActivityPreviewImg() {
+      const itemSel = document.getElementById('addActItemSelect');
+      const previewImg = document.getElementById('addActItemPreviewImg');
+      if (!itemSel || !previewImg) return;
+      const selectedOpt = itemSel.options[itemSel.selectedIndex];
+      const fallback = createIllustrationDataUrl('Pilihan Aceh', 'Pratinjau', 'sea');
+      previewImg.src = (selectedOpt && selectedOpt.getAttribute('data-img')) || fallback;
+      previewImg.onerror = () => {
+        previewImg.src = fallback;
+      };
+    }
+
+    function findActivityThumbnail(act) {
+      if (!act) return createIllustrationDataUrl('Aktivitas', 'Aceh', 'sea');
+      if (act.tipeItem === 'destinasi') {
+        const d = state.destinasi.find((x) => x.id === act.itemId);
+        return (d && d.imageUrl) || makePlaceholderImg(act.nama);
+      }
+      if (act.tipeItem === 'kuliner') {
+        const k = state.kuliner.find((x) => x.id === act.itemId);
+        return (k && k.imageUrl) || makePlaceholderImg(act.nama);
+      }
+      if (act.tipeItem === 'akomodasi') {
+        const a = state.akomodasi.find((x) => x.id === act.itemId);
+        return (a && a.imageUrl) || makePlaceholderImg(act.nama);
+      }
+      return makePlaceholderImg(act.nama);
+    }
+
+    function addActivityToItinerary(hari, tipeItem, itemId, nama, biayaSatuan) {
+      const maxDays = Math.min(5, Math.max(1, Number(state.itinerary.jumlahHari) || 3));
+      const validDay = Math.min(maxDays, Math.max(1, Number(hari) || 1));
+      state.itinerary.daftarAktivitas.push({
+        uid: 'act-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+        hari: validDay,
+        tipeItem,
+        itemId,
+        nama,
+        biayaSatuan: Number(biayaSatuan) || 0,
+      });
+      renderItinerary();
+      showToast(`Ditambahkan ke Hari ke-${validDay}: ${nama}`);
+    }
+
+    function removeActivityFromItinerary(uid) {
+      state.itinerary.daftarAktivitas = (state.itinerary.daftarAktivitas || []).filter((a) => a.uid !== uid);
+      renderItinerary();
+    }
+
+    function renderItinerary() {
+      syncItineraryControls();
+      recalculateItineraryBudget();
+
+      const days = state.itinerary.jumlahHari;
+      const grid = document.getElementById('itineraryDaysGrid');
+      const startDateStr = state.itinerary.tanggalMulai;
+      const baseDate = startDateStr ? new Date(startDateStr + 'T00:00:00') : null;
+
+      grid.innerHTML = Array.from({ length: days }, (_, idx) => idx + 1)
+        .map((dayNum) => {
+          let dateLabel = '';
+          if (baseDate && !Number.isNaN(baseDate.getTime())) {
+            const dObj = new Date(baseDate);
+            dObj.setDate(baseDate.getDate() + (dayNum - 1));
+            dateLabel = dObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+          }
+
+          const acts = (state.itinerary.daftarAktivitas || []).filter((a) => Number(a.hari) === dayNum);
+          const actsHtml =
+            acts.length === 0
+              ? `<p class="text-xs text-slate-400 italic py-3">Belum ada aktivitas pada hari ini.</p>`
+              : acts
+                  .map(
+                    (act) => {
+                      const actImg = findActivityThumbnail(act);
+                      return `
+                    <div class="flex items-center justify-between gap-2 p-2.5 rounded-xl bg-white border border-slate-200/90 text-xs">
+                      <div class="flex items-center gap-2.5 min-w-0">
+                        <img
+                          src="${escapeXml(actImg)}"
+                          alt="${escapeXml(act.nama)}"
+                          onerror="this.onerror=null;this.src='${escapeXml(makePlaceholderImg(act.nama))}';"
+                          class="w-10 h-10 rounded-lg object-cover border border-slate-200 shrink-0"
+                        />
+                        <div class="min-w-0">
+                          <div class="font-bold text-emerald-950 truncate">${escapeXml(act.nama)}</div>
+                          <div class="text-[11px] text-slate-500">${formatIDR(act.biayaSatuan)} / org (Simulasi)</div>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onclick="removeActivityFromItinerary('${escapeXml(act.uid)}')"
+                        class="px-2 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold shrink-0"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  `;
+                    }
+                  )
+                  .join('');
+
+          return `
+            <div class="rounded-2xl bg-slate-50 border border-slate-200/90 p-4 flex flex-col justify-between space-y-3">
+              <div>
+                <div class="flex items-center justify-between border-b border-slate-200 pb-2 mb-2.5">
+                  <span class="font-display font-extrabold text-sm text-emerald-950">Hari ke-${dayNum}</span>
+                  ${dateLabel ? `<span class="text-xs font-semibold text-teal-800 bg-teal-50 px-2 py-0.5 rounded-full">${escapeXml(dateLabel)}</span>` : ''}
+                </div>
+                <div class="space-y-2">${actsHtml}</div>
+              </div>
+            </div>
+          `;
+        })
+        .join('');
+    }
+
+    function renderPackages() {
+      const interest = document.getElementById('pkgInterestSelect').value;
+      const maxBudget = Number(document.getElementById('pkgMaxBudgetInput').value) || Infinity;
+      const grid = document.getElementById('packagesGrid');
+
+      const scored = state.paket
+        .map((pkg) => {
+          const interests = pkg.minatUtama || [];
+          const matchesInterest = interest === 'ALL' || interests.includes(interest);
+          const withinBudget = (Number(pkg.estimasiBiaya) || 0) <= maxBudget;
+          let score = 0;
+          if (matchesInterest) score += 2;
+          if (withinBudget) score += 2;
+          return { pkg, matchesInterest, withinBudget, score };
+        })
+        .filter((item) => item.matchesInterest && item.withinBudget)
+        .sort((a, b) => b.score - a.score);
+
+      if (scored.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full bg-slate-50 rounded-2xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-600">
+            Tidak ada paket wisata yang cocok dengan kombinasi minat dan batas anggaran tersebut. Coba naikkan batas anggaran atau pilih "Semua Minat".
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = scored
+        .map(({ pkg }) => {
+          const title = state.lang === 'en' && pkg.namaEn ? pkg.namaEn : pkg.nama;
+          const desc = state.lang === 'en' && pkg.deskripsiEn ? pkg.deskripsiEn : pkg.deskripsi;
+          const destObjs = (pkg.daftarDestinasi || [])
+            .map((id) => state.destinasi.find((d) => d.id === id))
+            .filter(Boolean);
+          const destNames = destObjs.map((d) => d.nama);
+          const pkgImg =
+            (destObjs[0] && destObjs[0].imageUrl) ||
+            createIllustrationDataUrl(title, `${Number(pkg.durasi) || 1} Hari • Paket Simulasi`, 'sea');
+
+          return `
+            <article class="rounded-2xl border border-emerald-900/15 bg-gradient-to-b from-emerald-50/40 to-white overflow-hidden flex flex-col justify-between shadow-2xs">
+              <div>
+                <div class="relative h-36 bg-slate-900 overflow-hidden">
+                  <img
+                    src="${escapeXml(pkgImg)}"
+                    alt="${escapeXml(title)}"
+                    loading="lazy"
+                    onerror="this.onerror=null;this.src='${escapeXml(makePlaceholderImg(title))}';"
+                    class="w-full h-full object-cover"
+                  />
+                  <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-emerald-950/85 text-amber-200 text-xs font-bold">
+                    ${Number(pkg.durasi) || 1} Hari
+                  </span>
+                </div>
+                <div class="p-5 space-y-2.5">
+                  <div class="text-xs font-bold text-teal-800">${escapeXml((pkg.minatUtama || []).join(' • '))}</div>
+                  <h3 class="font-display font-bold text-lg text-emerald-950">${escapeXml(title)}</h3>
+                  <p class="text-xs sm:text-sm text-slate-600">${escapeXml(desc)}</p>
+                  ${
+                    destNames.length
+                      ? `<div class="text-xs text-slate-700 bg-white rounded-xl p-2.5 border border-slate-200/80">
+                          <span class="font-bold text-emerald-900">Rute Contoh:</span> ${escapeXml(destNames.join(' → '))}
+                         </div>`
+                      : ''
+                  }
+                </div>
+              </div>
+
+              <div class="mx-5 mb-5 pt-3 border-t border-slate-200/80 flex items-center justify-between gap-2">
+                <div>
+                  <div class="text-[10px] uppercase font-bold text-slate-400">Estimasi Paket (Simulasi)</div>
+                  <div class="font-display font-extrabold text-base text-emerald-950">${formatIDR(pkg.estimasiBiaya)}</div>
+                </div>
+                <button
+                  type="button"
+                  onclick="applyPackageToItinerary('${escapeXml(pkg.id)}')"
+                  class="px-3.5 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-emerald-950 text-xs font-bold transition"
+                >
+                  Pakai ke Itinerary
+                </button>
+              </div>
+            </article>
+          `;
+        })
+        .join('');
+    }
+
+    function applyPackageToItinerary(pkgId) {
+      const pkg = state.paket.find((p) => p.id === pkgId);
+      if (!pkg) return;
+      state.itinerary.jumlahHari = Math.min(5, Math.max(1, Number(pkg.durasi) || 2));
+      state.itinerary.namaPerjalanan = pkg.nama;
+      state.itinerary.daftarAktivitas = (pkg.daftarDestinasi || []).map((destId, index) => {
+        const d = state.destinasi.find((item) => item.id === destId);
+        return {
+          uid: 'act-pkg-' + Date.now() + '-' + index,
+          hari: Math.min(state.itinerary.jumlahHari, (index % state.itinerary.jumlahHari) + 1),
+          tipeItem: 'destinasi',
+          itemId: destId,
+          nama: d ? d.nama : `Destinasi (${destId})`,
+          biayaSatuan: d ? Number(d.estimasiBiaya) || 0 : 0,
+        };
+      });
+      renderItinerary();
+      showToast(`Paket "${pkg.nama}" dimuat ke Itinerary.`);
+      document.getElementById('itinerary-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function switchCrudTab(tab) {
+      state.crudTab = tab;
+      document.querySelectorAll('.crud-tab-btn').forEach((btn) => {
+        const active = btn.getAttribute('data-crud-tab') === tab;
+        btn.className = active
+          ? 'crud-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 text-white'
+          : 'crud-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-300 hover:bg-slate-700';
+      });
+
+      document.getElementById('crudCategoryWrap').classList.toggle('hidden', tab !== 'destinasi');
+      document.getElementById('crudRegionWrap').classList.toggle('hidden', tab === 'paket');
+      document.getElementById('crudDurationWrap').classList.toggle('hidden', tab !== 'paket');
+      document.getElementById('crudHalalWrap').classList.toggle('hidden', tab !== 'kuliner');
+      document.getElementById('crudMuslimFacilityWrap').classList.toggle('hidden', tab !== 'akomodasi');
+
+      const priceLabel = document.getElementById('crudPriceLabel');
+      if (tab === 'akomodasi') priceLabel.textContent = 'Harga per Malam (IDR - Simulasi)';
+      else if (tab === 'kuliner') priceLabel.textContent = 'Estimasi Harga Kuliner (IDR - Simulasi)';
+      else priceLabel.textContent = 'Estimasi Biaya (IDR - Simulasi)';
+
+      resetCrudForm();
+      renderCrudTable();
+    }
+
+    function resetCrudForm() {
+      document.getElementById('crudEditId').value = '';
+      document.getElementById('crudFormTitle').textContent = `Tambah Item ${state.crudTab.toUpperCase()}`;
+      document.getElementById('crudNama').value = '';
+      document.getElementById('crudHarga').value = '25000';
+      document.getElementById('crudDeskripsi').value = '';
+      document.getElementById('crudDurasi').value = '3';
+      document.getElementById('crudHalalStatus').value = 'Belum Terverifikasi Resmi (Simulasi)';
+      document.getElementById('crudHalalSource').value = 'Catatan Simulasi — Belum Diverifikasi Resmi';
+      document.getElementById('crudMuslimFacility').value = 'Penunjuk Kiblat, Ruang Salat';
+    }
+
+    function renderCrudTable() {
+      const tab = state.crudTab;
+      const tbody = document.getElementById('crudTableBody');
+      const titleEl = document.getElementById('crudTableTitle');
+      const badgeEl = document.getElementById('crudItemTotalBadge');
+
+      let items = [];
+      if (tab === 'destinasi') {
+        titleEl.textContent = 'Daftar Destinasi';
+        items = state.destinasi;
+      } else if (tab === 'kuliner') {
+        titleEl.textContent = 'Daftar Kuliner & UMKM';
+        items = state.kuliner;
+      } else if (tab === 'akomodasi') {
+        titleEl.textContent = 'Daftar Akomodasi';
+        items = state.akomodasi;
+      } else {
+        titleEl.textContent = 'Daftar Paket Wisata';
+        items = state.paket;
+      }
+
+      badgeEl.textContent = `${items.length} item`;
+
+      tbody.innerHTML = items
+        .map((item) => {
+          const infoText =
+            tab === 'destinasi'
+              ? `${item.wilayah} • ${item.kategori}`
+              : tab === 'kuliner'
+              ? `${item.wilayah} • ${item.statusSertifikasiHalal}`
+              : tab === 'akomodasi'
+              ? `${item.wilayah} • Ramah Muslim`
+              : `${item.durasi} Hari`;
+          const priceVal =
+            tab === 'akomodasi' ? item.hargaPerMalam : tab === 'kuliner' ? item.harga : item.estimasiBiaya;
+
+          return `
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-white">${escapeXml(item.nama)}</td>
+              <td class="py-2.5 px-3 text-xs text-slate-300">${escapeXml(infoText)}</td>
+              <td class="py-2.5 px-3 text-xs font-mono text-amber-300 whitespace-nowrap">${formatIDR(priceVal)}</td>
+              <td class="py-2.5 pl-3 text-right whitespace-nowrap space-x-1">
+                <button type="button" onclick="editCrudItem('${escapeXml(item.id)}')" class="px-2.5 py-1 rounded-lg bg-teal-700 hover:bg-teal-600 text-white text-xs font-bold">
+                  Edit
+                </button>
+                <button type="button" onclick="deleteCrudItem('${escapeXml(item.id)}')" class="px-2.5 py-1 rounded-lg bg-rose-700 hover:bg-rose-600 text-white text-xs font-bold">
+                  Hapus
+                </button>
+              </td>
+            </tr>
+          `;
+        })
+        .join('');
+    }
+
+    function editCrudItem(id) {
+      const tab = state.crudTab;
+      let item = null;
+      if (tab === 'destinasi') item = state.destinasi.find((x) => x.id === id);
+      else if (tab === 'kuliner') item = state.kuliner.find((x) => x.id === id);
+      else if (tab === 'akomodasi') item = state.akomodasi.find((x) => x.id === id);
+      else if (tab === 'paket') item = state.paket.find((x) => x.id === id);
+      if (!item) return;
+
+      document.getElementById('crudEditId').value = item.id;
+      document.getElementById('crudFormTitle').textContent = `Edit Item: ${item.nama}`;
+      document.getElementById('crudNama').value = item.nama || '';
+      document.getElementById('crudDeskripsi').value = item.deskripsi || '';
+
+      if (item.wilayah) document.getElementById('crudWilayah').value = item.wilayah;
+      if (item.kategori) document.getElementById('crudKategori').value = item.kategori;
+      if (item.durasi) document.getElementById('crudDurasi').value = item.durasi;
+
+      const priceVal =
+        tab === 'akomodasi' ? item.hargaPerMalam : tab === 'kuliner' ? item.harga : item.estimasiBiaya;
+      document.getElementById('crudHarga').value = Number(priceVal) || 0;
+
+      if (tab === 'kuliner') {
+        document.getElementById('crudHalalStatus').value = item.statusSertifikasiHalal || '';
+        document.getElementById('crudHalalSource').value = item.sumberVerifikasi || '';
+      }
+      if (tab === 'akomodasi') {
+        document.getElementById('crudMuslimFacility').value = (item.fasilitasRamahMuslim || []).join(', ');
+      }
+    }
+
+    function deleteCrudItem(id) {
+      const tab = state.crudTab;
+      if (tab === 'destinasi') {
+        state.destinasi = state.destinasi.filter((x) => x.id !== id);
+        safeSaveJSON(STORAGE_KEYS.DESTINASI, state.destinasi);
+      } else if (tab === 'kuliner') {
+        state.kuliner = state.kuliner.filter((x) => x.id !== id);
+        safeSaveJSON(STORAGE_KEYS.KULINER, state.kuliner);
+      } else if (tab === 'akomodasi') {
+        state.akomodasi = state.akomodasi.filter((x) => x.id !== id);
+        safeSaveJSON(STORAGE_KEYS.AKOMODASI, state.akomodasi);
+      } else if (tab === 'paket') {
+        state.paket = state.paket.filter((x) => x.id !== id);
+        safeSaveJSON(STORAGE_KEYS.PAKET, state.paket);
+      }
+      refreshAllViews();
+      showToast('Item berhasil dihapus dari katalog lokal.');
+    }
+
+    function handleCrudSubmit(e) {
+      e.preventDefault();
+      const tab = state.crudTab;
+      const editId = document.getElementById('crudEditId').value.trim();
+      const nama = document.getElementById('crudNama').value.trim();
+      const wilayah = document.getElementById('crudWilayah').value;
+      const kategori = document.getElementById('crudKategori').value;
+      const hargaVal = Math.max(0, Number(document.getElementById('crudHarga').value) || 0);
+      const deskripsi =
+        document.getElementById('crudDeskripsi').value.trim() ||
+        'Data ditambahkan melalui Kelola Data (simulasi / belum diverifikasi resmi).';
+
+      if (!nama) {
+        showToast('Nama wajib diisi.', 'warn');
+        return;
+      }
+
+      if (tab === 'destinasi') {
+        if (editId) {
+          const idx = state.destinasi.findIndex((x) => x.id === editId);
+          if (idx >= 0) {
+            state.destinasi[idx] = {
+              ...state.destinasi[idx],
+              nama,
+              namaEn: nama,
+              wilayah,
+              kategori,
+              estimasiBiaya: hargaVal,
+              deskripsi,
+              deskripsiEn: deskripsi,
+              mapsUrl: mapsSearchUrl(`${nama} ${wilayah}`),
+            };
+          }
+        } else {
+          state.destinasi.unshift({
+            id: 'dest-' + Date.now(),
+            nama,
+            namaEn: nama,
+            kategori,
+            wilayah,
+            deskripsi,
+            deskripsiEn: deskripsi,
+            imageUrl: makePlaceholderImg(nama, '065f46', 'fef3c7'),
+            alamat: `${wilayah}, Aceh`,
+            mapsUrl: mapsSearchUrl(`${nama} ${wilayah}`),
+            estimasiBiaya: hargaVal,
+            fasilitas: ['Area Parkir (Simulasi)', 'Akses Umum'],
+            fasilitasIbadah: ['Akses Musala Sekitar (Simulasi)'],
+            unggulan: false,
+            terverifikasiResmi: false,
+            catatanVerifikasi: 'Item dibuat di Kelola Data — belum diverifikasi resmi.',
+          });
+        }
+        safeSaveJSON(STORAGE_KEYS.DESTINASI, state.destinasi);
+      } else if (tab === 'kuliner') {
+        const statusHalal = document.getElementById('crudHalalStatus').value.trim() || 'Belum Terverifikasi Resmi (Simulasi)';
+        const sumberVerif = document.getElementById('crudHalalSource').value.trim() || 'Catatan Simulasi Lokal';
+        if (editId) {
+          const idx = state.kuliner.findIndex((x) => x.id === editId);
+          if (idx >= 0) {
+            state.kuliner[idx] = {
+              ...state.kuliner[idx],
+              nama,
+              namaEn: nama,
+              wilayah,
+              harga: hargaVal,
+              statusSertifikasiHalal: statusHalal,
+              sumberVerifikasi: sumberVerif,
+            };
+          }
+        } else {
+          state.kuliner.unshift({
+            id: 'kul-' + Date.now(),
+            nama,
+            namaEn: nama,
+            kategori: 'Kuliner',
+            wilayah,
+            harga: hargaVal,
+            imageUrl: makePlaceholderImg(nama, '0f766e', 'ecfdf5'),
+            statusSertifikasiHalal: statusHalal,
+            sumberVerifikasi: sumberVerif,
+            fasilitasRamahMuslim: ['Area Bersih (Simulasi)', 'Bebas Alkohol'],
+            kontak: '+62-811-0000-0999 (Simulasi)',
+          });
+        }
+        safeSaveJSON(STORAGE_KEYS.KULINER, state.kuliner);
+      } else if (tab === 'akomodasi') {
+        const muslimFac = document
+          .getElementById('crudMuslimFacility')
+          .value.split(',')
+          .map((s) => s.trim())
+          .filter(Boolean);
+        if (editId) {
+          const idx = state.akomodasi.findIndex((x) => x.id === editId);
+          if (idx >= 0) {
+            state.akomodasi[idx] = {
+              ...state.akomodasi[idx],
+              nama,
+              namaEn: nama,
+              wilayah,
+              hargaPerMalam: hargaVal,
+              fasilitasRamahMuslim: muslimFac.length ? muslimFac : ['Arah Kiblat (Simulasi)'],
+            };
+          }
+        } else {
+          state.akomodasi.unshift({
+            id: 'akom-' + Date.now(),
+            nama,
+            namaEn: nama,
+            wilayah,
+            hargaPerMalam: hargaVal,
+            imageUrl: makePlaceholderImg(nama, '115e59', 'fef3c7'),
+            fasilitas: ['Wi-Fi (Simulasi)', 'Area Parkir'],
+            fasilitasRamahMuslim: muslimFac.length ? muslimFac : ['Arah Kiblat (Simulasi)'],
+            kontak: '+62-812-0000-0999 (Simulasi)',
+          });
+        }
+        safeSaveJSON(STORAGE_KEYS.AKOMODASI, state.akomodasi);
+      } else if (tab === 'paket') {
+        const durasi = Math.min(5, Math.max(1, Number(document.getElementById('crudDurasi').value) || 3));
+        if (editId) {
+          const idx = state.paket.findIndex((x) => x.id === editId);
+          if (idx >= 0) {
+            state.paket[idx] = {
+              ...state.paket[idx],
+              nama,
+              namaEn: nama,
+              durasi,
+              estimasiBiaya: hargaVal,
+              deskripsi,
+              deskripsiEn: deskripsi,
+            };
+          }
+        } else {
+          state.paket.unshift({
+            id: 'pkt-' + Date.now(),
+            nama,
+            namaEn: nama,
+            durasi,
+            minatUtama: ['Budaya', 'Alam'],
+            daftarDestinasi: state.destinasi.slice(0, 2).map((d) => d.id),
+            estimasiBiaya: hargaVal,
+            deskripsi,
+            deskripsiEn: deskripsi,
+          });
+        }
+        safeSaveJSON(STORAGE_KEYS.PAKET, state.paket);
+      }
+
+      resetCrudForm();
+      refreshAllViews();
+      showToast('Perubahan data tersimpan di localStorage.');
+    }
+
+    function resetAllDataToSeed() {
+      const fresh = createSeedData();
+      state.destinasi = fresh.destinasi;
+      state.kuliner = fresh.kuliner;
+      state.akomodasi = fresh.akomodasi;
+      state.paket = fresh.paket;
+      state.favorit = fresh.favorit;
+      state.itinerary = fresh.itinerary;
+
+      safeSaveJSON(STORAGE_KEYS.DESTINASI, state.destinasi);
+      safeSaveJSON(STORAGE_KEYS.KULINER, state.kuliner);
+      safeSaveJSON(STORAGE_KEYS.AKOMODASI, state.akomodasi);
+      safeSaveJSON(STORAGE_KEYS.PAKET, state.paket);
+      safeSaveJSON(STORAGE_KEYS.FAVORIT, state.favorit);
+      safeSaveJSON(STORAGE_KEYS.ITINERARY, state.itinerary);
+
+      resetCrudForm();
+      syncItineraryControls();
+      refreshAllViews();
+      showToast('Seluruh data telah direset ke kondisi awal.');
+    }
+
+    function resetAllFilters() {
+      state.searchQuery = '';
+      state.selectedRegion = 'ALL';
+      state.selectedCategory = 'ALL';
+      state.sortBy = 'featured';
+      document.getElementById('searchInput').value = '';
+      document.getElementById('regionSelect').value = 'ALL';
+      document.getElementById('sortSelect').value = 'featured';
+      renderDestinations();
+      renderRegionCards();
+    }
+
+    function updateStatsAndBadges() {
+      document.getElementById('favCountBadge').textContent = String(state.favorit.length);
+      document.getElementById('statFavCount').textContent = String(state.favorit.length);
+      document.getElementById('statDestCount').textContent = String(state.destinasi.length);
+      document.getElementById('statKulAkomCount').textContent = String(state.kuliner.length + state.akomodasi.length);
+    }
+
+    function refreshAllViews() {
+      updateStatsAndBadges();
+      renderDestinations();
+      renderRegionCards();
+      renderCulinaryAndAccommodation();
+      renderItinerary();
+      renderPackages();
+      renderCrudTable();
+    }
+
+    function bindEvents() {
+      document.getElementById('langIdBtn').addEventListener('click', () => {
+        state.lang = 'id';
+        applyLanguage();
+      });
+      document.getElementById('langEnBtn').addEventListener('click', () => {
+        state.lang = 'en';
+        applyLanguage();
+      });
+
+      document.getElementById('searchInput').addEventListener('input', (e) => {
+        state.searchQuery = e.target.value;
+        renderDestinations();
+      });
+      document.getElementById('regionSelect').addEventListener('change', (e) => {
+        state.selectedRegion = e.target.value;
+        renderDestinations();
+        renderRegionCards();
+      });
+      document.getElementById('sortSelect').addEventListener('change', (e) => {
+        state.sortBy = e.target.value;
+        renderDestinations();
+      });
+      document.getElementById('resetFiltersBtn').addEventListener('click', resetAllFilters);
+
+      document.getElementById('closeDetailModalBtn').addEventListener('click', closeDestinationModal);
+      document.getElementById('detailModal').addEventListener('click', (e) => {
+        if (e.target.id === 'detailModal') closeDestinationModal();
+      });
+
+      document.getElementById('openFavoritesBtn').addEventListener('click', openFavoritesModal);
+      document.getElementById('closeFavModalBtn').addEventListener('click', closeFavoritesModal);
+      document.getElementById('favoritesModal').addEventListener('click', (e) => {
+        if (e.target.id === 'favoritesModal') closeFavoritesModal();
+      });
+
+      document.getElementById('closeWaModalBtn').addEventListener('click', () => {
+        document.getElementById('waDemoModal').classList.add('hidden');
+      });
+      document.getElementById('waDemoModal').addEventListener('click', (e) => {
+        if (e.target.id === 'waDemoModal') document.getElementById('waDemoModal').classList.add('hidden');
+      });
+      document.getElementById('copyWaDraftBtn').addEventListener('click', () => {
+        const ta = document.getElementById('waDraftMessage');
+        ta.select();
+        try {
+          document.execCommand('copy');
+          showToast('Draf pesan simulasi disalin ke clipboard.');
+        } catch (_) {
+          showToast('Silakan salin teks draf secara manual.', 'warn');
+        }
+      });
+
+      document.getElementById('itinNameInput').addEventListener('input', (e) => {
+        state.itinerary.namaPerjalanan = e.target.value;
+        safeSaveJSON(STORAGE_KEYS.ITINERARY, state.itinerary);
+      });
+      document.getElementById('itinStartDateInput').addEventListener('change', (e) => {
+        state.itinerary.tanggalMulai = e.target.value;
+        renderItinerary();
+      });
+      document.getElementById('itinDaysSelect').addEventListener('change', (e) => {
+        state.itinerary.jumlahHari = Number(e.target.value) || 3;
+        renderItinerary();
+      });
+      document.getElementById('itinTravelersInput').addEventListener('input', (e) => {
+        state.itinerary.jumlahWisatawan = Math.max(1, Number(e.target.value) || 1);
+        recalculateItineraryBudget();
+      });
+      document.getElementById('addActItemSelect').addEventListener('change', syncSelectedActivityPreviewImg);
+
+      document.getElementById('addActivityBtn').addEventListener('click', () => {
+        const day = Number(document.getElementById('addActDaySelect').value) || 1;
+        const rawVal = document.getElementById('addActItemSelect').value;
+        const [tipeItem, itemId] = (rawVal || '').split('::');
+        if (!tipeItem || !itemId) return;
+
+        if (tipeItem === 'destinasi') {
+          const d = state.destinasi.find((x) => x.id === itemId);
+          if (d) addActivityToItinerary(day, 'destinasi', d.id, d.nama, d.estimasiBiaya);
+        } else if (tipeItem === 'kuliner') {
+          const k = state.kuliner.find((x) => x.id === itemId);
+          if (k) addActivityToItinerary(day, 'kuliner', k.id, k.nama, k.harga);
+        } else if (tipeItem === 'akomodasi') {
+          const a = state.akomodasi.find((x) => x.id === itemId);
+          if (a) addActivityToItinerary(day, 'akomodasi', a.id, a.nama, a.hargaPerMalam);
+        }
+      });
+
+      document.getElementById('clearItineraryBtn').addEventListener('click', () => {
+        state.itinerary.daftarAktivitas = [];
+        renderItinerary();
+        showToast('Daftar aktivitas itinerary dikosongkan.');
+      });
+
+      document.getElementById('pkgInterestSelect').addEventListener('change', renderPackages);
+      document.getElementById('pkgMaxBudgetInput').addEventListener('input', renderPackages);
+
+      document.querySelectorAll('.crud-tab-btn').forEach((btn) => {
+        btn.addEventListener('click', () => switchCrudTab(btn.getAttribute('data-crud-tab')));
+      });
+      document.getElementById('crudForm').addEventListener('submit', handleCrudSubmit);
+      document.getElementById('cancelEditCrudBtn').addEventListener('click', resetCrudForm);
+      document.getElementById('resetDemoDataBtn').addEventListener('click', resetAllDataToSeed);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      bindEvents();
+      applyLanguage();
+    });
+  </script>
+</body>
+</html>

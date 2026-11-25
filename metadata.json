@@ -1,0 +1,6 @@
+{
+  "name": "JAK MAEN ACEH — Wisata Halal & Budaya Aceh",
+  "description": "Aplikasi web wisata halal dan budaya Aceh dengan katalog destinasi, peta wilayah SVG, kuliner UMKM, akomodasi ramah Muslim, perencana itinerary 1–5 hari, dan manajemen data lokal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

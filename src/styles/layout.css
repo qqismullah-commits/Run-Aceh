@@ -1,0 +1,335 @@
+/* Layout Architecture */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-inline: 2rem;
+  }
+}
+
+.aceh-motif-ribbon {
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--color-emerald-900) 0%,
+    var(--color-teal-600) 35%,
+    var(--color-amber-400) 50%,
+    var(--color-teal-600) 65%,
+    var(--color-emerald-900) 100%
+  );
+}
+
+/* Top Bar Contract: 3 zones separated cleanly, single-line controls, <= 64px sticky height */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  height: var(--header-height);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  border-bottom: var(--border-hairline);
+}
+
+.header-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .header-inner {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 1.5rem;
+  }
+}
+
+.brand-wordmark {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.125rem;
+  letter-spacing: -0.02em;
+  color: var(--color-emerald-950);
+  white-space: nowrap;
+  flex-shrink: 0;
+  justify-self: start;
+}
+
+.brand-wordmark span {
+  color: var(--color-amber-600);
+}
+
+.primary-nav {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.5rem, 3.5vw, 3.25rem);
+  justify-self: center;
+}
+
+@media (min-width: 768px) {
+  .primary-nav {
+    display: flex;
+  }
+}
+
+.nav-link {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-block: 0.375rem;
+  padding-inline: 0.25rem;
+  border-bottom: 2px solid transparent;
+  transition: color var(--duration-fast) var(--ease-settle),
+    border-color var(--duration-fast) var(--ease-settle);
+}
+
+.nav-link:hover {
+  color: var(--color-emerald-950);
+  border-bottom-color: var(--color-teal-600);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* Language switcher placed cleanly inside Hero top-right */
+.hero-top-bar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.75rem;
+}
+
+.segmented-control--dark {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.segmented-control--dark .segmented-btn {
+  color: #e2f1ed;
+}
+
+.segmented-control--dark .segmented-btn.is-active {
+  background: var(--color-amber-400);
+  color: var(--color-emerald-950);
+}
+
+.mobile-nav-strip {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-block: 0.625rem;
+  border-bottom: var(--border-hairline);
+  background: var(--color-surface);
+}
+
+@media (min-width: 768px) {
+  .mobile-nav-strip {
+    display: none;
+  }
+}
+
+/* Main & Section Rhythm */
+.main-content {
+  flex: 1;
+}
+
+.section-block {
+  padding-block: 3.5rem;
+}
+
+.section-block--tight {
+  padding-block: 2.5rem;
+}
+
+.section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+}
+
+@media (min-width: 768px) {
+  .section-header--split {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+}
+
+.section-kicker {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-teal-700);
+}
+
+.section-title {
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-emerald-950);
+}
+
+.section-subtitle {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  max-width: 65ch;
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  color: #ffffff;
+  background-color: var(--color-emerald-950);
+  background-image:
+    radial-gradient(circle at 18% 20%, rgba(20, 184, 166, 0.28) 0%, transparent 48%),
+    radial-gradient(circle at 82% 22%, rgba(251, 191, 36, 0.18) 0%, transparent 44%),
+    linear-gradient(155deg, #042f2e 0%, #064e3b 50%, #0f766e 100%);
+  padding-top: 2.5rem;
+  padding-bottom: 5rem;
+}
+
+.hero-wave-layer {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+.hero-wave-svg {
+  width: 100%;
+  height: 96px;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+}
+
+.hero-title {
+  font-size: clamp(3.25rem, 11.5vw, 9.5rem);
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+  text-wrap: normal;
+}
+
+.hero-title span {
+  color: var(--color-amber-300);
+}
+
+.hero-lead {
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  line-height: 1.65;
+  color: #e2f1ed;
+  max-width: 62ch;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.875rem;
+  padding-top: 0.375rem;
+}
+
+/* 4-column KPI strip placed cleanly below the hero */
+.kpi-strip {
+  background: var(--color-surface);
+  border-bottom: var(--border-hairline);
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(6, 78, 59, 0.1);
+}
+
+@media (min-width: 768px) {
+  .kpi-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.kpi-cell {
+  background: var(--color-surface);
+  padding: 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.kpi-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.kpi-value {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-emerald-950);
+  line-height: 1.15;
+}
+
+.kpi-sub {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+/* Footer */
+.site-footer {
+  background: var(--color-emerald-950);
+  color: var(--color-text-inverse-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-block: 2rem;
+  font-size: 0.8125rem;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .footer-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.footer-brand {
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-weight: 700;
+}
