@@ -7,6 +7,7 @@ export const I18N = {
     navPackages: 'Paket Wisata',
     navCrud: '42k',
     favorites: 'Favorit',
+    loginBtn: 'Masuk',
     heroTitle: 'RUN <span>ACEH</span>',
     heroSubtitle: 'Temukan pilihan lari kalian',
     ctaExplore: 'Jelajahi Destinasi',
@@ -32,7 +33,7 @@ export const I18N = {
     noDestinationsMatch: 'Tidak ada destinasi yang sesuai dengan filter.',
     estimateSim: 'Estimasi (Simulasi)',
     unverifiedNote: 'Belum diverifikasi resmi',
-    detailBtn: 'Detail',
+    detailBtn: 'Pesan RUN',
     mapsBtn: 'Maps',
     mapEyebrow: 'Peta Ilustratif & Navigasi',
     mapTitle: 'Peta Wilayah Wisata Aceh',
@@ -96,7 +97,7 @@ export const I18N = {
     tabAkomodasi: 'Akomodasi',
     tabPaket: 'Paket Wisata',
     footerDesc:
-      'Aplikasi Web Wisata Halal & Budaya Aceh. Seluruh estimasi harga, kontak, dan status verifikasi simulasi ditampilkan secara transparan.',
+      'Aplikasi Web Pendaftaran Lari Aceh. Seluruh harga, dan status verifikasi simulasi ditampilkan secara transparan.',
   },
   en: {
     navDestinations: '3k',
@@ -106,6 +107,7 @@ export const I18N = {
     navPackages: 'Packages',
     navCrud: '42k',
     favorites: 'Favorites',
+    loginBtn: 'Sign In',
     heroTitle: 'RUN <span>ACEH</span>',
     heroSubtitle: 'Find your running choices',
     ctaExplore: 'Explore Destinations',
@@ -131,7 +133,7 @@ export const I18N = {
     noDestinationsMatch: 'No destinations match your current filter.',
     estimateSim: 'Estimate (Simulated)',
     unverifiedNote: 'Not officially verified',
-    detailBtn: 'Details',
+    detailBtn: 'Book RUN',
     mapsBtn: 'Maps',
     mapEyebrow: 'Illustrative Map & Navigation',
     mapTitle: 'Aceh Tourism Regions Map',
@@ -195,7 +197,7 @@ export const I18N = {
     tabAkomodasi: 'Accommodations',
     tabPaket: 'Tour Packages',
     footerDesc:
-      'Aceh Halal & Cultural Tourism Web App. All simulated price estimates, contacts, and verification statuses are shown transparently.',
+      'Aceh Running Registration Web App. All simulated prices and verification statuses are shown transparently.',
   },
 };
 

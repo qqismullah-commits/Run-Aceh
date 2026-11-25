@@ -37,6 +37,10 @@
           <a href="#destinasi-section" class="nav-link" data-i18n="navItinerary">21k</a>
           <a href="#crud-section" class="nav-link" data-i18n="navCrud">42k</a>
         </nav>
+
+        <div class="header-actions">
+          <button id="headerAuthBtn" type="button" class="btn btn-primary btn-sm" data-i18n="loginBtn">Masuk</button>
+        </div>
       </div>
     </header>
 
@@ -46,7 +50,6 @@
       <a href="#destinasi-section" class="nav-link" data-i18n="navMap">5k</a>
       <a href="#destinasi-section" class="nav-link" data-i18n="navCulinaryStay">10k</a>
       <a href="#destinasi-section" class="nav-link" data-i18n="navItinerary">21k</a>
-      <a href="#paket-section" class="nav-link" data-i18n="navPackages">Paket Wisata</a>
       <a href="#crud-section" class="nav-link" data-i18n="navCrud">42k</a>
     </nav>
 
@@ -88,143 +91,13 @@
         </div>
       </section>
 
-      <!-- 3. Rule-Based Tour Packages -->
-      <section id="paket-section" class="section-block section-block--tight">
-        <div class="container">
-          <div class="surface-panel">
-            <div class="section-header section-header--split">
-              <div>
-                <p class="section-kicker" data-i18n="pkgEyebrow">Rekomendasi Berbasis Aturan</p>
-                <h2 class="section-title" data-i18n="pkgTitle">Rekomendasi Paket Wisata</h2>
-                <p class="section-subtitle" data-i18n="pkgDesc">
-                  Filter paket wisata berdasarkan minat utama dan batas anggaran estimasi (simulasi).
-                </p>
-              </div>
-
-              <div class="package-filters">
-                <div class="package-filter-field">
-                  <label for="pkgInterestSelect" class="field-label" data-i18n="pkgInterestLabel">Minat Utama</label>
-                  <select id="pkgInterestSelect" class="field-select">
-                    <option value="ALL">Semua Minat</option>
-                    <option value="Religi">Religi</option>
-                    <option value="Alam">Alam</option>
-                    <option value="Bahari">Bahari</option>
-                    <option value="Sejarah">Sejarah</option>
-                    <option value="Budaya">Budaya</option>
-                    <option value="Kuliner">Kuliner</option>
-                  </select>
-                </div>
-                <div class="package-filter-field">
-                  <label for="pkgMaxBudgetInput" class="field-label" data-i18n="pkgBudgetLabel">Batas Anggaran (IDR)</label>
-                  <input id="pkgMaxBudgetInput" type="number" min="100000" step="50000" value="3000000" class="field-input tabular-nums" />
-                </div>
-              </div>
-            </div>
-
-            <div id="packagesGrid" class="cards-grid"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 7. Local Catalog Management (CRUD) -->
+      <!-- 3. Daftar RUN -->
       <section id="crud-section" class="crud-section">
         <div class="container">
-          <div class="section-header section-header--split">
-            <div>
-              <p class="section-kicker" data-i18n="crudEyebrow">Manajemen Katalog Lokal · localStorage</p>
-              <h2 class="section-title" data-i18n="crudTitle">Kelola Data Katalog</h2>
-              <p class="section-subtitle" data-i18n="crudDesc">
-                Tambah, edit, atau hapus data Destinasi, Kuliner, Akomodasi, dan Paket Wisata. Semua perubahan tersimpan di localStorage peramban Anda.
-              </p>
-            </div>
-            <button id="resetDemoDataBtn" type="button" class="btn btn-danger" data-i18n="resetDemoBtn">
-              Reset Data Awal
-            </button>
-          </div>
-
-          <div id="crudTabs" class="crud-tabs" role="tablist" aria-label="Kategori Entitas Katalog">
-            <button type="button" data-crud-tab="destinasi" role="tab" aria-selected="true" class="crud-tab-btn is-active" data-i18n="tabDestinasi">Destinasi</button>
-            <button type="button" data-crud-tab="kuliner" role="tab" aria-selected="false" class="crud-tab-btn" data-i18n="tabKuliner">Kuliner</button>
-            <button type="button" data-crud-tab="akomodasi" role="tab" aria-selected="false" class="crud-tab-btn" data-i18n="tabAkomodasi">Akomodasi</button>
-            <button type="button" data-crud-tab="paket" role="tab" aria-selected="false" class="crud-tab-btn" data-i18n="tabPaket">Paket Wisata</button>
-          </div>
-
           <div class="crud-layout">
             <div class="crud-panel">
-              <h3 id="crudFormTitle" class="crud-panel-title">Tambah Item DESTINASI</h3>
-              <form id="crudForm" class="crud-form">
-                <input type="hidden" id="crudEditId" />
-
-                <div>
-                  <label for="crudNama" class="field-label">Nama</label>
-                  <input id="crudNama" type="text" required placeholder="Contoh: Pantai Lampuuk (Simulasi)" class="field-input" />
-                </div>
-
-                <div id="crudRegionWrap" class="crud-two-col">
-                  <div>
-                    <label for="crudWilayah" class="field-label">Wilayah</label>
-                    <select id="crudWilayah" class="field-select">
-                      <option value="Banda Aceh">Banda Aceh</option>
-                      <option value="Sabang">Sabang</option>
-                      <option value="Aceh Besar">Aceh Besar</option>
-                      <option value="Aceh Tengah">Aceh Tengah</option>
-                      <option value="Bener Meriah">Bener Meriah</option>
-                    </select>
-                  </div>
-                  <div id="crudCategoryWrap">
-                    <label for="crudKategori" class="field-label">Kategori</label>
-                    <select id="crudKategori" class="field-select">
-                      <option value="Religi">Religi</option>
-                      <option value="Alam">Alam</option>
-                      <option value="Bahari">Bahari</option>
-                      <option value="Sejarah">Sejarah</option>
-                      <option value="Budaya">Budaya</option>
-                      <option value="Kuliner">Kuliner</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div id="crudDurationWrap" class="is-hidden">
-                  <label for="crudDurasi" class="field-label">Durasi (Hari, 1–5)</label>
-                  <input id="crudDurasi" type="number" min="1" max="5" value="3" class="field-input tabular-nums" />
-                </div>
-
-                <div>
-                  <label for="crudHarga" id="crudPriceLabel" class="field-label">Estimasi Biaya (IDR - Simulasi)</label>
-                  <input id="crudHarga" type="number" min="0" step="1000" value="25000" required class="field-input tabular-nums" />
-                </div>
-
-                <div id="crudHalalWrap" class="is-hidden" style="display: flex; flex-direction: column; gap: 0.625rem;">
-                  <div>
-                    <label for="crudHalalStatus" class="field-label">Status Sertifikasi Halal</label>
-                    <input id="crudHalalStatus" type="text" value="Belum Terverifikasi Resmi (Simulasi)" class="field-input" />
-                  </div>
-                  <div>
-                    <label for="crudHalalSource" class="field-label">Sumber Verifikasi</label>
-                    <input id="crudHalalSource" type="text" value="Catatan Simulasi — Belum Diverifikasi Resmi" class="field-input" />
-                  </div>
-                </div>
-
-                <div id="crudMuslimFacilityWrap" class="is-hidden">
-                  <label for="crudMuslimFacility" class="field-label">Fasilitas Ramah Muslim (pisahkan koma)</label>
-                  <input id="crudMuslimFacility" type="text" value="Penunjuk Kiblat, Ruang Salat" class="field-input" />
-                </div>
-
-                <div>
-                  <label for="crudDeskripsi" class="field-label">Deskripsi Singkat</label>
-                  <textarea id="crudDeskripsi" rows="2" placeholder="Deskripsi singkat (data simulasi / belum diverifikasi resmi)..." class="field-textarea"></textarea>
-                </div>
-
-                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; padding-top: 0.25rem;">
-                  <button type="submit" class="btn btn-accent" data-i18n="saveItemBtn">Simpan Item</button>
-                  <button id="cancelEditCrudBtn" type="button" class="btn btn-secondary" data-i18n="clearFormBtn">Batal / Bersihkan</button>
-                </div>
-              </form>
-            </div>
-
-            <div class="crud-panel">
               <div class="crud-table-header">
-                <h3 id="crudTableTitle" class="crud-panel-title" style="margin-bottom: 0; color: #5eead4;">Daftar Destinasi</h3>
+                <h3 id="crudTableTitle" class="crud-panel-title" style="margin-bottom: 0; color: #5eead4;">Daftar RUN</h3>
                 <span id="crudItemTotalBadge" class="tabular-nums" style="font-size: 0.75rem; color: var(--color-text-inverse-muted);">0 item</span>
               </div>
 
@@ -233,7 +106,7 @@
                   <thead>
                     <tr>
                       <th>Nama</th>
-                      <th>Info</th>
+                      <th class="crud-col-info">Info</th>
                       <th>Biaya/Harga</th>
                       <th>Aksi</th>
                     </tr>
@@ -250,21 +123,21 @@
     <footer class="site-footer">
       <div class="container footer-inner">
         <div>
-          <span class="footer-brand">JAK MAEN ACEH</span> —
+          <span class="footer-brand">RUN ACEH</span> —
           <span data-i18n="footerDesc">
-            Aplikasi Web Wisata Halal &amp; Budaya Aceh. Seluruh estimasi harga, kontak, dan status verifikasi simulasi ditampilkan secara transparan.
+            Aplikasi Web Pendaftaran Lari Aceh. Seluruh harga, dan status verifikasi simulasi ditampilkan secara transparan.
           </span>
         </div>
-        <div>Banda Aceh · Sabang · Aceh Besar · Aceh Tengah · Bener Meriah</div>
+        <div>Banda Aceh</div>
       </div>
     </footer>
 
-    <!-- Modal: Detail Destinasi -->
+    <!-- Modal: Pesan RUN & Pembayaran -->
     <div id="detailModal" class="modal-backdrop is-hidden" role="dialog" aria-modal="true" aria-labelledby="modalDestTitle">
       <div class="modal-dialog">
         <div class="modal-hero">
           <img id="modalDestImg" src="" alt="" />
-          <button type="button" data-close-modal aria-label="Tutup detail destinasi" class="modal-close-float">✕</button>
+          <button type="button" data-close-modal aria-label="Tutup jendela pesan RUN" class="modal-close-float">✕</button>
         </div>
 
         <div class="modal-scroll-body">
@@ -275,33 +148,176 @@
               <p id="modalDestAddress" style="font-size: 0.8125rem; color: var(--color-text-muted); margin-top: 0.25rem;"></p>
             </div>
             <div style="text-align: right;">
-              <div class="price-label">Estimasi Biaya (Simulasi)</div>
+              <div class="price-label">Biaya Pendaftaran (Simulasi)</div>
               <div id="modalDestPrice" class="price-value tabular-nums" style="font-size: 1.125rem;"></div>
             </div>
           </div>
 
-          <p id="modalDestDesc" style="font-size: 0.9375rem; color: var(--color-text-secondary);"></p>
-          <div id="modalVerificationBox" class="verification-box"></div>
+          <div id="checkoutStepBar" class="checkout-steps" aria-label="Tahapan Pemesanan">
+            <span data-step-indicator="1" class="checkout-step is-active">1. Pesan RUN</span>
+            <span class="checkout-step-sep" aria-hidden="true">→</span>
+            <span data-step-indicator="2" class="checkout-step">2. Pembayaran</span>
+            <span class="checkout-step-sep" aria-hidden="true">→</span>
+            <span data-step-indicator="3" class="checkout-step">3. Selesai</span>
+          </div>
 
-          <div class="modal-columns">
-            <div class="modal-spec-box">
-              <h4 class="modal-spec-title">Fasilitas Umum</h4>
-              <ul id="modalDestFacilities" class="modal-spec-list"></ul>
+          <!-- Step 1: Pesan RUN -->
+          <div id="runOrderStep1" class="checkout-panel">
+            <p id="modalDestDesc" style="font-size: 0.9375rem; color: var(--color-text-secondary);"></p>
+            <div id="modalVerificationBox" class="verification-box"></div>
+
+            <div class="modal-columns">
+              <div class="modal-spec-box">
+                <h4 class="modal-spec-title">Fasilitas Umum</h4>
+                <ul id="modalDestFacilities" class="modal-spec-list"></ul>
+              </div>
+              <div class="modal-spec-box" style="background: #ecfdf5;">
+                <h4 class="modal-spec-title" style="color: var(--color-emerald-900);">Fasilitas Ibadah</h4>
+                <ul id="modalDestWorship" class="modal-spec-list"></ul>
+              </div>
             </div>
-            <div class="modal-spec-box" style="background: #ecfdf5;">
-              <h4 class="modal-spec-title" style="color: var(--color-emerald-900);">Fasilitas Ibadah</h4>
-              <ul id="modalDestWorship" class="modal-spec-list"></ul>
+
+            <div class="checkout-form-box">
+              <h4 class="modal-spec-title" style="color: var(--color-emerald-950); margin-bottom: 0.625rem;">Data Peserta Lari</h4>
+              <div class="checkout-form-grid">
+                <div>
+                  <label for="bookingParticipantName" class="field-label">Nama Lengkap Peserta</label>
+                  <input id="bookingParticipantName" type="text" maxlength="120" placeholder="Masukkan nama lengkap Anda..." class="field-input" />
+                </div>
+                <div>
+                  <label for="bookingJerseySize" class="field-label">Ukuran Jersey</label>
+                  <select id="bookingJerseySize" class="field-select">
+                    <option value="S">S</option>
+                    <option value="M" selected>M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div id="orderAuthGateBox" class="verification-box is-hidden" style="gap: 0.5rem;">
+              <div>
+                <strong>Login Diperlukan:</strong> Anda harus masuk dengan akun Google terlebih dahulu sebelum menuju halaman pembayaran.
+              </div>
+              <div>
+                <button id="orderStep1LoginBtn" type="button" class="btn btn-primary btn-sm">Masuk dengan Google</button>
+              </div>
+            </div>
+
+            <div class="modal-footer-actions">
+              <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                <button id="modalFavBtn" type="button" class="btn btn-secondary btn-sm">♥ Simpan Favorit</button>
+                <a id="modalMapsLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+                  Buka di Google Maps ↗
+                </a>
+              </div>
+              <button id="modalGoToPaymentBtn" type="button" class="btn btn-primary btn-sm">Lanjut ke Pembayaran →</button>
             </div>
           </div>
 
-          <div class="modal-footer-actions">
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-              <button id="modalFavBtn" type="button" class="btn btn-secondary btn-sm">♥ Simpan Favorit</button>
-              <button id="modalAddToItinBtn" type="button" class="btn btn-primary btn-sm">+ Masukkan Hari 1</button>
+          <!-- Step 2: Halaman Pembayaran -->
+          <div id="runOrderStep2" class="checkout-panel is-hidden">
+            <div class="payment-summary-card">
+              <div class="modal-spec-title" style="color: var(--color-emerald-900); margin-bottom: 0.625rem;">Ringkasan Pembayaran</div>
+              <div class="payment-summary-row">
+                <span>Kategori Lari</span>
+                <strong id="paySummaryRunName">-</strong>
+              </div>
+              <div class="payment-summary-row">
+                <span>Nama Peserta</span>
+                <strong id="paySummaryParticipant">-</strong>
+              </div>
+              <div class="payment-summary-row">
+                <span>Ukuran Jersey</span>
+                <strong id="paySummaryJersey">M</strong>
+              </div>
+              <div class="payment-summary-row payment-summary-row--total">
+                <span>Total Pembayaran (Simulasi)</span>
+                <strong id="paySummaryTotal" class="tabular-nums">Rp 0</strong>
+              </div>
             </div>
-            <a id="modalMapsLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-accent btn-sm">
-              Buka di Google Maps ↗
-            </a>
+
+            <div>
+              <div class="field-label">Pilih Metode Pembayaran (Simulasi)</div>
+              <div class="payment-method-list" role="radiogroup" aria-label="Metode Pembayaran">
+                <label class="payment-method-option">
+                  <input type="radio" name="runPaymentMethod" value="QRIS" checked />
+                  <div>
+                    <div class="payment-method-title">QRIS (Simulasi)</div>
+                    <div class="payment-method-sub">Pembayaran instan melalui QRIS</div>
+                  </div>
+                </label>
+                <label class="payment-method-option">
+                  <input type="radio" name="runPaymentMethod" value="Transfer Bank" />
+                  <div>
+                    <div class="payment-method-title">Transfer Bank Aceh / BSI (Simulasi)</div>
+                    <div class="payment-method-sub">Transfer antar bank lokal</div>
+                  </div>
+                </label>
+                <label class="payment-method-option">
+                  <input type="radio" name="runPaymentMethod" value="Virtual Account" />
+                  <div>
+                    <div class="payment-method-title">Virtual Account (Simulasi)</div>
+                    <div class="payment-method-sub">Verifikasi otomatis simulasi</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <p id="payAuthHint" class="verification-box is-hidden" style="margin: 0;"></p>
+
+            <div class="modal-footer-actions">
+              <button id="modalBackToOrderBtn" type="button" class="btn btn-secondary btn-sm">← Kembali</button>
+              <button id="modalConfirmPayBtn" type="button" class="btn btn-accent btn-sm">Bayar Sekarang</button>
+            </div>
+          </div>
+
+          <!-- Step 3: Selesai Pembayaran & Nomor Pendaftaran -->
+          <div id="runOrderStep3" class="checkout-panel is-hidden">
+            <div class="receipt-card">
+              <div class="receipt-status-banner">✓ Selesai Pembayaran</div>
+
+              <div class="receipt-number-box">
+                <div class="price-label">Nomor Pendaftaran</div>
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-top: 0.25rem;">
+                  <div id="receiptRegNumber" class="receipt-number-value tabular-nums">-</div>
+                  <button id="copyRegNumberBtn" type="button" class="btn btn-secondary btn-sm">Salin No.</button>
+                </div>
+              </div>
+
+              <div class="payment-summary-card" style="margin-top: 0.75rem;">
+                <div class="payment-summary-row">
+                  <span>Nama Peserta</span>
+                  <strong id="receiptParticipantName">-</strong>
+                </div>
+                <div class="payment-summary-row">
+                  <span>Kategori Lari</span>
+                  <strong id="receiptRunName">-</strong>
+                </div>
+                <div class="payment-summary-row">
+                  <span>Ukuran Jersey</span>
+                  <strong id="receiptJerseySize">-</strong>
+                </div>
+                <div class="payment-summary-row">
+                  <span>Metode Pembayaran</span>
+                  <strong id="receiptPaymentMethod">-</strong>
+                </div>
+                <div class="payment-summary-row">
+                  <span>Total Dibayar</span>
+                  <strong id="receiptTotalPaid" class="tabular-nums">-</strong>
+                </div>
+                <div class="payment-summary-row">
+                  <span>Status</span>
+                  <strong style="color: var(--color-emerald-800);">Selesai Pembayaran</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer-actions">
+              <button id="receiptOpenAccountBtn" type="button" class="btn btn-secondary btn-sm">Lihat di Akun Saya</button>
+              <button type="button" data-close-modal class="btn btn-primary btn-sm">Selesai</button>
+            </div>
           </div>
         </div>
       </div>
@@ -353,6 +369,17 @@
             <button id="confirmModalOkBtn" type="button" class="btn btn-danger btn-sm">Konfirmasi</button>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Modal: Akun Pengguna & Login -->
+    <div id="authModal" class="modal-backdrop is-hidden" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+      <div class="modal-dialog modal-dialog--sm">
+        <div class="modal-header-row">
+          <h3 id="authModalTitle" style="font-size: 1.0625rem; color: var(--color-emerald-950);">Masuk Akun Pelari</h3>
+          <button type="button" data-close-modal aria-label="Tutup akun" class="btn btn-secondary btn-sm">✕</button>
+        </div>
+        <div id="authModalBody" class="modal-scroll-body"></div>
       </div>
     </div>
 

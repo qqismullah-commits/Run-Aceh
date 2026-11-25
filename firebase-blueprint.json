@@ -1,0 +1,145 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated runner user profile stored privately per user.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Firebase Auth UID of the user."
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "description": "Display name from Google sign-in."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "maxLength": 254,
+          "description": "User email address (PII)."
+        },
+        "photoURL": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Optional profile avatar URL."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when profile was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when profile was last updated."
+        }
+      },
+      "required": ["uid", "displayName", "email", "createdAt", "updatedAt"]
+    },
+    "RunRegistration": {
+      "title": "RunRegistration",
+      "description": "A user's paid registration for a RUN ACEH distance category.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Owner Firebase Auth UID."
+        },
+        "runId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Identifier of the selected running category."
+        },
+        "runName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "description": "Name of the selected running category."
+        },
+        "participantName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "description": "Full name of the registered runner."
+        },
+        "registrationNumber": {
+          "type": "string",
+          "minLength": 6,
+          "maxLength": 32,
+          "pattern": "^[A-Z0-9\\-]+$",
+          "description": "Unique registration number generated upon payment."
+        },
+        "jerseySize": {
+          "type": "string",
+          "enum": ["S", "M", "L", "XL"],
+          "description": "Runner jersey size."
+        },
+        "paymentMethod": {
+          "type": "string",
+          "enum": ["QRIS", "Transfer Bank", "Virtual Account"],
+          "description": "Simulated payment method selected."
+        },
+        "paymentStatus": {
+          "type": "string",
+          "enum": ["paid"],
+          "description": "Payment completion status."
+        },
+        "estimasiBiaya": {
+          "type": "number",
+          "description": "Simulated registration fee in IDR."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["registered", "cancelled"],
+          "description": "Registration status."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when registration was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when registration was last updated."
+        }
+      },
+      "required": [
+        "userId",
+        "runId",
+        "runName",
+        "participantName",
+        "registrationNumber",
+        "jerseySize",
+        "paymentMethod",
+        "paymentStatus",
+        "estimasiBiaya",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/UserProfile"
+      },
+      "description": "Private user profile documents restricted strictly to the owning user."
+    },
+    "/users/{userId}/registrations/{registrationId}": {
+      "schema": {
+        "$ref": "#/entities/RunRegistration"
+      },
+      "description": "Paid run event registrations owned by the user."
+    }
+  }
+}

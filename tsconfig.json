@@ -15,6 +15,7 @@
     "moduleDetection": "force",
     "allowJs": true,
     "checkJs": false,
+    "resolveJsonModule": true,
     "paths": {
       "@/*": [
         "./*"

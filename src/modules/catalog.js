@@ -1,8 +1,21 @@
 import { CATEGORIES, STORAGE_KEYS } from '../data/seedData.js';
 import { t } from '../i18n/translations.js';
-import { escapeHTML, formatIDR, mapsSearchUrl, safeExternalUrl } from '../utils/formatters.js';
+import {
+  copyTextToClipboard,
+  escapeHTML,
+  formatIDR,
+  mapsSearchUrl,
+  safeExternalUrl,
+} from '../utils/formatters.js';
 import { makePlaceholderImg } from '../utils/illustrations.js';
-import { addActivityToItinerary } from './itinerary.js';
+import {
+  completeRunPaymentAndRegister,
+  getCurrentUser,
+  getRegistrationForRun,
+  loginWithGoogle,
+  openAuthModal,
+  renderAuthUI,
+} from './auth.js';
 import { closeModal, openModal, openWhatsAppDemoModal, showToast } from './modals.js';
 import { persistKey, store } from './store.js';
 
@@ -215,6 +228,70 @@ export function renderDestinations() {
     .join('');
 }
 
+function setCheckoutStep(stepNum) {
+  const step1 = document.getElementById('runOrderStep1');
+  const step2 = document.getElementById('runOrderStep2');
+  const step3 = document.getElementById('runOrderStep3');
+
+  step1?.classList.toggle('is-hidden', stepNum !== 1);
+  step2?.classList.toggle('is-hidden', stepNum !== 2);
+  step3?.classList.toggle('is-hidden', stepNum !== 3);
+
+  document.querySelectorAll('#checkoutStepBar [data-step-indicator]').forEach((el) => {
+    const n = Number(el.getAttribute('data-step-indicator'));
+    el.classList.toggle('is-active', n === stepNum);
+    el.classList.toggle('is-done', n < stepNum);
+  });
+}
+
+function showReceiptStep(receipt, dest) {
+  const regNumEl = document.getElementById('receiptRegNumber');
+  const nameEl = document.getElementById('receiptParticipantName');
+  const runEl = document.getElementById('receiptRunName');
+  const jerseyEl = document.getElementById('receiptJerseySize');
+  const methodEl = document.getElementById('receiptPaymentMethod');
+  const totalEl = document.getElementById('receiptTotalPaid');
+  const copyBtn = document.getElementById('copyRegNumberBtn');
+  const openAccBtn = document.getElementById('receiptOpenAccountBtn');
+
+  const regNumber = receipt?.registrationNumber || '-';
+  const participant = receipt?.participantName || getCurrentUser()?.displayName || 'Pelari';
+  const runName = receipt?.runName || dest.nama;
+  const jersey = receipt?.jerseySize || 'M';
+  const method = receipt?.paymentMethod || 'QRIS';
+  const total = receipt?.estimasiBiaya ?? dest.estimasiBiaya;
+
+  if (regNumEl) regNumEl.textContent = regNumber;
+  if (nameEl) nameEl.textContent = participant;
+  if (runEl) runEl.textContent = runName;
+  if (jerseyEl) jerseyEl.textContent = jersey;
+  if (methodEl) methodEl.textContent = method;
+  if (totalEl) totalEl.textContent = `${formatIDR(total)} (Simulasi)`;
+
+  if (copyBtn) {
+    copyBtn.onclick = async () => {
+      const ok = await copyTextToClipboard(regNumber);
+      showToast(
+        ok
+          ? store.lang === 'en'
+            ? 'Registration number copied.'
+            : 'Nomor pendaftaran disalin.'
+          : regNumber
+      );
+    };
+  }
+
+  if (openAccBtn) {
+    openAccBtn.onclick = () => {
+      closeModal('detailModal');
+      store.activeModalDestId = null;
+      openAuthModal();
+    };
+  }
+
+  setCheckoutStep(3);
+}
+
 export function openDestinationModal(id) {
   const dest = store.destinasi.find((d) => d.id === id);
   if (!dest) return;
@@ -243,7 +320,6 @@ export function openDestinationModal(id) {
   const facEl = document.getElementById('modalDestFacilities');
   const worshipEl = document.getElementById('modalDestWorship');
   const mapsLink = document.getElementById('modalMapsLink');
-  const addItinBtn = document.getElementById('modalAddToItinBtn');
 
   if (metaEl) {
     metaEl.innerHTML = `
@@ -277,11 +353,125 @@ export function openDestinationModal(id) {
 
   syncModalFavoriteButton(id);
 
-  if (addItinBtn) {
-    addItinBtn.onclick = () => {
-      addActivityToItinerary(1, 'destinasi', dest.id, dest.nama, Number(dest.estimasiBiaya) || 0);
-      store.activeModalDestId = null;
-      closeModal('detailModal');
+  const nameInput = document.getElementById('bookingParticipantName');
+  const jerseySelect = document.getElementById('bookingJerseySize');
+  const goToPayBtn = document.getElementById('modalGoToPaymentBtn');
+  const backBtn = document.getElementById('modalBackToOrderBtn');
+  const confirmPayBtn = document.getElementById('modalConfirmPayBtn');
+
+  const existingReg = getRegistrationForRun(dest.id);
+  if (existingReg) {
+    showReceiptStep(existingReg, dest);
+    openModal('detailModal');
+    return;
+  }
+
+  if (nameInput instanceof HTMLInputElement) {
+    const currentUser = getCurrentUser();
+    nameInput.value = currentUser?.displayName || '';
+  }
+  if (jerseySelect instanceof HTMLSelectElement) {
+    jerseySelect.value = 'M';
+  }
+
+  setCheckoutStep(1);
+  renderAuthUI();
+
+  if (goToPayBtn) {
+    goToPayBtn.onclick = async () => {
+      if (!getCurrentUser()) {
+        showToast(
+          store.lang === 'en'
+            ? 'Please sign in first before proceeding to payment.'
+            : 'Silakan login terlebih dahulu sebelum menuju halaman pembayaran.',
+          'warn'
+        );
+        const signedInUser = await loginWithGoogle({ keepCurrentModal: true });
+        if (!signedInUser) return;
+
+        if (nameInput instanceof HTMLInputElement && !nameInput.value.trim()) {
+          nameInput.value = signedInUser.displayName || '';
+        }
+      }
+
+      const participantName =
+        nameInput instanceof HTMLInputElement ? nameInput.value.trim() : '';
+      if (!participantName) {
+        showToast(
+          store.lang === 'en'
+            ? 'Please enter participant full name.'
+            : 'Mohon isi nama lengkap peserta terlebih dahulu.',
+          'warn'
+        );
+        if (nameInput instanceof HTMLInputElement) nameInput.focus();
+        return;
+      }
+
+      const jerseySize = jerseySelect instanceof HTMLSelectElement ? jerseySelect.value : 'M';
+      const payRunEl = document.getElementById('paySummaryRunName');
+      const payNameEl = document.getElementById('paySummaryParticipant');
+      const payJerseyEl = document.getElementById('paySummaryJersey');
+      const payTotalEl = document.getElementById('paySummaryTotal');
+
+      if (payRunEl) payRunEl.textContent = title;
+      if (payNameEl) payNameEl.textContent = participantName;
+      if (payJerseyEl) payJerseyEl.textContent = jerseySize;
+      if (payTotalEl) payTotalEl.textContent = formatIDR(dest.estimasiBiaya);
+
+      setCheckoutStep(2);
+      renderAuthUI();
+    };
+  }
+
+  if (backBtn) {
+    backBtn.onclick = () => {
+      setCheckoutStep(1);
+    };
+  }
+
+  if (confirmPayBtn) {
+    confirmPayBtn.onclick = async () => {
+      if (!getCurrentUser()) {
+        showToast(
+          store.lang === 'en'
+            ? 'Please sign in first before payment.'
+            : 'Silakan login terlebih dahulu sebelum melakukan pembayaran.',
+          'warn'
+        );
+        setCheckoutStep(1);
+        renderAuthUI();
+        return;
+      }
+
+      const participantName =
+        nameInput instanceof HTMLInputElement ? nameInput.value.trim() : '';
+      const jerseySize = jerseySelect instanceof HTMLSelectElement ? jerseySelect.value : 'M';
+      const checkedMethod = document.querySelector('input[name="runPaymentMethod"]:checked');
+      const paymentMethod =
+        checkedMethod instanceof HTMLInputElement ? checkedMethod.value : 'QRIS';
+
+      if (confirmPayBtn instanceof HTMLButtonElement) {
+        confirmPayBtn.disabled = true;
+        confirmPayBtn.textContent =
+          store.lang === 'en' ? 'Processing...' : 'Memproses pembayaran...';
+      }
+
+      try {
+        const receipt = await completeRunPaymentAndRegister({
+          dest,
+          participantName,
+          jerseySize,
+          paymentMethod,
+        });
+        if (receipt) {
+          showReceiptStep(receipt, dest);
+        }
+      } finally {
+        if (confirmPayBtn instanceof HTMLButtonElement) {
+          confirmPayBtn.disabled = false;
+          renderAuthUI();
+        }
+      }
     };
   }
 

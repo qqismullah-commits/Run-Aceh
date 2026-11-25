@@ -2,6 +2,7 @@ import './styles/main.css';
 
 import { STORAGE_KEYS } from './data/seedData.js';
 import { I18N, t } from './i18n/translations.js';
+import { initAuth, renderAuthUI } from './modules/auth.js';
 import {
   bindCatalogEvents,
   renderCulinaryAndAccommodation,
@@ -70,6 +71,7 @@ function refreshAllViews() {
   renderItinerary();
   renderPackages();
   renderCrudTable();
+  renderAuthUI();
 }
 
 function bindGlobalUtilities() {
@@ -139,6 +141,7 @@ function bootstrap() {
   bindItineraryEvents();
   bindPackageEvents();
   bindCrudEvents();
+  initAuth();
 
   applyLanguage();
 }

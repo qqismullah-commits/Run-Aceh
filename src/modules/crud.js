@@ -1,6 +1,8 @@
 import { STORAGE_KEYS } from '../data/seedData.js';
+import { t } from '../i18n/translations.js';
 import { escapeHTML, formatIDR, mapsSearchUrl } from '../utils/formatters.js';
 import { makePlaceholderImg } from '../utils/illustrations.js';
+import { openDestinationModal } from './catalog.js';
 import { openConfirmModal, showToast } from './modals.js';
 import { notify, persistKey, resetStoreToSeed, store } from './store.js';
 
@@ -58,71 +60,43 @@ export function resetCrudForm() {
 }
 
 export function renderCrudTable() {
-  const tab = store.crudTab;
   const tbody = document.getElementById('crudTableBody');
   const titleEl = document.getElementById('crudTableTitle');
   const badgeEl = document.getElementById('crudItemTotalBadge');
   if (!tbody) return;
 
-  let items = [];
-  if (tab === 'destinasi') {
-    if (titleEl) titleEl.textContent = 'Daftar Destinasi';
-    items = store.destinasi;
-  } else if (tab === 'kuliner') {
-    if (titleEl) titleEl.textContent = 'Daftar Kuliner & UMKM';
-    items = store.kuliner;
-  } else if (tab === 'akomodasi') {
-    if (titleEl) titleEl.textContent = 'Daftar Akomodasi';
-    items = store.akomodasi;
-  } else {
-    if (titleEl) titleEl.textContent = 'Daftar Paket Wisata';
-    items = store.paket;
-  }
+  if (titleEl) titleEl.textContent = 'Daftar RUN';
+  const items = store.destinasi || [];
 
   if (badgeEl) badgeEl.textContent = `${items.length} item`;
 
   if (items.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 1.5rem; color: var(--color-text-inverse-muted);">Belum ada data pada kategori ini.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 1.5rem; color: var(--color-text-inverse-muted);">Belum ada data RUN.</td></tr>`;
     return;
   }
 
   tbody.innerHTML = items
     .map((item) => {
-      const infoText =
-        tab === 'destinasi'
-          ? `${item.wilayah} · ${item.kategori}`
-          : tab === 'kuliner'
-          ? `${item.wilayah} · ${item.statusSertifikasiHalal}`
-          : tab === 'akomodasi'
-          ? `${item.wilayah} · Ramah Muslim`
-          : `${item.durasi} Hari`;
-      const priceVal =
-        tab === 'akomodasi' ? item.hargaPerMalam : tab === 'kuliner' ? item.harga : item.estimasiBiaya;
+      const infoText = `${item.wilayah} · ${item.kategori}`;
+      const priceVal = item.estimasiBiaya;
 
       return `
         <tr>
-          <td style="font-weight: 600; color: #ffffff;">${escapeHTML(item.nama)}</td>
-          <td style="color: var(--color-text-inverse-muted);">${escapeHTML(infoText)}</td>
+          <td class="crud-name-cell">
+            <div style="font-weight: 600; color: #ffffff;">${escapeHTML(item.nama)}</div>
+            <div class="crud-mobile-info">${escapeHTML(infoText)}</div>
+          </td>
+          <td class="crud-col-info" style="color: var(--color-text-inverse-muted);">${escapeHTML(infoText)}</td>
           <td class="crud-price-cell tabular-nums">${escapeHTML(formatIDR(priceVal))}</td>
           <td>
-            <div style="display: inline-flex; gap: 0.375rem;">
-              <button
-                type="button"
-                data-action="crud-edit"
-                data-id="${escapeHTML(item.id)}"
-                class="btn btn-primary btn-sm"
-              >
-                Edit
-              </button>
-              <button
-                type="button"
-                data-action="crud-delete"
-                data-id="${escapeHTML(item.id)}"
-                class="btn btn-danger btn-sm"
-              >
-                Hapus
-              </button>
-            </div>
+            <button
+              type="button"
+              data-action="crud-detail"
+              data-id="${escapeHTML(item.id)}"
+              class="btn btn-primary btn-sm"
+            >
+              ${escapeHTML(t(store.lang, 'detailBtn'))}
+            </button>
           </td>
         </tr>
       `;
@@ -416,6 +390,13 @@ export function bindCrudEvents() {
   tbody?.addEventListener('click', (event) => {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
+
+    const detailBtn = target.closest('[data-action="crud-detail"]');
+    if (detailBtn) {
+      const id = detailBtn.getAttribute('data-id');
+      if (id) openDestinationModal(id);
+      return;
+    }
 
     const editBtn = target.closest('[data-action="crud-edit"]');
     if (editBtn) {

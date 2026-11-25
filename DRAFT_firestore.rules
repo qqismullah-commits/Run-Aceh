@@ -1,0 +1,173 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Reusable Hardened Helpers
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isVerifiedOwner(userId) {
+      return isVerifiedUser() && request.auth.uid == userId;
+    }
+
+    // Entity Validation Blueprints
+    function isValidUserProfile(data, userId) {
+      return data.keys().hasAll(['uid', 'displayName', 'email', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['uid', 'displayName', 'email', 'photoURL', 'createdAt', 'updatedAt'])
+        && data.uid is string
+        && isValidId(data.uid)
+        && data.uid == request.auth.uid
+        && data.uid == userId
+        && data.displayName is string
+        && data.displayName.size() >= 1
+        && data.displayName.size() <= 120
+        && data.email is string
+        && data.email.size() >= 3
+        && data.email.size() <= 254
+        && (!('photoURL' in data) || (data.photoURL is string && data.photoURL.size() <= 500))
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidRunRegistration(data, userId, registrationId) {
+      return data.keys().hasAll([
+          'userId',
+          'runId',
+          'runName',
+          'participantName',
+          'registrationNumber',
+          'jerseySize',
+          'paymentMethod',
+          'paymentStatus',
+          'estimasiBiaya',
+          'status',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'userId',
+          'runId',
+          'runName',
+          'participantName',
+          'registrationNumber',
+          'jerseySize',
+          'paymentMethod',
+          'paymentStatus',
+          'estimasiBiaya',
+          'status',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.userId is string
+        && isValidId(data.userId)
+        && data.userId == request.auth.uid
+        && data.userId == userId
+        && data.runId is string
+        && isValidId(data.runId)
+        && data.runId == registrationId
+        && data.runName is string
+        && data.runName.size() >= 1
+        && data.runName.size() <= 120
+        && data.participantName is string
+        && data.participantName.size() >= 1
+        && data.participantName.size() <= 120
+        && data.registrationNumber is string
+        && data.registrationNumber.size() >= 6
+        && data.registrationNumber.size() <= 32
+        && data.registrationNumber.matches('^[A-Z0-9\\-]+$')
+        && data.jerseySize is string
+        && data.jerseySize in ['S', 'M', 'L', 'XL']
+        && data.paymentMethod is string
+        && data.paymentMethod in ['QRIS', 'Transfer Bank', 'Virtual Account']
+        && data.paymentStatus is string
+        && data.paymentStatus == 'paid'
+        && (data.estimasiBiaya is int || data.estimasiBiaya is float)
+        && data.estimasiBiaya >= 0
+        && data.estimasiBiaya <= 100000000
+        && data.status is string
+        && data.status in ['registered', 'cancelled']
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    // Private User Profiles (PII Strictly Isolated to Owner)
+    match /users/{userId} {
+      allow get: if isValidId(userId) && isOwner(userId);
+      allow list: if false;
+      allow create: if isValidId(userId)
+        && isVerifiedOwner(userId)
+        && isValidUserProfile(incoming(), userId)
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(userId)
+        && isVerifiedOwner(userId)
+        && isValidUserProfile(incoming(), userId)
+        && incoming().uid == existing().uid
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'email', 'photoURL', 'updatedAt']);
+      allow delete: if false;
+
+      // User Run Registrations (Master Gate enforces parent user exists)
+      match /registrations/{registrationId} {
+        allow get: if isValidId(userId)
+          && isValidId(registrationId)
+          && isOwner(userId)
+          && exists(/databases/$(database)/documents/users/$(userId));
+        allow list: if isOwner(userId)
+          && resource.data.userId == request.auth.uid;
+        allow create: if isValidId(userId)
+          && isValidId(registrationId)
+          && isVerifiedOwner(userId)
+          && isValidRunRegistration(incoming(), userId, registrationId)
+          && incoming().status == 'registered'
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time
+          && exists(/databases/$(database)/documents/users/$(userId));
+        allow update: if isValidId(userId)
+          && isValidId(registrationId)
+          && isVerifiedOwner(userId)
+          && isValidRunRegistration(incoming(), userId, registrationId)
+          && existing().status != 'cancelled'
+          && incoming().userId == existing().userId
+          && incoming().runId == existing().runId
+          && incoming().participantName == existing().participantName
+          && incoming().registrationNumber == existing().registrationNumber
+          && incoming().createdAt == existing().createdAt
+          && incoming().updatedAt == request.time
+          && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt'])
+          && exists(/databases/$(database)/documents/users/$(userId));
+        allow delete: if isValidId(userId)
+          && isValidId(registrationId)
+          && isVerifiedOwner(userId)
+          && exists(/databases/$(database)/documents/users/$(userId));
+      }
+    }
+  }
+}
