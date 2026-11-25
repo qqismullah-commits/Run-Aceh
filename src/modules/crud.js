@@ -77,13 +77,15 @@ export function renderCrudTable() {
 
   tbody.innerHTML = items
     .map((item) => {
-      const infoText = `${item.wilayah} · ${item.kategori}`;
+      const kmMatch = String(item.nama || '').match(/(\d+\s*km)/i);
+      const kmName = kmMatch ? kmMatch[1].replace(/\s+/g, '').toLowerCase() : item.nama;
+      const infoText = /marathon/i.test(String(item.nama || '')) ? 'Marathon' : 'Fun Run';
       const priceVal = item.estimasiBiaya;
 
       return `
         <tr>
           <td class="crud-name-cell">
-            <div style="font-weight: 600; color: #ffffff;">${escapeHTML(item.nama)}</div>
+            <div style="font-weight: 600; color: #ffffff;">${escapeHTML(kmName)}</div>
             <div class="crud-mobile-info">${escapeHTML(infoText)}</div>
           </td>
           <td class="crud-col-info" style="color: var(--color-text-inverse-muted);">${escapeHTML(infoText)}</td>
